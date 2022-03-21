@@ -38,7 +38,7 @@ public class Atom {
 			case 321: { OrbitalDrDPE Orbital = new OrbitalDrDPE(); Chem="3d"; Magn="+"; return Orbital;}
 			case 322: { OrbitalDrDPZ Orbital = new OrbitalDrDPZ(); Chem="3d"; Magn="2+";return Orbital;}
 			default:  { OrbitalEinsS Orbital = new OrbitalEinsS(); Chem="1s"; Magn="";  return Orbital;}
-		}
+		}	//TODO: bei default Quantenzahlen zurücksetzen
 	}
 	
 	public static void setzeZurueck() {

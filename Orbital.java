@@ -29,7 +29,7 @@ public abstract class Orbital {
             z = (Zufallsgenerator.nextDouble() - 0.5) * v;
             if (z == 0) z = v / 2;
 
-            switch (Flaeche.Schnitt) {
+            switch (Flaeche.Schnitt) {      //TODO: x-z, y-z-Schnitt um 90° drehen
                 case 1 -> z = 0;
                 // x-y-Schnitt, also z = 0
                 case 2 -> x = 0;

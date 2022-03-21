@@ -7,7 +7,7 @@ import java.text.NumberFormat;
 
 import javax.swing.text.NumberFormatter;
 
-public class Flaeche extends JPanel {
+public class Flaeche extends JPanel {		//TODO: Spaghetticode bereinigen
 
 	final static double pi = 3.14159265;	
 	public static int h = Rahmen.BildschirmHoehe, b = Rahmen.BildschirmBreite;
@@ -33,24 +33,24 @@ public class Flaeche extends JPanel {
 		setLayout(null);
 		n = 1;
 		l = 0;
-		erzeugeQuantenzahlWahl();		
+		erzeugeQuantenzahlWahl();
+
+		JLabel Magnetisch = new JLabel("iii");
+		Magnetisch.setBounds(110, 50, 360, 300);
+		Magnetisch.setFont(Magnetisch.getFont().deriveFont(24f));
+		Magnetisch.setForeground(Color.white);
+		Magnetisch.setBackground(Color.black);
+		add(Magnetisch);
 
 		JLabel Chemisch	= new JLabel("1s");
 		Chemisch.setBounds(40, 30, 360, 300);
 		Chemisch.setFont(Chemisch.getFont().deriveFont(48f));
 		Chemisch.setForeground(Color.white);
 		Chemisch.setBackground(Color.black);
-		add(Chemisch);		
-		
-		JLabel Magnetisch	= new JLabel("");
-		Magnetisch.setBounds(80, 50, 360, 300);
-		Magnetisch.setFont(Magnetisch.getFont().deriveFont(6f));
-		Magnetisch.setForeground(Color.white);
-		Magnetisch.setBackground(Color.black);
-		add(Magnetisch);		
+		add(Chemisch);
 		
 		erzeugeSchnittWahl();
-		
+
 		erzeugeTextFeld("Massstab", 10, Rahmen.BildschirmHoehe - 195, 200);
 
 		JLabel Angstroem = new JLabel("1Å");
@@ -94,7 +94,6 @@ public class Flaeche extends JPanel {
 			Zeit++;
 			Atom.suche();
 			Chemisch.setText(Atom.Chem);
-			//TODO: Magnetquantenzahl sichtbar machen
 			Magnetisch.setText(Atom.Magn);
 			alpha = alpha + Winkel;
 			if (alpha > 2 * pi)
@@ -336,7 +335,7 @@ public class Flaeche extends JPanel {
 		add(Schn);
 	}
 
-	public void erzeugeDrehWahl() {
+	public void erzeugeDrehWahl() {			//TODO: Eingabe verbessern
 
 		erzeugeTextFeld("Drehung", 10, Rahmen.BildschirmHoehe - 800, 200);
 		erzeugeTextFeld("Geschwindigkeit", 10, Rahmen.BildschirmHoehe - 770, 200);

@@ -5,7 +5,6 @@ import java.awt.*;
 
 public class Rahmen extends JFrame{
     
-    
     public static int BildschirmBreite, BildschirmHoehe;
     
     public Rahmen() {   

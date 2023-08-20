@@ -3,6 +3,7 @@ package de.kratzer.horb;
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
+import java.io.Console;
 import java.text.NumberFormat;
 
 import javax.swing.text.NumberFormatter;
@@ -31,11 +32,14 @@ public class Flaeche extends JPanel {		//TODO: Spaghetticode bereinigen
 		
 		setBackground(Color.BLACK);
 		setLayout(null);
+
+		//System.out.println(b);
+
 		n = 1;
 		l = 0;
 		erzeugeQuantenzahlWahl();
 
-		JLabel Magnetisch = new JLabel("iii");
+		JLabel Magnetisch = new JLabel("");
 		Magnetisch.setBounds(110, 50, 360, 300);
 		Magnetisch.setFont(Magnetisch.getFont().deriveFont(24f));
 		Magnetisch.setForeground(Color.white);
@@ -51,16 +55,16 @@ public class Flaeche extends JPanel {		//TODO: Spaghetticode bereinigen
 		
 		erzeugeSchnittWahl();
 
-		erzeugeTextFeld("Massstab", 10, Rahmen.BildschirmHoehe - 195, 200);
+		erzeugeTextFeld("<html><u>Massstab</u></<html>", 10, h - 195, 200);
 
 		JLabel Angstroem = new JLabel("1Å");
 		Angstroem.setFont(Angstroem.getFont().deriveFont(16f));
-		Angstroem.setBounds(10 + (int)Laenge / 2 - 5, Rahmen.BildschirmHoehe - 140, 40, 30);
+		Angstroem.setBounds(10 + (int)Laenge / 2 - 5, h - 140, 40, 30);
 		Angstroem.setForeground(Color.WHITE);
 		Angstroem.setBackground(Color.BLACK);
 		add(Angstroem);
 		JLabel zieh = new JLabel("hier ziehen ↓");
-		zieh.setBounds(10 + (int)Laenge-88, Rahmen.BildschirmHoehe - 180, 140, 30);
+		zieh.setBounds(10 + (int)Laenge-88, h - 180, 140, 30);
 		zieh.setForeground(Color.WHITE);
 		zieh.setBackground(Color.BLACK);
 		add(zieh);
@@ -84,8 +88,8 @@ public class Flaeche extends JPanel {		//TODO: Spaghetticode bereinigen
 					Atom.setzeZurueck();
 					Laenge = mouX - 10;
 					vgr = 1.8897*h / Laenge;
-					Angstroem.setBounds(10 + (int)Laenge / 2 - 5, Rahmen.BildschirmHoehe - 140, 40, 20);
-					zieh.setBounds(10 + (int)Laenge-88, Rahmen.BildschirmHoehe - 180, 140, 30);
+					Angstroem.setBounds(10 + (int)Laenge / 2 - 5, h - 140, 40, 20);
+					zieh.setBounds(10 + (int)Laenge-88, h - 180, 140, 30);
 				}
 			}
 		});
@@ -142,7 +146,7 @@ public class Flaeche extends JPanel {		//TODO: Spaghetticode bereinigen
 
 	public void erzeugeQuantenzahlWahl() {
 
-		erzeugeTextFeld("Quantenzahlen", 10, 15, 150);		
+		erzeugeTextFeld("<html><u>Quantenzahlen</u></<html>", 10, 15, 150);
 
 		JLabel nFeld = new JLabel("n = " + n);
 		nFeld.setBounds(15, 60, 50, 20);
@@ -337,9 +341,9 @@ public class Flaeche extends JPanel {		//TODO: Spaghetticode bereinigen
 
 	public void erzeugeDrehWahl() {			//TODO: Eingabe verbessern
 
-		erzeugeTextFeld("Drehung", 10, Rahmen.BildschirmHoehe - 350, 200);
-		erzeugeTextFeld("Geschwindigkeit", 10, Rahmen.BildschirmHoehe - 330, 200);
-		JTextField WinkelEing = erzeugtesEingabeFeld("0", 135, Rahmen.BildschirmHoehe - 330, 40);
+		erzeugeTextFeld("<html><u>Drehung</u></<html>", 10, h - 350, 200);
+		erzeugeTextFeld("Geschwindigkeit", 10, h - 330, 200);
+		JTextField WinkelEing = erzeugtesEingabeFeld("0", 135, h - 330, 40);
 
 		ActionListener DrehgeschwWarter = Eing -> Winkel = Double.parseDouble(WinkelEing.getText()) / 1000;
 
@@ -351,17 +355,17 @@ public class Flaeche extends JPanel {		//TODO: Spaghetticode bereinigen
 		Text = "             Achse: x";
 		VorgabeText = "0";
 		xOrt = 13;
-		yOrt = Rahmen.BildschirmHoehe - 290;
+		yOrt = h - 290;
 		erzeugeAchsEingabe(Text, VorgabeText, xOrt, yOrt, 1, 2, 3);
 
 		Text = "                          y";
 		VorgabeText = "0";
-		yOrt = Rahmen.BildschirmHoehe - 260;
+		yOrt = h - 260;
 		erzeugeAchsEingabe(Text, VorgabeText, xOrt, yOrt, 2, 3, 1);
 
 		Text = "                          z";
 		VorgabeText = "1";
-		yOrt = Rahmen.BildschirmHoehe - 230;
+		yOrt = h - 230;
 		erzeugeAchsEingabe(Text, VorgabeText, xOrt, yOrt, 3, 1, 2);
 	}
 

@@ -15,12 +15,12 @@ public class Flaeche extends JPanel {		//TODO: Spaghetticode bereinigen
 	public static double Laenge = 0.18897*h;		// Das Atom wird beobachtet in einer Kugel mit  
 	public static double vgr = 1.8897*h / Laenge;	// Radius vgr in Einheiten a0=5.291772e-11m
 	public static int Zeit = 0;
-	public static int Schnitt = 0;
-	public static int n, l, m;
+	public static int Schnitt = 0;	// Schnittebene für 2D-Darstellung
+	public static int n, l, m;	// Quantenzahlen
 	
 	public static void setSchnitt(int schnitt) {
 		Schnitt = schnitt;
-	}
+	}  // Schnittebene für 2D-Darstellung
 
 	final static int MaxAnzEl = 1000;				//maximale Zahl gleichzeitig sichtbarer Elektronenfundorte
 	public static double[] Achse = new double[4];		//Drehachse
@@ -337,9 +337,9 @@ public class Flaeche extends JPanel {		//TODO: Spaghetticode bereinigen
 
 	public void erzeugeDrehWahl() {			//TODO: Eingabe verbessern
 
-		erzeugeTextFeld("Drehung", 10, Rahmen.BildschirmHoehe - 800, 200);
-		erzeugeTextFeld("Geschwindigkeit", 10, Rahmen.BildschirmHoehe - 770, 200);
-		JTextField WinkelEing = erzeugtesEingabeFeld("0", 135, Rahmen.BildschirmHoehe - 770, 40);
+		erzeugeTextFeld("Drehung", 10, Rahmen.BildschirmHoehe - 350, 200);
+		erzeugeTextFeld("Geschwindigkeit", 10, Rahmen.BildschirmHoehe - 330, 200);
+		JTextField WinkelEing = erzeugtesEingabeFeld("0", 135, Rahmen.BildschirmHoehe - 330, 40);
 
 		ActionListener DrehgeschwWarter = Eing -> Winkel = Double.parseDouble(WinkelEing.getText()) / 1000;
 
@@ -351,17 +351,17 @@ public class Flaeche extends JPanel {		//TODO: Spaghetticode bereinigen
 		Text = "             Achse: x";
 		VorgabeText = "0";
 		xOrt = 13;
-		yOrt = Rahmen.BildschirmHoehe - 730;
+		yOrt = Rahmen.BildschirmHoehe - 290;
 		erzeugeAchsEingabe(Text, VorgabeText, xOrt, yOrt, 1, 2, 3);
 
 		Text = "                          y";
 		VorgabeText = "0";
-		yOrt = Rahmen.BildschirmHoehe - 700;
+		yOrt = Rahmen.BildschirmHoehe - 260;
 		erzeugeAchsEingabe(Text, VorgabeText, xOrt, yOrt, 2, 3, 1);
 
 		Text = "                          z";
 		VorgabeText = "1";
-		yOrt = Rahmen.BildschirmHoehe - 670;
+		yOrt = Rahmen.BildschirmHoehe - 230;
 		erzeugeAchsEingabe(Text, VorgabeText, xOrt, yOrt, 3, 1, 2);
 	}
 

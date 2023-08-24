@@ -33,7 +33,7 @@ public class Flaeche extends JPanel {		//TODO: Spaghetticode bereinigen
 		setBackground(Color.BLACK);
 		setLayout(null);
 
-		//System.out.println(b);
+		//System.out.println(h);
 
 		n = 1;
 		l = 0;
@@ -152,6 +152,16 @@ public class Flaeche extends JPanel {		//TODO: Spaghetticode bereinigen
 		nFeld.setBounds(15, 60, 50, 20);
 		nFeld.setForeground(Color.WHITE);
 		add(nFeld);
+
+		JLabel lFeld = new JLabel("l = " + l);
+		lFeld.setBounds(85, 60, 50, 20);
+		lFeld.setForeground(Color.WHITE);
+		add(lFeld);
+
+		JLabel mFeld = new JLabel("m = " + m);
+		mFeld.setBounds(155, 60, 50, 20);
+		mFeld.setForeground(Color.WHITE);
+		add(mFeld);
 		
 		JButton nPlus = new JButton("+");
 		nPlus.setBounds(10, 35, 45, 21);
@@ -176,27 +186,28 @@ public class Flaeche extends JPanel {		//TODO: Spaghetticode bereinigen
 		ActionListener nMinusWarter = Erniedrige -> {
 			//erzeugeTextFeld("   ", 15, 65, 50);
 			if (n > 1) n--;
+			if (l > n-1) l--;
+			if (m > l) m--;
+			if (m <-l) m++;
 			nFeld.setText("n = " + n);
+			lFeld.setText("l = " + l);
+			mFeld.setText("m = " + m);
 			Atom.setzeZurueck();
 		};
 		
 		nMinus.addActionListener(nMinusWarter);
-		
-		
-		JLabel lFeld = new JLabel("l = " + l);
-		lFeld.setBounds(85, 60, 50, 20);
-		lFeld.setForeground(Color.WHITE);
-		add(lFeld);
-		
+
 		JButton lPlus = new JButton("+");
 		lPlus.setBounds(80, 35, 45, 21);
 		lPlus.setForeground(Color.black);
 		lPlus.setBackground(Color.white);
 		add(lPlus);
-		
+
 		ActionListener lPlusWarter = Erhoehe -> {
 			if (l < n-1) l++;
+			if (m <-l) m++;
 			lFeld.setText("l = " + l);
+			mFeld.setText("m = " + m);
 			Atom.setzeZurueck();
 		};
 		
@@ -210,18 +221,14 @@ public class Flaeche extends JPanel {		//TODO: Spaghetticode bereinigen
 		
 		ActionListener lMinusWarter = Erniedrige -> {
 			if (l > 0) l--;
+			if (m > l) m--;
 			lFeld.setText("l = " + l);
+			mFeld.setText("m = " + m);
 			Atom.setzeZurueck();
 		};
 		
 		lMinus.addActionListener(lMinusWarter);
-		
-		
-		JLabel mFeld = new JLabel("m = " + m);
-		mFeld.setBounds(155, 60, 50, 20);
-		mFeld.setForeground(Color.WHITE);
-		add(mFeld);
-		
+
 		JButton mPlus = new JButton("+");
 		mPlus.setBounds(150, 35, 45, 21);
 		mPlus.setForeground(Color.black);
@@ -243,7 +250,7 @@ public class Flaeche extends JPanel {		//TODO: Spaghetticode bereinigen
 		add(mMinus);
 		
 		ActionListener mMinusWarter = Erniedrige -> {
-			if (m > -l) m--;
+			if (m >-l) m--;
 			mFeld.setText("m = " + m);
 			Atom.setzeZurueck();
 		};

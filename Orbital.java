@@ -2,10 +2,11 @@ package de.kratzer.horb;
 
 public abstract class Orbital {
     final static double pi = 3.14159265;
-    //final static double a0 = 5.291772e-11;
+    //final static double a0 = 5.291772e-11;    //Bohrscher Radius
+    public static double Dicke = 100;
     public static double MessZeit;
     public double r, phi, theta;
-    public double x, y, z, v;
+    public double x, y, z, v, sss;
     public boolean gefunden = false;
     public double Psi;
     public static double[][] Fund = new double[Flaeche.MaxAnzEl][4];
@@ -29,21 +30,23 @@ public abstract class Orbital {
             z = (Zufallsgenerator.nextDouble() - 0.5) * v;
             if (z == 0) z = v / 2;
 
-            switch (Flaeche.Schnitt) {      //TODO: x-z, y-z-Schnitt um 90° drehen
-                case 1 : z = 0;
-                // x-y-Schnitt, also z = 0
-                case 2 : x = 0;
-                case 3 : y = 0;
-            }
-
-            berechneKugelKoordinaten();
+            berechneKugelKoordinaten();         //x y z  ->  r phi theta
 
             Psi = Wellenfunktion();                // so normiert, dass die größte...
             double p = Psi * Psi;                    // ...Wahrscheinlichkeit = 1 ist.						//
             double Zz = Zufallsgenerator.nextDouble();    //mit Wahrscheinlichkeit p
             if (Zz < p) gefunden = true;                //entscheiden, ob das Elektron dort ist.
             //Zz=...*0.001+0.018;
-            if (gefunden) merkeKoordinaten(Nummer);
+            if (gefunden) {
+
+                merkeKoordinaten(Nummer);
+
+                switch (Flaeche.Schnitt) {      //TODO: x-z, y-z-Schnitt um 90° drehen
+                    case 1 : if (Math.abs(z) > Dicke) gefunden = false;     // x-y-Schnitt, also z ≈ 0
+                    case 2 : if (Math.abs(x) > Dicke) gefunden = false;     // Versuch { x = 0; sss = y; y = z; z = sss; }
+                    case 3 : if (Math.abs(y) > Dicke) gefunden = false;
+                }
+            }
         }
 
         return gefunden;

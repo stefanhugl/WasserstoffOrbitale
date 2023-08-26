@@ -12,11 +12,11 @@ public class Flaeche extends JPanel {		//TODO: Spaghetticode bereinigen
 
 	final static double pi = 3.14159265;	
 	public static int h = Rahmen.BildschirmHoehe, b = Rahmen.BildschirmBreite;
-	public static int MassstabPosY = 146;
+	public static int MassstabPosY = 146;  //TODO: ist 146 allgemein genug?
 	public static double Laenge = 0.18897*h;		// Das Atom wird beobachtet in einer Kugel mit  
 	public static double vgr = 1.8897*h / Laenge;	// Radius vgr in Einheiten a0=5.291772e-11m
 	public static int Zeit = 0;
-	public static int Schnitt = 0;	// Schnittebene für 2D-Darstellung
+	public static int Schnitt = 0;	// Schnittebene für 2D-Darstellung (0: räuml.;  1: x-y-Ebene; ...)
 	public static int n, l, m;	// Quantenzahlen
 	
 	public static void setSchnitt(int schnitt) {
@@ -25,8 +25,11 @@ public class Flaeche extends JPanel {		//TODO: Spaghetticode bereinigen
 
 	final static int MaxAnzEl = 1000;				//maximale Zahl gleichzeitig sichtbarer Elektronenfundorte
 	public static double[] Achse = new double[4];		//Drehachse
-	double alpha = 0.0, Winkel = 0.0;					//für Drehung
+	double alpha = 0.0;
+
+	public static double Winkel = 0.0;					//für Drehung
 	double a11, a12, a13, a21, a22, a23, a31, a32, a33;	//Drehmatrix
+	JTextField WinkelEing = erzeugtesEingabeFeld("0", 135, h - 330, 40);
 
 	public Flaeche() {
 		
@@ -319,17 +322,20 @@ public class Flaeche extends JPanel {		//TODO: Spaghetticode bereinigen
 			}
 
 			if (Drueck1.getSource() == ZSchnitt) {
-				setSchnitt(1);
+ 				setSchnitt(1);
+				Winkel = 0; WinkelEing.setText("0");
 				Atom.setzeZurueck();
 			}
 
 			if (Drueck1.getSource() == XSchnitt) {
 				setSchnitt(2);
+				Winkel = 0; WinkelEing.setText("0");
 				Atom.setzeZurueck();
 			}
 
 			if (Drueck1.getSource() == YSchnitt) {
 				setSchnitt(3);
+				Winkel = 0; WinkelEing.setText("0");
 				Atom.setzeZurueck();
 			}
 		};
@@ -350,9 +356,13 @@ public class Flaeche extends JPanel {		//TODO: Spaghetticode bereinigen
 
 		erzeugeTextFeld("<html><u>Drehung</u></<html>", 10, h - 350, 200);
 		erzeugeTextFeld("Geschwindigkeit", 10, h - 330, 200);
-		JTextField WinkelEing = erzeugtesEingabeFeld("0", 135, h - 330, 40);
 
-		ActionListener DrehgeschwWarter = Eing -> Winkel = Double.parseDouble(WinkelEing.getText()) / 1000;
+
+		ActionListener DrehgeschwWarter = Eing -> {
+
+			if (Schnitt == 0) Winkel = Double.parseDouble(WinkelEing.getText()) / 1000;
+			if (Schnitt != 0) WinkelEing.setText("0");
+		};
 
 		WinkelEing.addActionListener(DrehgeschwWarter);
 

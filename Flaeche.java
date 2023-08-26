@@ -324,18 +324,21 @@ public class Flaeche extends JPanel {		//TODO: Spaghetticode bereinigen
 			if (Drueck1.getSource() == ZSchnitt) {
  				setSchnitt(1);
 				Winkel = 0; WinkelEing.setText("0");
+				setzeDrehmatrixZurueck();
 				Atom.setzeZurueck();
 			}
 
 			if (Drueck1.getSource() == XSchnitt) {
 				setSchnitt(2);
 				Winkel = 0; WinkelEing.setText("0");
+				setzeDrehmatrixZurueck();
 				Atom.setzeZurueck();
 			}
 
 			if (Drueck1.getSource() == YSchnitt) {
 				setSchnitt(3);
 				Winkel = 0; WinkelEing.setText("0");
+				setzeDrehmatrixZurueck();
 				Atom.setzeZurueck();
 			}
 		};
@@ -404,6 +407,12 @@ public class Flaeche extends JPanel {		//TODO: Spaghetticode bereinigen
 		};
 
 		AchsEing.addActionListener(AchsWarter);
+	}
+
+	public void setzeDrehmatrixZurueck() {
+
+		a11 = 1; a22 = 1; a33 = 1;
+		a12 = 0; a13 = 0; a21 = 0; a23 = 0; a31 = 0; a32 = 0;
 	}
 
 	public void erzeugeTextFeld(String Text, int xOrt, int yOrt, int Breite) {

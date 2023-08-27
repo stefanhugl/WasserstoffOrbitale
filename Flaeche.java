@@ -29,7 +29,7 @@ public class Flaeche extends JPanel {		//TODO: Spaghetticode bereinigen
 	double a11, a12, a13, a21, a22, a23, a31, a32, a33;	//Drehmatrix
 	JTextField WinkelEing = erzeugtesEingabeFeld("0", 135, h - 330, 40);
 	JLabel  Chemisch = new JLabel(), Magnetisch = new JLabel(),
-			Massstab = new JLabel(), Angstroem = new JLabel(), zieh = new JLabel(),
+			Massstab = new JLabel(), Angstroem = new JLabel(),
 			Quantenzahlen = new JLabel(),
 			nSchild = new JLabel(), nPlus = new JLabel(), nMinus = new JLabel(),
 			lSchild = new JLabel(), lPlus = new JLabel(), lMinus = new JLabel(),
@@ -45,10 +45,12 @@ public class Flaeche extends JPanel {		//TODO: Spaghetticode bereinigen
 		erzeugeQuantenzahlWahl();
 		richteOrbitalBenennungEin();
 		erzeugeSchnittWahl();
-		richteSchildEin(Massstab,"<html><u>Massstab</u></<html>", 10, h - 195, 200, 20, 12);
-		richteSchildEin(Angstroem, "1Å", 10 + (int)Laenge / 2 - 5, h - 140, 40, 30, 16);
-		richteSchildEin(zieh, "hier ziehen ↓", 10 + (int)Laenge-88, h - 180, 140, 30, 12);
-
+		Schild Massstab = new Schild("<html><u>Massstab</u></<html>", 10, h - 195, 200, 20, 12);
+		add(Massstab);
+		Schild Angstroem = new Schild("1Å", 10 + (int)Laenge / 2 - 5, h - 140, 40, 30, 16);
+		add(Angstroem);
+		Schild zieh = new Schild("hier ziehen ↓", 10 + (int)Laenge-88, h - 180, 140, 30, 12);
+		add(zieh);
 		Achse[1] = 0;
 		Achse[2] = 0;
 		Achse[3] = 1; // Drehachse
@@ -127,10 +129,14 @@ public class Flaeche extends JPanel {		//TODO: Spaghetticode bereinigen
 
 	public void erzeugeQuantenzahlWahl() {
 
-		richteSchildEin(Quantenzahlen, "<html><u>Quantenzahlen</u></<html>", 10, 15, 150, 20, 12);
-		richteSchildEin(nSchild, "n = 1", 15, 60, 50, 20, 12);
-		richteSchildEin(lSchild, "l = 0", 85, 60, 50, 20, 12);
-		richteSchildEin(mSchild, "m = 0",153, 60, 50, 20, 12);
+		Schild Quantenzahlen = new Schild("<html><u>Quantenzahlen</u></<html>", 10, 15, 150, 20, 12);
+		add(Quantenzahlen);
+		Schild nSchild = new Schild("n = 1", 15, 60, 50, 20, 12);
+		add(nSchild);
+		Schild lSchild = new Schild("l = 0", 85, 60, 50, 20, 12);
+		add(lSchild);
+		Schild mSchild = new Schild("m = 0",153, 60, 50, 20, 12);
+		add(mSchild);
 
 		JButton nPlus = new JButton("+");
 		nPlus.setBounds(10, 35, 45, 21);
@@ -230,11 +236,16 @@ public class Flaeche extends JPanel {		//TODO: Spaghetticode bereinigen
 
 	public void erzeugeSchnittWahl() {
 
-		richteSchildEin(xAch,        "x", b - 142, h - 336, 12, 12, 12);
-		richteSchildEin(yAch,        "y", b -  30, h - 380, 12, 16, 12);
-		richteSchildEin(zAch,        "z", b - 104, h - 449, 12, 12, 12);
-		richteSchildEin(Raeuml,"räumlich", b - 60, h - 292, 60, 30, 12);
-		richteSchildEin(odr,       "oder", b - 60, h - 236, 60, 12, 12);
+		Schild xAch   = new Schild("x", b - 142, h - 336, 12, 12, 12);
+		add(xAch);
+		Schild yAch   = new Schild("y", b -  30, h - 380, 12, 16, 12);
+		add(yAch);
+		Schild zAch   = new Schild("z", b - 104, h - 449, 12, 12, 12);
+		add(zAch);
+		Schild Raeuml = new Schild("räumlich",b - 60, h - 292, 60, 30, 12);
+		add(Raeuml);
+		Schild odr    = new Schild("oder", b - 60, h - 236, 60, 12, 12);
+		add(odr);
 
 		JRadioButton Raeumlich = new JRadioButton("3D", true);
 		JRadioButton ZSchnitt = new JRadioButton("x-y", false);
@@ -291,7 +302,8 @@ public class Flaeche extends JPanel {		//TODO: Spaghetticode bereinigen
 		XSchnitt.addActionListener(SchnittKnopfWarter);
 		YSchnitt.addActionListener(SchnittKnopfWarter);
 
-		richteSchildEin(Schn, "-Schnitt", b - 60, h - 130, 60, 12, 12);
+		Schild Schn = new Schild("-Schnitt", b - 60, h - 130, 60, 12, 12);
+		add(Schn);
 	}
 
 	public void erzeugeDrehWahl() {			//TODO: Eingabe verbessern
@@ -371,17 +383,9 @@ public class Flaeche extends JPanel {		//TODO: Spaghetticode bereinigen
 
 	public void richteOrbitalBenennungEin() {
 
-		richteSchildEin(Chemisch, "1s", 40, 30, 360, 300, 48f);
-		richteSchildEin(Magnetisch, "",110, 50, 360, 300, 48f);
-	}
-
-	public void richteSchildEin(JLabel Schild, String Text, int xOrt, int yOrt, int Breite, int Hoehe, float Schriftgrad) {
-
-		Schild.setText(Text);
-		Schild.setBounds(xOrt, yOrt, Breite, Hoehe);
-		Schild.setFont(Chemisch.getFont().deriveFont(Schriftgrad));
-		Schild.setForeground(Color.white);
-		Schild.setBackground(Color.black);
-		add(Schild);
+		Schild Chemisch = new Schild("1s", 40, 30, 360, 300, 48f);
+		add(Chemisch);
+		Schild Magnetisch = new Schild("",110, 50, 360, 300, 48f);
+		add(Magnetisch);
 	}
 }

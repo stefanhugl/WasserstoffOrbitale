@@ -35,7 +35,7 @@ public class Flaeche extends JPanel {		//TODO: Spaghetticode bereinigen
 			lSchild = new JLabel(), lPlus = new JLabel(), lMinus = new JLabel(),
 			mSchild = new JLabel(), mPlus = new JLabel(), mMinus = new JLabel(),
 			xAch = new JLabel(), yAch = new JLabel(), zAch = new JLabel(),
-			Raeuml = new JLabel(), odr = new JLabel();
+			Raeuml = new JLabel(), odr = new JLabel(), Schn = new JLabel();
 	public Flaeche() {
 		
 		setBackground(Color.BLACK);
@@ -229,12 +229,11 @@ public class Flaeche extends JPanel {		//TODO: Spaghetticode bereinigen
 
 	public void erzeugeSchnittWahl() {
 
-		richteSchildEin(xAch, "x", b - 142, h - 336, 12, 12, 12);
-		richteSchildEin(yAch, "y", b -  30, h - 380, 12, 16, 12);
-		richteSchildEin(zAch, "z", b - 104, h - 449, 12, 12, 12);
-		richteSchildEin(Raeuml, "räumlich", b - 60, h - 292, 60, 30, 12);
-		richteSchildEin(odr, "oder", b - 60, h - 236, 60, 12, 12);
-
+		richteSchildEin(xAch,        "x", b - 142, h - 336, 12, 12, 12);
+		richteSchildEin(yAch,        "y", b -  30, h - 380, 12, 16, 12);
+		richteSchildEin(zAch,        "z", b - 104, h - 449, 12, 12, 12);
+		richteSchildEin(Raeuml,"räumlich", b - 60, h - 292, 60, 30, 12);
+		richteSchildEin(odr,       "oder", b - 60, h - 236, 60, 12, 12);
 
 		JRadioButton Raeumlich = new JRadioButton("3D", true);
 		JRadioButton ZSchnitt = new JRadioButton("x-y", false);
@@ -290,12 +289,8 @@ public class Flaeche extends JPanel {		//TODO: Spaghetticode bereinigen
 		ZSchnitt.addActionListener(SchnittKnopfWarter);
 		XSchnitt.addActionListener(SchnittKnopfWarter);
 		YSchnitt.addActionListener(SchnittKnopfWarter);
-		
-		JLabel Schn = new JLabel("-Schnitt");
-		Schn.setBounds(b - 60, h - 130, 60, 12);
-		Schn.setForeground(Color.white);
-		Schn.setBackground(Color.black);
-		add(Schn);
+
+		richteSchildEin(Schn, "-Schnitt", b - 60, h - 130, 60, 12, 12);
 	}
 
 	public void erzeugeDrehWahl() {			//TODO: Eingabe verbessern

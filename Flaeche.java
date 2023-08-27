@@ -128,9 +128,9 @@ public class Flaeche extends JPanel {		//TODO: Spaghetticode bereinigen
 	public void erzeugeQuantenzahlWahl() {
 
 		richteSchildEin(Quantenzahlen, "<html><u>Quantenzahlen</u></<html>", 10, 15, 150, 20, 12);
-		richteSchildEin(nSchild, "n=", 15, 60, 50, 20, 12);
-		richteSchildEin(lSchild, "l=", 85, 60, 50, 20, 12);
-		richteSchildEin(mSchild, "m=", 85, 60, 50, 20, 12);
+		richteSchildEin(nSchild, "n = 1", 15, 60, 50, 20, 12);
+		richteSchildEin(lSchild, "l = 0", 85, 60, 50, 20, 12);
+		richteSchildEin(mSchild, "m = 0",153, 60, 50, 20, 12);
 
 		JButton nPlus = new JButton("+");
 		nPlus.setBounds(10, 35, 45, 21);
@@ -191,6 +191,7 @@ public class Flaeche extends JPanel {		//TODO: Spaghetticode bereinigen
 		ActionListener lMinusWarter = Erniedrige -> {
 			if (l > 0) l--;
 			if (m > l) m--;
+			if (m <-l) m++;
 			lSchild.setText("l = " + l);
 			mSchild.setText("m = " + m);
 			Atom.setzeZurueck();

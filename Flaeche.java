@@ -3,13 +3,12 @@ package de.kratzer.horb;
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
-import java.io.Console;
 import java.text.NumberFormat;
 
 import javax.swing.text.NumberFormatter;
 
 public class Flaeche extends JPanel {		//TODO: Spaghetticode bereinigen
-Einheit für Drehgeschwindigkeit	final static double pi = 3.14159265;
+	final static double pi = 3.14159265;
 	public static int h = Rahmen.BildschirmHoehe, b = Rahmen.BildschirmBreite;
 	public static int MassstabPosY = 146;  //TODO: ist 146 allgemein genug?
 	public static double Laenge = 0.18897*h;		// Das Atom wird beobachtet in einer Kugel mit  

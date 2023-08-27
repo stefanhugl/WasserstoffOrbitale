@@ -6,7 +6,7 @@ public abstract class Orbital {
     public static double Dicke = 100;
     public static double MessZeit;
     public double r, phi, theta;
-    public double x, y, z, v, sss;
+    public double x, y, z, v;
     public boolean gefunden = false;
     public double Psi;
     public static double[][] Fund = new double[Flaeche.MaxAnzEl][4];
@@ -67,9 +67,9 @@ public abstract class Orbital {
 
     public void merkeKoordinaten(int Nummer) {
 
-        Fund[Nummer][1] = x / (v / 2) * (h / 2);    //anpassen an Bildschirmgröße
-        Fund[Nummer][2] = y / (v / 2) * (h / 2);
-        Fund[Nummer][3] = z / (v / 2) * (h / 2);
+        Fund[Nummer][1] = x / (v / 2) * ((double) h / 2);    //anpassen an Bildschirmgröße
+        Fund[Nummer][2] = y / (v / 2) * ((double) h / 2);
+        Fund[Nummer][3] = z / (v / 2) * ((double) h / 2);
         Fund[Nummer][0] = Flaeche.Zeit;
 
         if (Flaeche.Schnitt == 1) {

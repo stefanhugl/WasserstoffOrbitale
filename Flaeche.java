@@ -9,13 +9,12 @@ import java.text.NumberFormat;
 import javax.swing.text.NumberFormatter;
 
 public class Flaeche extends JPanel {		//TODO: Spaghetticode bereinigen
-
-	final static double pi = 3.14159265;	
+Einheit für Drehgeschwindigkeit	final static double pi = 3.14159265;
 	public static int h = Rahmen.BildschirmHoehe, b = Rahmen.BildschirmBreite;
 	public static int MassstabPosY = 146;  //TODO: ist 146 allgemein genug?
 	public static double Laenge = 0.18897*h;		// Das Atom wird beobachtet in einer Kugel mit  
 	public static double vgr = 1.8897*h / Laenge;	// Radius vgr in Einheiten a0=5.291772e-11m
-	public static int Zeit = 0;
+	public static int Zeit = 0, DeltaT = 20;		// Startzeit und Intervall des Timers
 	public static int Schnitt = 0;	// Schnittebene für 2D-Darstellung (0: räuml.;  1: x-y-Ebene; ...)
 	public static int n, l, m;	// Quantenzahlen
 	
@@ -30,47 +29,26 @@ public class Flaeche extends JPanel {		//TODO: Spaghetticode bereinigen
 	public static double Winkel = 0.0;					//für Drehung
 	double a11, a12, a13, a21, a22, a23, a31, a32, a33;	//Drehmatrix
 	JTextField WinkelEing = erzeugtesEingabeFeld("0", 135, h - 330, 40);
-
+	JLabel  Chemisch = new JLabel(), Magnetisch = new JLabel(),
+			Massstab = new JLabel(), Angstroem = new JLabel(), zieh = new JLabel(),
+			Quantenzahlen = new JLabel(),
+			nSchild = new JLabel(), nPlus = new JLabel(), nMinus = new JLabel(),
+			lSchild = new JLabel(), lPlus = new JLabel(), lMinus = new JLabel(),
+			mSchild = new JLabel(), mPlus = new JLabel(), mMinus = new JLabel(),
+			xAch = new JLabel(), yAch = new JLabel(), zAch = new JLabel(),
+			Raeuml = new JLabel(), odr = new JLabel();
 	public Flaeche() {
 		
 		setBackground(Color.BLACK);
 		setLayout(null);
-
-		//System.out.println(h);
-
 		n = 1;
 		l = 0;
 		erzeugeQuantenzahlWahl();
-
-		JLabel Magnetisch = new JLabel("");
-		Magnetisch.setBounds(110, 50, 360, 300);
-		Magnetisch.setFont(Magnetisch.getFont().deriveFont(24f));
-		Magnetisch.setForeground(Color.white);
-		Magnetisch.setBackground(Color.black);
-		add(Magnetisch);
-
-		JLabel Chemisch	= new JLabel("1s");
-		Chemisch.setBounds(40, 30, 360, 300);
-		Chemisch.setFont(Chemisch.getFont().deriveFont(48f));
-		Chemisch.setForeground(Color.white);
-		Chemisch.setBackground(Color.black);
-		add(Chemisch);
-		
+		richteOrbitalBenennungEin();
 		erzeugeSchnittWahl();
-
-		erzeugeTextFeld("<html><u>Massstab</u></<html>", 10, h - 195, 200);
-
-		JLabel Angstroem = new JLabel("1Å");
-		Angstroem.setFont(Angstroem.getFont().deriveFont(16f));
-		Angstroem.setBounds(10 + (int)Laenge / 2 - 5, h - 140, 40, 30);
-		Angstroem.setForeground(Color.WHITE);
-		Angstroem.setBackground(Color.BLACK);
-		add(Angstroem);
-		JLabel zieh = new JLabel("hier ziehen ↓");
-		zieh.setBounds(10 + (int)Laenge-88, h - 180, 140, 30);
-		zieh.setForeground(Color.WHITE);
-		zieh.setBackground(Color.BLACK);
-		add(zieh);
+		richteSchildEin(Massstab,"<html><u>Massstab</u></<html>", 10, h - 195, 200, 20, 12);
+		richteSchildEin(Angstroem, "1Å", 10 + (int)Laenge / 2 - 5, h - 140, 40, 30, 16);
+		richteSchildEin(zieh, "hier ziehen ↓", 10 + (int)Laenge-88, h - 180, 140, 30, 12);
 
 		Achse[1] = 0;
 		Achse[2] = 0;
@@ -100,6 +78,7 @@ public class Flaeche extends JPanel {		//TODO: Spaghetticode bereinigen
 		ActionListener ZeitNehmer = Takt -> {
 			Zeit++;
 			Atom.suche();
+			System.out.println(Winkel);
 			Chemisch.setText(Atom.Chem);
 			Magnetisch.setText(Atom.Magn);
 			alpha = alpha + Winkel;
@@ -108,7 +87,7 @@ public class Flaeche extends JPanel {		//TODO: Spaghetticode bereinigen
 			repaint();
 		};
 
-		Timer Uhr = new Timer(20, ZeitNehmer);
+		Timer Uhr = new Timer(DeltaT, ZeitNehmer);
 		Uhr.start();
 	}
 
@@ -149,23 +128,11 @@ public class Flaeche extends JPanel {		//TODO: Spaghetticode bereinigen
 
 	public void erzeugeQuantenzahlWahl() {
 
-		erzeugeTextFeld("<html><u>Quantenzahlen</u></<html>", 10, 15, 150);
+		richteSchildEin(Quantenzahlen, "<html><u>Quantenzahlen</u></<html>", 10, 15, 150, 20, 12);
+		richteSchildEin(nSchild, "n=", 15, 60, 50, 20, 12);
+		richteSchildEin(lSchild, "l=", 85, 60, 50, 20, 12);
+		richteSchildEin(mSchild, "m=", 85, 60, 50, 20, 12);
 
-		JLabel nFeld = new JLabel("n = " + n);
-		nFeld.setBounds(15, 60, 50, 20);
-		nFeld.setForeground(Color.WHITE);
-		add(nFeld);
-
-		JLabel lFeld = new JLabel("l = " + l);
-		lFeld.setBounds(85, 60, 50, 20);
-		lFeld.setForeground(Color.WHITE);
-		add(lFeld);
-
-		JLabel mFeld = new JLabel("m = " + m);
-		mFeld.setBounds(155, 60, 50, 20);
-		mFeld.setForeground(Color.WHITE);
-		add(mFeld);
-		
 		JButton nPlus = new JButton("+");
 		nPlus.setBounds(10, 35, 45, 21);
 		nPlus.setForeground(Color.black);
@@ -174,7 +141,7 @@ public class Flaeche extends JPanel {		//TODO: Spaghetticode bereinigen
 		
 		ActionListener nPlusWarter = Erhoehe -> {
 			if (n < 3) n++;
-			nFeld.setText("n = " + n);
+			nSchild.setText("n = " + n);
 			Atom.setzeZurueck();
 		};
 		
@@ -192,9 +159,9 @@ public class Flaeche extends JPanel {		//TODO: Spaghetticode bereinigen
 			if (l > n-1) l--;
 			if (m > l) m--;
 			if (m <-l) m++;
-			nFeld.setText("n = " + n);
-			lFeld.setText("l = " + l);
-			mFeld.setText("m = " + m);
+			nSchild.setText("n = " + n);
+			lSchild.setText("l = " + l);
+			mSchild.setText("m = " + m);
 			Atom.setzeZurueck();
 		};
 		
@@ -209,8 +176,8 @@ public class Flaeche extends JPanel {		//TODO: Spaghetticode bereinigen
 		ActionListener lPlusWarter = Erhoehe -> {
 			if (l < n-1) l++;
 			if (m <-l) m++;
-			lFeld.setText("l = " + l);
-			mFeld.setText("m = " + m);
+			lSchild.setText("l = " + l);
+			mSchild.setText("m = " + m);
 			Atom.setzeZurueck();
 		};
 		
@@ -225,8 +192,8 @@ public class Flaeche extends JPanel {		//TODO: Spaghetticode bereinigen
 		ActionListener lMinusWarter = Erniedrige -> {
 			if (l > 0) l--;
 			if (m > l) m--;
-			lFeld.setText("l = " + l);
-			mFeld.setText("m = " + m);
+			lSchild.setText("l = " + l);
+			mSchild.setText("m = " + m);
 			Atom.setzeZurueck();
 		};
 		
@@ -240,7 +207,7 @@ public class Flaeche extends JPanel {		//TODO: Spaghetticode bereinigen
 		
 		ActionListener mPlusWarter = Erhoehe -> {
 			if (m < l) m++;
-			mFeld.setText("m = " + m);
+			mSchild.setText("m = " + m);
 			Atom.setzeZurueck();
 		};
 		
@@ -254,7 +221,7 @@ public class Flaeche extends JPanel {		//TODO: Spaghetticode bereinigen
 		
 		ActionListener mMinusWarter = Erniedrige -> {
 			if (m >-l) m--;
-			mFeld.setText("m = " + m);
+			mSchild.setText("m = " + m);
 			Atom.setzeZurueck();
 		};
 		
@@ -263,36 +230,13 @@ public class Flaeche extends JPanel {		//TODO: Spaghetticode bereinigen
 
 	public void erzeugeSchnittWahl() {
 
-		JLabel xAch = new JLabel("x");
-		xAch.setBounds(b - 142, h - 336, 12, 12);
-		xAch.setForeground(Color.white);
-		xAch.setBackground(Color.black);
-		add(xAch);
-		
-		JLabel yAch = new JLabel("y");
-		yAch.setBounds(b - 30, h - 380, 12, 16);
-		yAch.setForeground(Color.white);
-		yAch.setBackground(Color.black);
-		add(yAch);
-		
-		JLabel zAch = new JLabel("z");
-		zAch.setBounds(b - 104, h - 449, 12, 12);
-		zAch.setForeground(Color.white);
-		zAch.setBackground(Color.black);
-		add(zAch);
-		
-		JLabel Raeuml = new JLabel("räumlich");
-		Raeuml.setBounds(b - 60, h - 292, 60, 30);
-		Raeuml.setForeground(Color.white);
-		Raeuml.setBackground(Color.black);
-		add(Raeuml);
-		
-		JLabel odr = new JLabel("oder");
-		odr.setBounds(b - 60, h - 236, 60, 12);
-		odr.setForeground(Color.white);
-		odr.setBackground(Color.black);
-		add(odr);
-		
+		richteSchildEin(xAch, "x", b - 142, h - 336, 12, 12, 12);
+		richteSchildEin(yAch, "y", b -  30, h - 380, 12, 16, 12);
+		richteSchildEin(zAch, "z", b - 104, h - 449, 12, 12, 12);
+		richteSchildEin(Raeuml, "räumlich", b - 60, h - 292, 60, 30, 12);
+		richteSchildEin(odr, "oder", b - 60, h - 236, 60, 12, 12);
+
+
 		JRadioButton Raeumlich = new JRadioButton("3D", true);
 		JRadioButton ZSchnitt = new JRadioButton("x-y", false);
 		JRadioButton XSchnitt = new JRadioButton("y-z", false);
@@ -324,21 +268,21 @@ public class Flaeche extends JPanel {		//TODO: Spaghetticode bereinigen
 			if (Drueck1.getSource() == ZSchnitt) {
  				setSchnitt(1);
 				Winkel = 0; WinkelEing.setText("0");
-				setzeDrehmatrixZurueck();
+				alpha = 0;
 				Atom.setzeZurueck();
 			}
 
 			if (Drueck1.getSource() == XSchnitt) {
 				setSchnitt(2);
 				Winkel = 0; WinkelEing.setText("0");
-				setzeDrehmatrixZurueck();
+				alpha = 0;
 				Atom.setzeZurueck();
 			}
 
 			if (Drueck1.getSource() == YSchnitt) {
 				setSchnitt(3);
 				Winkel = 0; WinkelEing.setText("0");
-				setzeDrehmatrixZurueck();
+				alpha = 0;
 				Atom.setzeZurueck();
 			}
 		};
@@ -358,12 +302,12 @@ public class Flaeche extends JPanel {		//TODO: Spaghetticode bereinigen
 	public void erzeugeDrehWahl() {			//TODO: Eingabe verbessern
 
 		erzeugeTextFeld("<html><u>Drehung</u></<html>", 10, h - 350, 200);
-		erzeugeTextFeld("Geschwindigkeit", 10, h - 330, 200);
-
+		erzeugeTextFeld("Geschwindigkeit",  10, h - 330, 200);
+		erzeugeTextFeld(  "Umdr. pro min", 180, h - 330, 190);
 
 		ActionListener DrehgeschwWarter = Eing -> {
 
-			if (Schnitt == 0) Winkel = Double.parseDouble(WinkelEing.getText()) / 1000;
+			if (Schnitt == 0) Winkel = (Double.parseDouble(WinkelEing.getText()) * pi * DeltaT / 30000);
 			if (Schnitt != 0) WinkelEing.setText("0");
 		};
 
@@ -409,12 +353,6 @@ public class Flaeche extends JPanel {		//TODO: Spaghetticode bereinigen
 		AchsEing.addActionListener(AchsWarter);
 	}
 
-	public void setzeDrehmatrixZurueck() {
-
-		a11 = 1; a22 = 1; a33 = 1;
-		a12 = 0; a13 = 0; a21 = 0; a23 = 0; a31 = 0; a32 = 0;
-	}
-
 	public void erzeugeTextFeld(String Text, int xOrt, int yOrt, int Breite) {
 
 		JLabel DiesesTextfeld = new JLabel(Text);
@@ -434,5 +372,21 @@ public class Flaeche extends JPanel {		//TODO: Spaghetticode bereinigen
 		DiesesEingabefeld.setBounds(xOrt, yOrt, Breite, 20);
 		add(DiesesEingabefeld);
 		return DiesesEingabefeld;
+	}
+
+	public void richteOrbitalBenennungEin() {
+
+		richteSchildEin(Chemisch, "1s", 40, 30, 360, 300, 48f);
+		richteSchildEin(Magnetisch, "",110, 50, 360, 300, 48f);
+	}
+
+	public void richteSchildEin(JLabel Schild, String Text, int xOrt, int yOrt, int Breite, int Hoehe, float Schriftgrad) {
+
+		Schild.setText(Text);
+		Schild.setBounds(xOrt, yOrt, Breite, Hoehe);
+		Schild.setFont(Chemisch.getFont().deriveFont(Schriftgrad));
+		Schild.setForeground(Color.white);
+		Schild.setBackground(Color.black);
+		add(Schild);
 	}
 }

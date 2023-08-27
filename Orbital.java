@@ -41,7 +41,7 @@ public abstract class Orbital {
 
                 merkeKoordinaten(Nummer);
 
-                switch (Flaeche.Schnitt) {      //TODO: x-z, y-z-Schnitt um 90° drehen
+                switch (Flaeche.Schnitt) {
                     case 1 : if (Math.abs(z) > Dicke) gefunden = false;     // x-y-Schnitt, also z ≈ 0
                     case 2 : if (Math.abs(x) > Dicke) gefunden = false;     // Versuch { x = 0; sss = y; y = z; z = sss; }
                     case 3 : if (Math.abs(y) > Dicke) gefunden = false;

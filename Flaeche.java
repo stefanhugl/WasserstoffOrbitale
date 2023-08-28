@@ -46,7 +46,6 @@ public class Flaeche extends JPanel {		//TODO: Spaghetticode bereinigen
 			
 			@Override
 			public void mouseMoved(MouseEvent Pos) {}
-				
 			@Override
 			public void mouseDragged(MouseEvent Pos) {
 	            
@@ -64,10 +63,9 @@ public class Flaeche extends JPanel {		//TODO: Spaghetticode bereinigen
 
 		ActionListener ZeitNehmer = Takt -> {
 			Zeit++;
-			Atom.suche();
-			System.out.println(Winkel);
-			Chemisch.setText(Atom.Chem);
-			Magnetisch.setText(Atom.Magn);
+			Atom.suche();					//sucht möglichen Ort des Elektrons
+			//Chemisch.setText(Atom.Chem);
+			//Magnetisch.setText(Atom.Magn);
 			alpha = alpha + Winkel;
 			if (alpha > 2 * pi)
 				alpha = alpha - 2 * pi;
@@ -133,6 +131,9 @@ public class Flaeche extends JPanel {		//TODO: Spaghetticode bereinigen
 		ActionListener nPlusWarter = Erhoehe -> {
 			if (n < 3) n++;
 			nSchild.setText("n = " + n);
+			Atom.getOrbital(n, l, m);
+			Chemisch.setText(Atom.Chem);
+			//Magnetisch.setText(Atom.Magn);
 			Atom.setzeZurueck();
 		};
 		
@@ -153,6 +154,9 @@ public class Flaeche extends JPanel {		//TODO: Spaghetticode bereinigen
 			nSchild.setText("n = " + n);
 			lSchild.setText("l = " + l);
 			mSchild.setText("m = " + m);
+			Atom.getOrbital(n, l, m);
+			Chemisch.setText(Atom.Chem);
+			Magnetisch.setText(Atom.Magn);
 			Atom.setzeZurueck();
 		};
 		
@@ -169,6 +173,9 @@ public class Flaeche extends JPanel {		//TODO: Spaghetticode bereinigen
 			if (m <-l) m++;
 			lSchild.setText("l = " + l);
 			mSchild.setText("m = " + m);
+			Atom.getOrbital(n, l, m);
+			Chemisch.setText(Atom.Chem);
+			//Magnetisch.setText(Atom.Magn);
 			Atom.setzeZurueck();
 		};
 		
@@ -186,6 +193,9 @@ public class Flaeche extends JPanel {		//TODO: Spaghetticode bereinigen
 			if (m <-l) m++;
 			lSchild.setText("l = " + l);
 			mSchild.setText("m = " + m);
+			Atom.getOrbital(n, l, m);
+			Chemisch.setText(Atom.Chem);
+			Magnetisch.setText(Atom.Magn);
 			Atom.setzeZurueck();
 		};
 		
@@ -200,6 +210,9 @@ public class Flaeche extends JPanel {		//TODO: Spaghetticode bereinigen
 		ActionListener mPlusWarter = Erhoehe -> {
 			if (m < l) m++;
 			mSchild.setText("m = " + m);
+			Atom.getOrbital(n, l, m);
+			//Chemisch.setText(Atom.Chem);
+			Magnetisch.setText(Atom.Magn);
 			Atom.setzeZurueck();
 		};
 		
@@ -214,6 +227,9 @@ public class Flaeche extends JPanel {		//TODO: Spaghetticode bereinigen
 		ActionListener mMinusWarter = Erniedrige -> {
 			if (m >-l) m--;
 			mSchild.setText("m = " + m);
+			Atom.getOrbital(n, l, m);
+			//Chemisch.setText(Atom.Chem);
+			Magnetisch.setText(Atom.Magn);
 			Atom.setzeZurueck();
 		};
 		

@@ -4,7 +4,6 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 import java.text.NumberFormat;
-
 import javax.swing.text.NumberFormatter;
 
 public class Flaeche extends JPanel {		//TODO: Spaghetticode bereinigen
@@ -30,7 +29,12 @@ public class Flaeche extends JPanel {		//TODO: Spaghetticode bereinigen
 	JTextField WinkelEing = erzeugtesEingabeFeld("0", 135, h - 330, 40);
 	Schild  Chemisch = new Schild() , Magnetisch = new Schild(), Massstab = new Schild(), Angstroem = new Schild(), zieh = new Schild(),
 			Raeuml = new Schild(), odr = new Schild(), Schn = new Schild(), xAch = new Schild(), yAch = new Schild(),zAch = new Schild(),
-			Quantenzahlen = new Schild(), nSchild = new Schild(), nPlus = new Schild(), nMinus, lSchild = new Schild(), lPlus = new Schild(), lMinus = new Schild(),mSchild = new Schild(), mPlus = new Schild(), mMinus = new Schild();
+			Quantenzahlen = new Schild(), nSchild = new Schild(), lSchild = new Schild(), mSchild = new Schild(),
+			Dreh = new Schild(), Geschw = new Schild(), Umdr = new Schild();
+
+	Knopf	nPlus = new Knopf(), nMinus = new Knopf(),
+			lPlus = new Knopf(), lMinus = new Knopf(),
+			mPlus = new Knopf(), mMinus = new Knopf();
 	public Flaeche() {
 		
 		setBackground(Color.BLACK); setLayout(null);
@@ -64,11 +68,9 @@ public class Flaeche extends JPanel {		//TODO: Spaghetticode bereinigen
 		ActionListener ZeitNehmer = Takt -> {
 			Zeit++;
 			Atom.suche();					//sucht möglichen Ort des Elektrons
-			//Chemisch.setText(Atom.Chem);
-			//Magnetisch.setText(Atom.Magn);
-			alpha = alpha + Winkel;
-			if (alpha > 2 * pi)
-				alpha = alpha - 2 * pi;
+			alpha = alpha + Winkel;			//dreht ds Orbital
+			if (alpha > 2 * pi)				//fängt nach 2pi// wieder bei 0 an
+				alpha = alpha - 2 * pi;		// wieder bei 0 an
 			repaint();
 		};
 
@@ -122,10 +124,7 @@ public class Flaeche extends JPanel {		//TODO: Spaghetticode bereinigen
 		erzeugeSchild(mSchild,"m = 0",153, 60, 50, 20, 12);
 		add(mSchild);
 
-		JButton nPlus = new JButton("+");
-		nPlus.setBounds(10, 35, 45, 21);
-		nPlus.setForeground(Color.black);
-		nPlus.setBackground(Color.white);
+		erzeugeKnopf(nPlus, "+", 10, 35, 45, 21);
 		add(nPlus);
 		
 		ActionListener nPlusWarter = Erhoehe -> {
@@ -137,12 +136,9 @@ public class Flaeche extends JPanel {		//TODO: Spaghetticode bereinigen
 			Atom.setzeZurueck();
 		};
 		
-		nPlus.addActionListener(nPlusWarter);		
+		nPlus.addActionListener(nPlusWarter);
 
-		JButton nMinus = new JButton("-");
-		nMinus.setBounds(10, 86, 45, 21);
-		nMinus.setForeground(Color.black);
-		nMinus.setBackground(Color.white);
+		erzeugeKnopf(nMinus, "-", 10, 86, 45, 21);
 		add(nMinus);
 		
 		ActionListener nMinusWarter = Erniedrige -> {
@@ -162,10 +158,7 @@ public class Flaeche extends JPanel {		//TODO: Spaghetticode bereinigen
 		
 		nMinus.addActionListener(nMinusWarter);
 
-		JButton lPlus = new JButton("+");
-		lPlus.setBounds(80, 35, 45, 21);
-		lPlus.setForeground(Color.black);
-		lPlus.setBackground(Color.white);
+		erzeugeKnopf(lPlus, "+", 80, 35, 45, 21);
 		add(lPlus);
 
 		ActionListener lPlusWarter = Erhoehe -> {
@@ -179,12 +172,9 @@ public class Flaeche extends JPanel {		//TODO: Spaghetticode bereinigen
 			Atom.setzeZurueck();
 		};
 		
-		lPlus.addActionListener(lPlusWarter);		
+		lPlus.addActionListener(lPlusWarter);
 
-		JButton lMinus = new JButton("-");
-		lMinus.setBounds(80, 86, 45, 21);
-		lMinus.setForeground(Color.black);
-		lMinus.setBackground(Color.white);
+		erzeugeKnopf(lMinus, "-", 80, 86, 45, 21);
 		add(lMinus);
 		
 		ActionListener lMinusWarter = Erniedrige -> {
@@ -201,10 +191,7 @@ public class Flaeche extends JPanel {		//TODO: Spaghetticode bereinigen
 		
 		lMinus.addActionListener(lMinusWarter);
 
-		JButton mPlus = new JButton("+");
-		mPlus.setBounds(150, 35, 45, 21);
-		mPlus.setForeground(Color.black);
-		mPlus.setBackground(Color.white);
+		erzeugeKnopf(mPlus, "+", 150, 35, 45, 21);
 		add(mPlus);
 		
 		ActionListener mPlusWarter = Erhoehe -> {
@@ -216,12 +203,9 @@ public class Flaeche extends JPanel {		//TODO: Spaghetticode bereinigen
 			Atom.setzeZurueck();
 		};
 		
-		mPlus.addActionListener(mPlusWarter);		
+		mPlus.addActionListener(mPlusWarter);
 
-		JButton mMinus = new JButton("-");
-		mMinus.setBounds(150, 86, 45, 21);
-		mMinus.setForeground(Color.black);
-		mMinus.setBackground(Color.white);
+		erzeugeKnopf(mMinus, "-", 150, 86, 45, 21);
 		add(mMinus);
 		
 		ActionListener mMinusWarter = Erniedrige -> {
@@ -310,9 +294,10 @@ public class Flaeche extends JPanel {		//TODO: Spaghetticode bereinigen
 
 	public void erzeugeDrehWahl() {			//TODO: Eingabe verbessern
 
-		erzeugeTextFeld("<html><u>Drehung</u></<html>", 10, h - 350, 200);
-		erzeugeTextFeld("Geschwindigkeit",  10, h - 330, 200);
-		erzeugeTextFeld(  "Umdr. pro min", 180, h - 330, 190);
+		erzeugeSchild(Dreh,"<html><u>Drehung</u></<html>", 10, h - 350, 200, 20, 12);
+		erzeugeSchild(Geschw,"Geschwindigkeit",  10, h - 330, 200, 20, 12);
+		erzeugeSchild(Umdr,"Umdr. pro min", 180, h - 330, 190, 20, 12);
+		add(Dreh); add(Geschw); add(Umdr);
 
 		ActionListener DrehgeschwWarter = Eing -> {
 
@@ -404,5 +389,9 @@ public class Flaeche extends JPanel {		//TODO: Spaghetticode bereinigen
 	public void erzeugeSchild(Schild DiesesSchild, String Text, int xOrt, int yOrt, int Breite, int Hoehe, float Schriftgrad) {
 		DiesesSchild.setBounds(xOrt, yOrt, Breite, Hoehe);
 		DiesesSchild.setText(Text);
+	}
+	public void erzeugeKnopf(Knopf DieserKnopf, String Text, int xOrt, int yOrt, int Breite, int Hoehe) {
+		DieserKnopf.setBounds(xOrt, yOrt, Breite, Hoehe);
+		DieserKnopf.setText(Text);
 	}
 }

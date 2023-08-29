@@ -36,36 +36,10 @@ public class Flaeche extends JPanel {		//TODO: Spaghetticode bereinigen
 	Knopf	nPlus = new Knopf(), nMinus = new Knopf(),
 			lPlus = new Knopf(), lMinus = new Knopf(),
 			mPlus = new Knopf(), mMinus = new Knopf();
-	public Flaeche() {
-		
-		setBackground(Color.BLACK); setLayout(null);
-		n = 1; l = 0;
-		richteQuantenzahlWahlEin();
-		richteOrbitalBenennungEin();
-		richteSchnittWahlEin();
-		richteMasstabWahlEin();
-		Achse[1] = 0; Achse[2] = 0; Achse[3] = 1; // Drehachse
-		erzeugeDrehWahl();
-		
-		addMouseMotionListener(new MouseMotionListener() {
-			
-			@Override
-			public void mouseMoved(MouseEvent Pos) {}
-			@Override
-			public void mouseDragged(MouseEvent Pos) {
-	            
-				int mstY = h-MassstabPosY, mouY = Pos.getY(), mouX = Pos.getX(), mstX = (int)(10+Laenge);
-				if (mouY > mstY-8 && mouY < mstY+8 && mouX > mstX-8 && mouX < mstX+8) {
-					
-					Atom.setzeZurueck();
-					Laenge = mouX - 10;
-					vgr = 1.8897*h / Laenge;
-					Angstroem.setBounds(10 + (int)Laenge / 2 - 5, h - 140, 40, 20);
-					zieh.setBounds(10 + (int)Laenge-88, h - 180, 140, 30);
-				}
-			}
-		});
 
+	public Flaeche() {
+
+		erzeugeEinstellungenUndBedienelemente();
 		ActionListener ZeitNehmer = Takt -> {
 			Zeit++;
 			Atom.suche();					//sucht möglichen Ort des Elektrons
@@ -78,7 +52,6 @@ public class Flaeche extends JPanel {		//TODO: Spaghetticode bereinigen
 		Timer Uhr = new Timer(DeltaT, ZeitNehmer);
 		Uhr.start();
 	}
-
 	@Override
 	public void paintComponent(Graphics Zeichnung) {
 
@@ -89,7 +62,6 @@ public class Flaeche extends JPanel {		//TODO: Spaghetticode bereinigen
 		if (nEl > MaxAnzEl) nEl = MaxAnzEl;
 
 		berechneDrehmatrix(alpha, Achse[1], Achse[2], Achse[3]);
-
 		for (int i = 0; i < nEl; i++) {
 			Elektron.zeichne(i, a11, a12, a13, a21, a22, a23, a31, a32, a33, ebeneZeichnung);
 		}
@@ -114,6 +86,18 @@ public class Flaeche extends JPanel {		//TODO: Spaghetticode bereinigen
 		a32 = n3 * n2 * mi + n1 * si;
 	}
 
+	public void erzeugeEinstellungenUndBedienelemente() {
+		setBackground(Color.black); setLayout(null);
+		n = 1; l = 0;
+		richteQuantenzahlWahlEin();
+		richteOrbitalBenennungEin();
+		richteSchnittWahlEin();
+		richteMasstabWahlEin();
+		Achse[1] = 0; Achse[2] = 0; Achse[3] = 1; // Drehachse
+		erzeugeDrehWahl();
+		erzeugeMassstabsAenderung();
+
+	}
 	public void richteQuantenzahlWahlEin() {
 
 		erzeugeSchild(Quantenzahlen,"<html><u>Quantenzahlen</u></<html>", 10, 15, 150, 20);
@@ -169,7 +153,6 @@ public class Flaeche extends JPanel {		//TODO: Spaghetticode bereinigen
 			mSchild.setText("m = " + m);
 			Atom.getOrbital(n, l, m);
 			Chemisch.setText(Atom.Chem);
-			//Magnetisch.setText(Atom.Magn);
 			Atom.setzeZurueck();
 		};
 		
@@ -199,7 +182,6 @@ public class Flaeche extends JPanel {		//TODO: Spaghetticode bereinigen
 			if (m < l) m++;
 			mSchild.setText("m = " + m);
 			Atom.getOrbital(n, l, m);
-			//Chemisch.setText(Atom.Chem);
 			Magnetisch.setText(Atom.Magn);
 			Atom.setzeZurueck();
 		};
@@ -220,7 +202,25 @@ public class Flaeche extends JPanel {		//TODO: Spaghetticode bereinigen
 		
 		mMinus.addActionListener(mMinusWarter);
 	}
+	public void erzeugeMassstabsAenderung() {
+		addMouseMotionListener(new MouseMotionListener() {
+			@Override
+			public void mouseMoved(MouseEvent Pos) {}
+			@Override
+			public void mouseDragged(MouseEvent Pos) {
 
+				int mstY = h-MassstabPosY, mouY = Pos.getY(), mouX = Pos.getX(), mstX = (int)(10+Laenge);
+				if (mouY > mstY-8 && mouY < mstY+8 && mouX > mstX-8 && mouX < mstX+8) {
+
+					Atom.setzeZurueck();
+					Laenge = mouX - 10;
+					vgr = 1.8897*h / Laenge;
+					Angstroem.setBounds(10 + (int)Laenge / 2 - 5, h - 140, 40, 20);
+					zieh.setBounds(10 + (int)Laenge-88, h - 180, 140, 30);
+				}
+			}
+		});
+	}
 	public void richteSchnittWahlEin() {
 
 		erzeugeSchild(xAch,"x", b - 142, h - 336, 12, 12);
@@ -342,7 +342,7 @@ public class Flaeche extends JPanel {		//TODO: Spaghetticode bereinigen
 			if (n0 == 0) System.out.println("n0 = 0");
 			if (n0 != 0) {
 				Achse[i] = nn / n0;
-				Achse[j] = Achse[j] / n0;
+				Achse[j] = Achse[j] / n0;//Chemisch.setText(Atom.Chem);
 				Achse[k] = Achse[k] / n0;
 			}
 		};

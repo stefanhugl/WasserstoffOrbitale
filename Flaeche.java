@@ -28,7 +28,8 @@ public class Flaeche extends JPanel {		//TODO: Spaghetticode bereinigen
 	double a11, a12, a13, a21, a22, a23, a31, a32, a33;	//Drehmatrix
 	JTextField WinkelEing = erzeugtesEingabeFeld("0", 135, h - 330, 40);
 	Schild  Chemisch = new Schild() , Magnetisch = new Schild(), Massstab = new Schild(), Angstroem = new Schild(), zieh = new Schild(),
-			Raeuml = new Schild(), odr = new Schild(), Schn = new Schild(), xAch = new Schild(), yAch = new Schild(),zAch = new Schild(),
+			Raeuml = new Schild(), odr = new Schild(), Schn = new Schild(),
+			xAch = new Schild(), yAch = new Schild(),zAch = new Schild(),		//AchsSchild = new Schild(),
 			Quantenzahlen = new Schild(), nSchild = new Schild(), lSchild = new Schild(), mSchild = new Schild(),
 			Dreh = new Schild(), Geschw = new Schild(), Umdr = new Schild();
 
@@ -115,13 +116,13 @@ public class Flaeche extends JPanel {		//TODO: Spaghetticode bereinigen
 
 	public void richteQuantenzahlWahlEin() {
 
-		erzeugeSchild(Quantenzahlen,"<html><u>Quantenzahlen</u></<html>", 10, 15, 150, 20, 12);
+		erzeugeSchild(Quantenzahlen,"<html><u>Quantenzahlen</u></<html>", 10, 15, 150, 20);
 		add(Quantenzahlen);
-		erzeugeSchild(nSchild,"n = 1", 15, 60, 50, 20, 12);
+		erzeugeSchild(nSchild,"n = 1", 15, 60, 50, 20);
 		add(nSchild);
-		erzeugeSchild(lSchild,"l = 0", 85, 60, 50, 20, 12);
+		erzeugeSchild(lSchild,"l = 0", 85, 60, 50, 20);
 		add(lSchild);
-		erzeugeSchild(mSchild,"m = 0",153, 60, 50, 20, 12);
+		erzeugeSchild(mSchild,"m = 0",153, 60, 50, 20);
 		add(mSchild);
 
 		erzeugeKnopf(nPlus, "+", 10, 35, 45, 21);
@@ -222,15 +223,15 @@ public class Flaeche extends JPanel {		//TODO: Spaghetticode bereinigen
 
 	public void richteSchnittWahlEin() {
 
-		erzeugeSchild(xAch,"x", b - 142, h - 336, 12, 12, 12);
+		erzeugeSchild(xAch,"x", b - 142, h - 336, 12, 12);
 		add(xAch);
-		erzeugeSchild(yAch,"y", b -  30, h - 380, 12, 16, 12);
+		erzeugeSchild(yAch,"y", b -  30, h - 380, 12, 16);
 		add(yAch);
-		erzeugeSchild(zAch,"z", b - 104, h - 449, 12, 12, 12);
+		erzeugeSchild(zAch,"z", b - 104, h - 449, 12, 12);
 		add(zAch);
-		erzeugeSchild(Raeuml,"räumlich",b - 60, h - 292, 60, 30, 12);
+		erzeugeSchild(Raeuml,"räumlich",b - 60, h - 292, 60, 30);
 		add(Raeuml);
-		erzeugeSchild(odr,"oder", b - 60, h - 236, 60, 12, 12);
+		erzeugeSchild(odr,"oder", b - 60, h - 236, 60, 12);
 		add(odr);
 
 		JRadioButton Raeumlich = new JRadioButton("3D", true);
@@ -288,15 +289,15 @@ public class Flaeche extends JPanel {		//TODO: Spaghetticode bereinigen
 		XSchnitt.addActionListener(SchnittKnopfWarter);
 		YSchnitt.addActionListener(SchnittKnopfWarter);
 
-		erzeugeSchild(Schn,"-Schnitt", b - 60, h - 130, 60, 12, 12);
+		erzeugeSchild(Schn,"-Schnitt", b - 60, h - 130, 60, 12);
 		add(Schn);
 	}
 
 	public void erzeugeDrehWahl() {			//TODO: Eingabe verbessern
 
-		erzeugeSchild(Dreh,"<html><u>Drehung</u></<html>", 10, h - 350, 200, 20, 12);
-		erzeugeSchild(Geschw,"Geschwindigkeit",  10, h - 330, 200, 20, 12);
-		erzeugeSchild(Umdr,"Umdr. pro min", 180, h - 330, 190, 20, 12);
+		erzeugeSchild(Dreh,"<html><u>Drehung</u></<html>", 10, h - 350, 200, 20);
+		erzeugeSchild(Geschw,"Geschwindigkeit",  10, h - 330, 200, 20);
+		erzeugeSchild(Umdr,"Umdr. pro min", 180, h - 330, 190, 20);
 		add(Dreh); add(Geschw); add(Umdr);
 
 		ActionListener DrehgeschwWarter = Eing -> {
@@ -310,26 +311,28 @@ public class Flaeche extends JPanel {		//TODO: Spaghetticode bereinigen
 		String Text, VorgabeText;
 		int xOrt, yOrt;
 
-		Text = "             Achse: x";
+		erzeugeSchild(xAch, "             Achse: x", 13, h - 290, 160, 20);
+		add(xAch);
 		VorgabeText = "0";
 		xOrt = 13;
 		yOrt = h - 290;
-		erzeugeAchsEingabe(Text, VorgabeText, xOrt, yOrt, 1, 2, 3);
+		erzeugeAchsEingabe(VorgabeText, xOrt, yOrt, 1, 2, 3);
 
-		Text = "                          y";
+		erzeugeSchild(yAch, "                          y", 13, h - 260, 160, 20);
+		add(yAch);
 		VorgabeText = "0";
 		yOrt = h - 260;
-		erzeugeAchsEingabe(Text, VorgabeText, xOrt, yOrt, 2, 3, 1);
+		erzeugeAchsEingabe(VorgabeText, xOrt, yOrt, 2, 3, 1);
 
-		Text = "                          z";
+		erzeugeSchild(zAch, "                          z", 13, h - 230, 160, 20);
+		add(zAch);
 		VorgabeText = "1";
 		yOrt = h - 230;
-		erzeugeAchsEingabe(Text, VorgabeText, xOrt, yOrt, 3, 1, 2);
+		erzeugeAchsEingabe(VorgabeText, xOrt, yOrt, 3, 1, 2);
 	}
 
-	public void erzeugeAchsEingabe(String Text, String VorgabeText, int xOrt, int yOrt, int i, int j, int k) {
+	public void erzeugeAchsEingabe(String VorgabeText, int xOrt, int yOrt, int i, int j, int k) {
 
-		erzeugeTextFeld(Text, xOrt, yOrt, 160);
 		JTextField AchsEing = erzeugtesEingabeFeld(VorgabeText, xOrt + 121, yOrt, 20);
 
 		ActionListener AchsWarter = EingEreig -> {
@@ -347,14 +350,6 @@ public class Flaeche extends JPanel {		//TODO: Spaghetticode bereinigen
 		AchsEing.addActionListener(AchsWarter);
 	}
 
-	public void erzeugeTextFeld(String Text, int xOrt, int yOrt, int Breite) {
-
-		JLabel DiesesTextfeld = new JLabel(Text);
-		DiesesTextfeld.setBounds(xOrt, yOrt, Breite, 20);
-		DiesesTextfeld.setForeground(Color.WHITE);
-		add(DiesesTextfeld);
-	}
-
 	public JTextField erzeugtesEingabeFeld(String VorgabeText, int xOrt, int yOrt, int Breite) {
 
 		NumberFormat ZahlForm = NumberFormat.getInstance();
@@ -370,23 +365,24 @@ public class Flaeche extends JPanel {		//TODO: Spaghetticode bereinigen
 
 	public void richteOrbitalBenennungEin() {
 
-		erzeugeSchild(Chemisch, "1s", 40, 30, 360, 300, 48f);
+		erzeugeSchild(Chemisch, "1s", 40, 30, 360, 300);
 		Chemisch.setFont(Chemisch.getFont().deriveFont(48f));				//.setFont(new Font( "Times New Roman", Font.BOLD, 48));
-		erzeugeSchild(Magnetisch,"",110, 50, 360, 300, 48f);
+		erzeugeSchild(Magnetisch,"",110, 50, 360, 300);
 		Magnetisch.setFont(Magnetisch.getFont().deriveFont(24f));
 		add(Chemisch); add(Magnetisch);
 	}
 	public void richteMasstabWahlEin() {
 
-		erzeugeSchild(Massstab,"<html><u>Massstab</u></<html>", 10, h - 195, 200, 20, 12);
+		erzeugeSchild(Massstab,"<html><u>Massstab</u></<html>", 10, h - 195, 200, 20);
 		add(Massstab);
-		erzeugeSchild(Angstroem,"1Å", 10 + (int)Laenge / 2 - 5, h - 140, 40, 30, 16);
+		erzeugeSchild(Angstroem,"1Å", 10 + (int)Laenge / 2 - 5, h - 140, 40, 30);
+		Angstroem.setFont(Angstroem.getFont().deriveFont(16f));
 		add(Angstroem);
-		erzeugeSchild(zieh,"hier ziehen ↓", 10 + (int)Laenge-88, h - 180, 140, 30, 12);
+		erzeugeSchild(zieh,"hier ziehen ↓", 10 + (int)Laenge-88, h - 180, 140, 30);
 		add(zieh);
 	}
 
-	public void erzeugeSchild(Schild DiesesSchild, String Text, int xOrt, int yOrt, int Breite, int Hoehe, float Schriftgrad) {
+	public void erzeugeSchild(Schild DiesesSchild, String Text, int xOrt, int yOrt, int Breite, int Hoehe) {
 		DiesesSchild.setBounds(xOrt, yOrt, Breite, Hoehe);
 		DiesesSchild.setText(Text);
 	}

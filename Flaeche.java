@@ -12,7 +12,7 @@ public class Flaeche extends JPanel {		//TODO: Spaghetticode bereinigen
 	public static int MassstabPosY = 146;  //TODO: ist 146 allgemein genug?
 	public static double Laenge = 0.18897*h;		// Das Atom wird beobachtet in einer Kugel mit  
 	public static double vgr = 1.8897*h / Laenge;	// Radius vgr in Einheiten a0=5.291772e-11m
-	public static int Zeit = 0, DeltaT = 20;		// Startzeit und Intervall des Timers
+	public static int Zeit = 0, DeltaT = 20, TaktNummer = 0;		// Startzeit und Intervall des Timers
 	public static int Schnitt = 0;	// Schnittebene für 2D-Darstellung (0: räuml.;  1: x-y-Ebene; ...)
 	public static int n, l, m;	// Quantenzahlen
 	
@@ -20,18 +20,22 @@ public class Flaeche extends JPanel {		//TODO: Spaghetticode bereinigen
 		Schnitt = schnitt;
 	}  // Schnittebene für 2D-Darstellung
 
-	final static int MaxAnzEl = 1000;				//maximale Zahl gleichzeitig sichtbarer Elektronenfundorte
+	public static int MaxAnzEl = 10;				//maximale Zahl gleichzeitig sichtbarer Elektronenfundorte
 	public static double[] Achse = new double[4];		//Drehachse
 	double alpha = 0.0;
 
 	public static double Winkel = 0.0;					//für Drehung
 	double a11, a12, a13, a21, a22, a23, a31, a32, a33;	//Drehmatrix
 	JTextField WinkelEing = erzeugtesEingabeFeld("0", 135, h - 330, 40);
+	JTextField MaxAnzEing = erzeugtesEingabeFeld("10", 135, 250, 40);
+	JTextField MessrateEing = erzeugtesEingabeFeld("20", 135, 280, 40);
+	JTextField NachleuchtZeitEing = erzeugtesEingabeFeld("60", 135, 310, 40);
 	Schild  Chemisch = new Schild() , Magnetisch = new Schild(), Massstab = new Schild(), Angstroem = new Schild(), zieh = new Schild(),
 			Raeuml = new Schild(), odr = new Schild(), Schn = new Schild(),
 			xAch = new Schild(), yAch = new Schild(),zAch = new Schild(),		//AchsSchild = new Schild(),
 			Quantenzahlen = new Schild(), nSchild = new Schild(), lSchild = new Schild(), mSchild = new Schild(),
-			Dreh = new Schild(), Geschw = new Schild(), Umdr = new Schild();
+			Dreh = new Schild(), Geschw = new Schild(), Umdr = new Schild(),
+			MaxAnz = new Schild(), Messrate = new Schild(), NachleuchtZeit = new Schild();
 
 	Knopf	nPlus = new Knopf(), nMinus = new Knopf(),
 			lPlus = new Knopf(), lMinus = new Knopf(),
@@ -41,15 +45,18 @@ public class Flaeche extends JPanel {		//TODO: Spaghetticode bereinigen
 
 		erzeugeEinstellungenUndBedienelemente();
 		ActionListener ZeitNehmer = Takt -> {
-			Zeit++;
-			Atom.suche();					//sucht möglichen Ort des Elektrons
-			alpha = alpha + Winkel;			//dreht ds Orbital
-			if (alpha > 2 * pi)				//fängt nach 2pi// wieder bei 0 an
-				alpha = alpha - 2 * pi;		// wieder bei 0 an
-			repaint();
+			TaktNummer++;
+			if (TaktNummer % DeltaT == 0) {		//Division mit Rest, damit die folgende Aktion nur nach jedem DeltaT-ten Takt ausgeführt wird
+				Zeit++;
+				Atom.suche();					//sucht möglichen Ort des Elektrons
+				alpha = alpha + Winkel;			//dreht das Orbital
+				if (alpha > 2 * pi)				//fängt nach 2pi// wieder bei 0 an
+					alpha = alpha - 2 * pi;		// wieder bei 0 an
+				repaint();						//zeichnet auf "Flaeche", wie in der überschriebenen "paintComponent" angegeben
+			}
 		};
 
-		Timer Uhr = new Timer(DeltaT, ZeitNehmer);
+		Timer Uhr = new Timer(1, ZeitNehmer);
 		Uhr.start();
 	}
 	@Override
@@ -96,7 +103,7 @@ public class Flaeche extends JPanel {		//TODO: Spaghetticode bereinigen
 		Achse[1] = 0; Achse[2] = 0; Achse[3] = 1; // Drehachse
 		erzeugeDrehWahl();
 		erzeugeMassstabsAenderung();
-
+		erzeugeElektronenWahl();
 	}
 	public void richteQuantenzahlWahlEin() {
 
@@ -331,6 +338,57 @@ public class Flaeche extends JPanel {		//TODO: Spaghetticode bereinigen
 		erzeugeAchsEingabe(VorgabeText, xOrt, yOrt, 3, 1, 2);
 	}
 
+	public void erzeugeElektronenWahl() {			//TODO: Eingabe verbessern
+
+		erzeugeSchild(MaxAnz,"Max. Anz. sichtbarer El.fundorte", 10, 250, 200, 20);
+		erzeugeSchild(Geschw,"Messrate",  10, 280, 200, 20);
+		erzeugeSchild(NachleuchtZeit,"Nachleuchtzeit", 10, 310, 190, 20);
+		add(MaxAnz); add(Geschw); add(NachleuchtZeit);
+
+		ActionListener MaxAnzWarter = Eing -> {
+
+			int MaxAnzEingabe = Integer.parseInt(MaxAnzEing.getText());
+			if (MaxAnzEingabe > 0 && MaxAnzEingabe < 1001)	MaxAnzEl = MaxAnzEingabe;
+		};
+
+		MaxAnzEing.addActionListener(MaxAnzWarter);
+
+		ActionListener MessrateWarter = Eing -> {
+
+			int MessrateEingabe = Integer.parseInt(MessrateEing.getText());
+			if (MessrateEingabe > 4 && MessrateEingabe < 10001) {
+
+				DeltaT = MessrateEingabe;
+
+			}
+		};
+
+		MessrateEing.addActionListener(MessrateWarter);
+ 
+/*
+		String Text, VorgabeText;
+		int xOrt, yOrt;
+
+		erzeugeSchild(xAch, "             Achse: x", 13, h - 290, 160, 20);
+		add(xAch);
+		VorgabeText = "0";
+		xOrt = 13;
+		yOrt = h - 290;
+		erzeugeAchsEingabe(VorgabeText, xOrt, yOrt, 1, 2, 3);
+
+		erzeugeSchild(yAch, "                          y", 13, h - 260, 160, 20);
+		add(yAch);
+		VorgabeText = "0";
+		yOrt = h - 260;
+		erzeugeAchsEingabe(VorgabeText, xOrt, yOrt, 2, 3, 1);
+
+		erzeugeSchild(zAch, "                          z", 13, h - 230, 160, 20);
+		add(zAch);
+		VorgabeText = "1";
+		yOrt = h - 230;
+		erzeugeAchsEingabe(VorgabeText, xOrt, yOrt, 3, 1, 2);					*/
+	}
+
 	public void erzeugeAchsEingabe(String VorgabeText, int xOrt, int yOrt, int i, int j, int k) {
 
 		JTextField AchsEing = erzeugtesEingabeFeld(VorgabeText, xOrt + 121, yOrt, 20);
@@ -342,7 +400,7 @@ public class Flaeche extends JPanel {		//TODO: Spaghetticode bereinigen
 			if (n0 == 0) System.out.println("n0 = 0");
 			if (n0 != 0) {
 				Achse[i] = nn / n0;
-				Achse[j] = Achse[j] / n0;//Chemisch.setText(Atom.Chem);
+				Achse[j] = Achse[j] / n0;
 				Achse[k] = Achse[k] / n0;
 			}
 		};

@@ -12,7 +12,7 @@ public class Flaeche extends JPanel {		//TODO: Spaghetticode bereinigen
 	public static int MassstabPosY = 146;  //TODO: ist 146 allgemein genug?
 	public static double Laenge = 0.18897*h;		// Das Atom wird beobachtet in einer Kugel mit  
 	public static double vgr = 1.8897*h / Laenge;	// Radius vgr in Einheiten a0=5.291772e-11m
-	public static int Zeit = 0, DeltaT = 20, TaktNummer = 0;		// Startzeit und Intervall des Timers
+	public static int Zeit = 0, DeltaT = 20, TaktNummer = 2147483600;		// Startzeit und Intervall des Timers
 	public static int Schnitt = 0;	// Schnittebene für 2D-Darstellung (0: räuml.;  1: x-y-Ebene; ...)
 	public static int n, l, m;	// Quantenzahlen
 	
@@ -26,16 +26,16 @@ public class Flaeche extends JPanel {		//TODO: Spaghetticode bereinigen
 
 	public static double Winkel = 0.0;					//für Drehung
 	double a11, a12, a13, a21, a22, a23, a31, a32, a33;	//Drehmatrix
-	JTextField WinkelEing = erzeugtesEingabeFeld("0", 135, h - 330, 40);
-	JTextField MaxAnzEing = erzeugtesEingabeFeld("10", 135, 250, 40);
-	JTextField MessrateEing = erzeugtesEingabeFeld("20", 135, 280, 40);
-	JTextField NachleuchtZeitEing = erzeugtesEingabeFeld("60", 135, 310, 40);
+	JTextField WinkelEing = erzeugtesEingabeFeld("0", 140, h - 330, 40);
+	JTextField MaxAnzEing = erzeugtesEingabeFeld("10", 183, 254, 40);
+	JTextField MessrateEing = erzeugtesEingabeFeld("20", 82, 280, 40);
+	JTextField NachleuchtZeitEing = erzeugtesEingabeFeld("60", 120, 310, 40);
 	Schild  Chemisch = new Schild() , Magnetisch = new Schild(), Massstab = new Schild(), Angstroem = new Schild(), zieh = new Schild(),
 			Raeuml = new Schild(), odr = new Schild(), Schn = new Schild(),
 			xAch = new Schild(), yAch = new Schild(),zAch = new Schild(),		//AchsSchild = new Schild(),
 			Quantenzahlen = new Schild(), nSchild = new Schild(), lSchild = new Schild(), mSchild = new Schild(),
 			Dreh = new Schild(), Geschw = new Schild(), Umdr = new Schild(),
-			MaxAnz = new Schild(), Messrate = new Schild(), NachleuchtZeit = new Schild();
+			MaxAnz = new Schild(), Messrate = new Schild(), proS = new Schild(),  NachleuchtZeit = new Schild(), inMs = new Schild();
 
 	Knopf	nPlus = new Knopf(), nMinus = new Knopf(),
 			lPlus = new Knopf(), lMinus = new Knopf(),
@@ -46,7 +46,7 @@ public class Flaeche extends JPanel {		//TODO: Spaghetticode bereinigen
 		erzeugeEinstellungenUndBedienelemente();
 		ActionListener ZeitNehmer = Takt -> {
 			TaktNummer++;
-			if (TaktNummer % DeltaT == 0) {		//Division mit Rest, damit die folgende Aktion nur nach jedem DeltaT-ten Takt ausgeführt wird
+			if (TaktNummer % DeltaT == 0) {		//Division mit Rest, damit die folgenden Aktionen nur nach jedem DeltaT-ten Takt ausgeführt wird
 				Zeit++;
 				Atom.suche();					//sucht möglichen Ort des Elektrons
 				alpha = alpha + Winkel;			//dreht das Orbital
@@ -340,10 +340,12 @@ public class Flaeche extends JPanel {		//TODO: Spaghetticode bereinigen
 
 	public void erzeugeElektronenWahl() {			//TODO: Eingabe verbessern
 
-		erzeugeSchild(MaxAnz,"Max. Anz. sichtbarer El.fundorte", 10, 250, 200, 20);
+		erzeugeSchild(MaxAnz,"<html><body>Max. Anzahl sichtbarer<br>Elektron-Fundorte</body></html>", 10, 247, 200, 30);
 		erzeugeSchild(Geschw,"Messrate",  10, 280, 200, 20);
+		erzeugeSchild(proS,"pro s",  127, 280, 200, 20);
 		erzeugeSchild(NachleuchtZeit,"Nachleuchtzeit", 10, 310, 190, 20);
-		add(MaxAnz); add(Geschw); add(NachleuchtZeit);
+		erzeugeSchild(inMs,"ms",  163, 310, 200, 20);
+		add(MaxAnz); add(Geschw); add(proS); add(NachleuchtZeit); add(inMs);
 
 		ActionListener MaxAnzWarter = Eing -> {
 

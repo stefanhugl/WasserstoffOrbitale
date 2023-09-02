@@ -26,7 +26,7 @@ public class Flaeche extends JPanel {		//TODO: Spaghetticode bereinigen
 
 	public static double Winkel = 0.0;					//für Drehung
 	double a11, a12, a13, a21, a22, a23, a31, a32, a33;	//Drehmatrix
-	JTextField WinkelEing = erzeugtesEingabeFeld("0", 140, h - 330, 40);
+	JTextField WinkelEing = erzeugtesEingabeFeld("0", 135, h - 330, 40);
 	JTextField MaxAnzEing = erzeugtesEingabeFeld("10", 183, 254, 40);
 	JTextField MessrateEing = erzeugtesEingabeFeld("20", 82, 280, 40);
 	JTextField NachleuchtZeitEing = erzeugtesEingabeFeld("60", 120, 310, 40);
@@ -303,9 +303,9 @@ public class Flaeche extends JPanel {		//TODO: Spaghetticode bereinigen
 	public void erzeugeDrehWahl() {			//TODO: Eingabe verbessern
 
 		erzeugeSchild(Dreh,"<html><u>Drehung</u></<html>", 10, h - 350, 200, 20);
-		erzeugeSchild(Geschw,"Geschwindigkeit",  10, h - 330, 200, 20);
+		erzeugeSchild(Geschw,"Geschwindigkeit", 10, h - 330, 200, 20);
 		erzeugeSchild(Umdr,"Umdr. pro min", 180, h - 330, 190, 20);
-		add(Dreh); add(Geschw); add(Umdr);
+		add(Umdr); add(Dreh); add(Geschw);
 
 		ActionListener DrehgeschwWarter = Eing -> {
 
@@ -341,11 +341,11 @@ public class Flaeche extends JPanel {		//TODO: Spaghetticode bereinigen
 	public void erzeugeElektronenWahl() {			//TODO: Eingabe verbessern
 
 		erzeugeSchild(MaxAnz,"<html><body>Max. Anzahl sichtbarer<br>Elektron-Fundorte</body></html>", 10, 247, 200, 30);
-		erzeugeSchild(Geschw,"Messrate",  10, 280, 200, 20);
+		//erzeugeSchild(Geschw,"Messrate",  10, 280, 200, 20);
 		erzeugeSchild(proS,"pro s",  127, 280, 200, 20);
 		erzeugeSchild(NachleuchtZeit,"Nachleuchtzeit", 10, 310, 190, 20);
 		erzeugeSchild(inMs,"ms",  163, 310, 200, 20);
-		add(MaxAnz); add(Geschw); add(proS); add(NachleuchtZeit); add(inMs);
+		add(MaxAnz); add(proS); add(NachleuchtZeit); add(inMs); //add(Geschw);
 
 		ActionListener MaxAnzWarter = Eing -> {
 

@@ -27,9 +27,9 @@ public class Flaeche extends JPanel {		//TODO: Spaghetticode bereinigen
 	public static double Winkel = 0.0;					//für Drehung
 	double a11, a12, a13, a21, a22, a23, a31, a32, a33;	//Drehmatrix
 	JTextField WinkelEing = erzeugtesEingabeFeld("0", 135, h - 330, 40);
-	JTextField MaxAnzEing = erzeugtesEingabeFeld("10", 183, 254, 40);
-	JTextField MessrateEing = erzeugtesEingabeFeld("20", 82, 280, 40);
-	JTextField NachleuchtZeitEing = erzeugtesEingabeFeld("60", 120, 310, 40);
+	JTextField MaxAnzEing = erzeugtesEingabeFeld("10", 132, 254, 40);
+	JTextField MessrateEing = erzeugtesEingabeFeld("20", 132, 280, 40);
+	JTextField NachleuchtZeitEing = erzeugtesEingabeFeld("60", 132, 310, 40);
 	Schild  Chemisch = new Schild() , Magnetisch = new Schild(), Massstab = new Schild(), Angstroem = new Schild(), zieh = new Schild(),
 			Raeuml = new Schild(), odr = new Schild(), Schn = new Schild(),
 			xAch = new Schild(), yAch = new Schild(),zAch = new Schild(),		//AchsSchild = new Schild(),
@@ -312,7 +312,18 @@ public class Flaeche extends JPanel {		//TODO: Spaghetticode bereinigen
 			if (Schnitt == 0) Winkel = (Double.parseDouble(WinkelEing.getText()) * pi * DeltaT / 30000);
 			if (Schnitt != 0) WinkelEing.setText("0");
 		};
+/*
+		Runnable r = ()-> System.out.print("Run method");
 
+		is equivalent to
+
+		Runnable r = new Runnable() {
+			@Override
+			public void run() {
+				System.out.print("Run method");
+			}
+		};
+*/
 		WinkelEing.addActionListener(DrehgeschwWarter);
 
 		String Text, VorgabeText;
@@ -340,12 +351,12 @@ public class Flaeche extends JPanel {		//TODO: Spaghetticode bereinigen
 
 	public void erzeugeElektronenWahl() {			//TODO: Eingabe verbessern
 
-		erzeugeSchild(MaxAnz,"<html><body>Max. Anzahl sichtbarer<br>Elektron-Fundorte</body></html>", 10, 247, 200, 30);
-		//erzeugeSchild(Geschw,"Messrate",  10, 280, 200, 20);
-		erzeugeSchild(proS,"pro s",  127, 280, 200, 20);
-		erzeugeSchild(NachleuchtZeit,"Nachleuchtzeit", 10, 310, 190, 20);
-		erzeugeSchild(inMs,"ms",  163, 310, 200, 20);
-		add(MaxAnz); add(proS); add(NachleuchtZeit); add(inMs); //add(Geschw);
+		erzeugeSchild(MaxAnz,"<html><body>Max. Anz. sichtb.<br>El.-Fundorte</body></html>", 10, 247, 200, 30);
+		erzeugeSchild(Messrate,"Messrate",  58, 280, 100, 20);
+		erzeugeSchild(proS,"pro s",  177, 280, 200, 20);
+		erzeugeSchild(NachleuchtZeit,"Nachleuchtzeit", 18, 310, 190, 20);
+		erzeugeSchild(inMs,"ms",  177, 310, 200, 20);
+		add(MaxAnz); add(proS); add(NachleuchtZeit); add(inMs); add(Messrate);
 
 		ActionListener MaxAnzWarter = Eing -> {
 

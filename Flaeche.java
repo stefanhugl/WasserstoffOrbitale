@@ -14,6 +14,7 @@ public class Flaeche extends JPanel {		//TODO: Spaghetticode bereinigen
 	public static double vgr = 1.8897*h / Laenge;	// Radius vgr in Einheiten a0=5.291772e-11m
 	public static int Zeit = 0, DeltaT = 20, TaktNummer = 2147483600;		// Startzeit und Intervall des Timers
 	public static int Schnitt = 0;	// Schnittebene für 2D-Darstellung (0: räuml.;  1: x-y-Ebene; ...)
+	public static double nachl = 16;
 	public static int n, l, m;	// Quantenzahlen
 	
 	public static void setSchnitt(int schnitt) {
@@ -372,6 +373,18 @@ public class Flaeche extends JPanel {		//TODO: Spaghetticode bereinigen
 			if (MessrateEingabe > 4 && MessrateEingabe < 10001) {
 
 				DeltaT = MessrateEingabe;
+
+			}
+		};
+
+		MessrateEing.addActionListener(MessrateWarter);
+
+		ActionListener NachleuchtZeitWarter = Eing -> {
+
+			int NachleuchtZeitEingabe = Integer.parseInt(NachleuchtZeitEing.getText());
+			if (NachleuchtZeitEingabe > 4 && NachleuchtZeitEingabe < 10001) {
+
+				//nachl = NachleuchtZeitEingabe;
 
 			}
 		};

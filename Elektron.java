@@ -30,11 +30,11 @@ public class Elektron {
 		
 		double Alter = Flaeche.Zeit - t;				//mit zunehmendem Alter..
 		double KreuzGroesse = 10;
-		KreuzGroesse = KreuzGroesse * Math.pow(2, -Alter / 16);	//..verkleinern
+		KreuzGroesse = KreuzGroesse * Math.pow(2, -Alter / Flaeche.nachl);	//..verkleinern
 		if (KreuzGroesse < 0) KreuzGroesse = 0; 
 		int KrGr = (int)KreuzGroesse;
 		double PunktGroesse = 10;
-		PunktGroesse = PunktGroesse * Math.pow(2, -Alter / 32);
+		PunktGroesse = PunktGroesse * Math.pow(2, -Alter / (2*Flaeche.nachl));
 		if (PunktGroesse < 0) PunktGroesse = 0; 
 		int PuGr = (int)PunktGroesse;
 		

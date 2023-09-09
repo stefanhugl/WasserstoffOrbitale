@@ -18,6 +18,7 @@ public class Flaeche extends JPanel {		//TODO: Spaghetticode bereinigen
 	public static double nachl = 1000;
 	public static double nachlFaktorImExp;
 	public static int n, l, m;	// Quantenzahlen
+	public static int dF;
 	
 	public static void setSchnitt(int schnitt) {
 		Schnitt = schnitt;
@@ -52,22 +53,12 @@ public class Flaeche extends JPanel {		//TODO: Spaghetticode bereinigen
 		erzeugeEinstellungenUndBedienelemente();
 		ActionListener ZeitNehmer = Takt -> {
 			TaktNummer++;
-			System.out.println(TaktNummer);
 			if (TaktNummer % DeltaT == 0) {		//Division mit Rest, damit die folgenden Aktionen nur nach jedem DeltaT-ten Takt ausgeführt wird
-				//Zeit++;							//TODO: unnötig
-				//System.out.println(TaktNummer);
 
 				Atom.suche();					//sucht möglichen Ort des Elektrons
 				alpha = alpha + Winkel;			//dreht das Orbital
 				if (alpha > 2 * pi)				//fängt nach 2pi// wieder bei 0 an
 					alpha = alpha - 2 * pi;		// wieder bei 0 an
-
-/*
-				int kt;
-				for (kt = 0; kt<5; kt++) System.out.print("   " + Fund[kt][0]);
-				System.out.println("     " + TaktNummer);
-
- */
 			}
 
 			repaint();						//zeichnet auf "Flaeche", wie in der überschriebenen "paintComponent" angegeben
@@ -113,7 +104,6 @@ public class Flaeche extends JPanel {		//TODO: Spaghetticode bereinigen
 	public void erzeugeEinstellungenUndBedienelemente() {
 		setBackground(Color.black); setLayout(null);
 		nachlFaktorImExp = Math.log(1/Elektron.AnfangsKreuzGroesse) / nachl;
-		System.out.println(DeltaT + "   " + nachlFaktorImExp + "   " + nachl);
 		n = 1; l = 0;
 		richteQuantenzahlWahlEin();
 		richteOrbitalBenennungEin();
@@ -370,7 +360,10 @@ public class Flaeche extends JPanel {		//TODO: Spaghetticode bereinigen
 
 	public void erzeugeElektronenWahl() {
 
-		DeltaT = 1000 / (Integer.parseInt(MessrateEing.getText()) * TimerTakt);
+
+		dF = Integer.parseInt(MessrateEing.getText()) * TimerTakt;  //TODO: prüfen ... wie unten
+		if (dF > 0 && dF < 1001) DeltaT = 1000 / dF;
+
 		erzeugeSchild(MaxAnz,"<html><body>Max. Anz. sichtb.<br>El.-Fundorte</body></html>", 10, 247, 200, 30);
 		erzeugeSchild(Messrate,"Messrate",  58, 280, 100, 20);
 		erzeugeSchild(proS,"pro s",  177, 280, 200, 20);
@@ -386,23 +379,22 @@ public class Flaeche extends JPanel {		//TODO: Spaghetticode bereinigen
 		MaxAnzEing.addActionListener(MaxAnzWarter);
 
 		ActionListener MessrateWarter = Eing -> {
-			//System.out.println(Flaeche.nachl);
-			int MessrateEingabe = Integer.parseInt(MessrateEing.getText());
-			if (MessrateEingabe > 0 && MessrateEingabe < 1001) {
 
-				DeltaT = 1000 / (MessrateEingabe * TimerTakt);
-				//nachlFaktorImExp = Math.log(1/Elektron.AnfangsKreuzGroesse)/nachl;
-				//System.out.println(DeltaT + "   " + nachlFaktorImExp);
-			}
+			//dF = Integer.parseInt(MessrateEing.getText()) * TimerTakt;
+			//if (dF > 0 && dF < 1001) DeltaT = 1000 / dF;
+
+			int mE = Integer.parseInt(MessrateEing.getText());
+			int uG = 1; int oG = 1000 / TimerTakt;
+			if (mE < uG) { mE = uG; MessrateEing.setText(Integer.toString(uG)); }
+			if (mE > oG) { mE = oG; MessrateEing.setText(Integer.toString(oG)); }
+			DeltaT = 1000 / (mE * TimerTakt);
 		};
 		MessrateEing.addActionListener(MessrateWarter);
 
 		ActionListener NachleuchtZeitWarter = Eing -> {
 
 			int NachleuchtZeitEingabe = Integer.parseInt(NachleuchtZeitEing.getText());
-			//System.out.println(Flaeche.nachl);
 			if (NachleuchtZeitEingabe > 4 && NachleuchtZeitEingabe < 10001) {
-				//System.out.println(Flaeche.nachl);
 				nachl = NachleuchtZeitEingabe;
 				nachlFaktorImExp = Math.log(1/Elektron.AnfangsKreuzGroesse)/nachl;
 			}
@@ -441,7 +433,7 @@ public class Flaeche extends JPanel {		//TODO: Spaghetticode bereinigen
 
 			double nn = Double.parseDouble(AchsEing.getText());
 			double n0 = Math.sqrt(nn * nn + Achse[j] * Achse[j] + Achse[k] * Achse[k]);
-			if (n0 == 0) System.out.println("n0 = 0");
+
 			if (n0 != 0) {
 				Achse[i] = nn / n0;
 				Achse[j] = Achse[j] / n0;

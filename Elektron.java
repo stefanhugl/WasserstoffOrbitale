@@ -35,9 +35,7 @@ public class Elektron {
 															// t ist die Zeit der Messung
 		Alter = Flaeche.TaktNummer - t;				// mit zunehmendem Alter..
 		Alter = Alter * 20;
-		//System.out.println("Taktnr. " + Flaeche.TaktNummer + "    FundZeit " + t + "   Alter " + Alter);
 
-		//System.out.println("     nachl " + Flaeche.nachl + "  ExpFaktor " + Flaeche.nachlFaktorImExp);
 		if (Alter < 0) Alter = 1;	//TODO: Notloesung verbessern (für den Fall, dass Flaeche.TaktNummer die doubleGröße überstiegen hat)
 		KreuzGroesse = AnfangsKreuzGroesse * (Math.exp(Alter * Flaeche.nachlFaktorImExp));	//..verkleinern
 		if (KreuzGroesse < 0) KreuzGroesse = 0;
@@ -46,8 +44,6 @@ public class Elektron {
 		PunktGroesse = AnfangsPunktGroesse * (Math.exp(Alter * Flaeche.nachlFaktorImExp / 2));
 		if (PunktGroesse < 0) PunktGroesse = 0;
 		PuGr = (int)PunktGroesse;
-		//System.out.println("Kreuzgr. " + KreuzGroesse + "    Punktgr. " + PunktGroesse);
-
 
 		if (x<=b && y<=h && PunktGroesse>1 && KreuzGroesse>1) {															//falls innerhalb des Bildschirms
 			ebeneZeichnung.fillOval((int)x - PuGr/2, (int)y - PuGr/2, PuGr, PuGr);						//Punkt und

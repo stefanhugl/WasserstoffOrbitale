@@ -9,7 +9,7 @@ public abstract class Orbital {
     public double x, y, z, v;
     public boolean gefunden = false;
     public double Psi;
-    public static double[][] Fund = new double[Flaeche.MaxAnzEl][4];
+    //public static double[][] Fund = new double[100001][4];          //TODO: 100001 prüfen
     private final java.util.Random Zufallsgenerator = new java.util.Random();
     //TODO: überlegen, wo h wirklich gebraucht wird
     int h = Rahmen.BildschirmHoehe;
@@ -67,18 +67,18 @@ public abstract class Orbital {
 
     public void merkeKoordinaten(int Nummer) {
 
-        Fund[Nummer][1] = x / (v / 2) * ((double) h / 2);    //anpassen an Bildschirmgröße
-        Fund[Nummer][2] = y / (v / 2) * ((double) h / 2);
-        Fund[Nummer][3] = z / (v / 2) * ((double) h / 2);
-        Fund[Nummer][0] = Flaeche.Zeit;
+        Flaeche.Fund[Nummer][1] = x / (v / 2) * ((double) h / 2);    //anpassen an Bildschirmgröße
+        Flaeche.Fund[Nummer][2] = y / (v / 2) * ((double) h / 2);
+        Flaeche.Fund[Nummer][3] = z / (v / 2) * ((double) h / 2);
+        Flaeche.Fund[Nummer][0] = Flaeche.TaktNummer;                     //Zeit der Messung eines Eelektrons
 
         if (Flaeche.Schnitt == 1) {
-            Fund[Nummer][3] = Fund[Nummer][1];
-            Fund[Nummer][1] = 0;
+            Flaeche.Fund[Nummer][3] = Flaeche.Fund[Nummer][1];
+            Flaeche.Fund[Nummer][1] = 0;
         }    //in Zeichen-
         if (Flaeche.Schnitt == 3) {
-            Fund[Nummer][2] = Fund[Nummer][1];
-            Fund[Nummer][1] = 0;
-        }    //ebene klappen
+            Flaeche.Fund[Nummer][2] = Flaeche.Fund[Nummer][1];
+            Flaeche.Fund[Nummer][1] = 0;
+        }    //-ebene klappen
     }
 }

@@ -9,7 +9,8 @@ public class Atom {
 	public static String Chem="1s", Magn="";
 	
 	public static void suche() {
-		
+
+		//System.out.println("Atom.suche");
 		Orbital Orb = getOrbital(Flaeche.n, Flaeche.l, Flaeche.m);
 		gef = Orb.beobachte(MessungNummer);
 		

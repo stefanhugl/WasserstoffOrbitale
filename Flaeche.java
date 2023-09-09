@@ -12,25 +12,28 @@ public class Flaeche extends JPanel {		//TODO: Spaghetticode bereinigen
 	public static int MassstabPosY = 146;  //TODO: ist 146 allgemein genug?
 	public static double Laenge = 0.18897*h;		// Das Atom wird beobachtet in einer Kugel mit  
 	public static double vgr = 1.8897*h / Laenge;	// Radius vgr in Einheiten a0=5.291772e-11m
-	public static int Zeit = 0, DeltaT = 20, TaktNummer = 2147483600;		// Startzeit und Intervall des Timers
+	public static int TimerTakt = 20, DeltaT, TaktNummer = 0;		// Startzeit und Intervall des Timers; Zeit=T.Nr*dT
+	//TODO: Festgelegte Anfangsgrössen automatisch in Textfelder schreiben, wie schon bei DeltaT geschehen
 	public static int Schnitt = 0;	// Schnittebene für 2D-Darstellung (0: räuml.;  1: x-y-Ebene; ...)
-	public static double nachl = 16;
+	public static double nachl = 1000;
+	public static double nachlFaktorImExp;
 	public static int n, l, m;	// Quantenzahlen
 	
 	public static void setSchnitt(int schnitt) {
 		Schnitt = schnitt;
 	}  // Schnittebene für 2D-Darstellung
 
-	public static int MaxAnzEl = 10;				//maximale Zahl gleichzeitig sichtbarer Elektronenfundorte
+	public static int MaxAnzEl = 100;				//maximale Zahl gleichzeitig sichtbarer Elektronenfundorte
+	//TODO: 100 mit Orbital.Fund[][] vergleichen
 	public static double[] Achse = new double[4];		//Drehachse
 	double alpha = 0.0;
 
 	public static double Winkel = 0.0;					//für Drehung
 	double a11, a12, a13, a21, a22, a23, a31, a32, a33;	//Drehmatrix
 	JTextField WinkelEing = erzeugtesEingabeFeld("0", 135, h - 330, 40);
-	JTextField MaxAnzEing = erzeugtesEingabeFeld("10", 132, 254, 40);
+	JTextField MaxAnzEing = erzeugtesEingabeFeld("100", 132, 254, 40);
 	JTextField MessrateEing = erzeugtesEingabeFeld("20", 132, 280, 40);
-	JTextField NachleuchtZeitEing = erzeugtesEingabeFeld("60", 132, 310, 40);
+	JTextField NachleuchtZeitEing = erzeugtesEingabeFeld("1000", 132, 310, 40);
 	Schild  Chemisch = new Schild() , Magnetisch = new Schild(), Massstab = new Schild(), Angstroem = new Schild(), zieh = new Schild(),
 			Raeuml = new Schild(), odr = new Schild(), Schn = new Schild(),
 			xAch = new Schild(), yAch = new Schild(),zAch = new Schild(),		//AchsSchild = new Schild(),
@@ -42,22 +45,35 @@ public class Flaeche extends JPanel {		//TODO: Spaghetticode bereinigen
 			lPlus = new Knopf(), lMinus = new Knopf(),
 			mPlus = new Knopf(), mMinus = new Knopf();
 
+	public static double[][] Fund = new double[100001][4];          //TODO: 100001 prüfen    \ Fund[][] besser in anderer Klasse?
+
 	public Flaeche() {
 
 		erzeugeEinstellungenUndBedienelemente();
 		ActionListener ZeitNehmer = Takt -> {
 			TaktNummer++;
+			System.out.println(TaktNummer);
 			if (TaktNummer % DeltaT == 0) {		//Division mit Rest, damit die folgenden Aktionen nur nach jedem DeltaT-ten Takt ausgeführt wird
-				Zeit++;
+				//Zeit++;							//TODO: unnötig
+				//System.out.println(TaktNummer);
+
 				Atom.suche();					//sucht möglichen Ort des Elektrons
 				alpha = alpha + Winkel;			//dreht das Orbital
 				if (alpha > 2 * pi)				//fängt nach 2pi// wieder bei 0 an
 					alpha = alpha - 2 * pi;		// wieder bei 0 an
-				repaint();						//zeichnet auf "Flaeche", wie in der überschriebenen "paintComponent" angegeben
+
+/*
+				int kt;
+				for (kt = 0; kt<5; kt++) System.out.print("   " + Fund[kt][0]);
+				System.out.println("     " + TaktNummer);
+
+ */
 			}
+
+			repaint();						//zeichnet auf "Flaeche", wie in der überschriebenen "paintComponent" angegeben
 		};
 
-		Timer Uhr = new Timer(1, ZeitNehmer);
+		Timer Uhr = new Timer(TimerTakt, ZeitNehmer);
 		Uhr.start();
 	}
 	@Override
@@ -96,6 +112,8 @@ public class Flaeche extends JPanel {		//TODO: Spaghetticode bereinigen
 
 	public void erzeugeEinstellungenUndBedienelemente() {
 		setBackground(Color.black); setLayout(null);
+		nachlFaktorImExp = Math.log(1/Elektron.AnfangsKreuzGroesse) / nachl;
+		System.out.println(DeltaT + "   " + nachlFaktorImExp + "   " + nachl);
 		n = 1; l = 0;
 		richteQuantenzahlWahlEin();
 		richteOrbitalBenennungEin();
@@ -301,7 +319,7 @@ public class Flaeche extends JPanel {		//TODO: Spaghetticode bereinigen
 		add(Schn);
 	}
 
-	public void erzeugeDrehWahl() {			//TODO: Eingabe verbessern
+	public void erzeugeDrehWahl() {
 
 		erzeugeSchild(Dreh,"<html><u>Drehung</u></<html>", 10, h - 350, 200, 20);
 		erzeugeSchild(Geschw,"Geschwindigkeit", 10, h - 330, 200, 20);
@@ -350,8 +368,9 @@ public class Flaeche extends JPanel {		//TODO: Spaghetticode bereinigen
 		erzeugeAchsEingabe(VorgabeText, xOrt, yOrt, 3, 1, 2);
 	}
 
-	public void erzeugeElektronenWahl() {			//TODO: Eingabe verbessern
+	public void erzeugeElektronenWahl() {
 
+		DeltaT = 1000 / (Integer.parseInt(MessrateEing.getText()) * TimerTakt);
 		erzeugeSchild(MaxAnz,"<html><body>Max. Anz. sichtb.<br>El.-Fundorte</body></html>", 10, 247, 200, 30);
 		erzeugeSchild(Messrate,"Messrate",  58, 280, 100, 20);
 		erzeugeSchild(proS,"pro s",  177, 280, 200, 20);
@@ -364,32 +383,31 @@ public class Flaeche extends JPanel {		//TODO: Spaghetticode bereinigen
 			int MaxAnzEingabe = Integer.parseInt(MaxAnzEing.getText());
 			if (MaxAnzEingabe > 0 && MaxAnzEingabe < 1001)	MaxAnzEl = MaxAnzEingabe;
 		};
-
 		MaxAnzEing.addActionListener(MaxAnzWarter);
 
 		ActionListener MessrateWarter = Eing -> {
-
+			//System.out.println(Flaeche.nachl);
 			int MessrateEingabe = Integer.parseInt(MessrateEing.getText());
-			if (MessrateEingabe > 4 && MessrateEingabe < 10001) {
+			if (MessrateEingabe > 0 && MessrateEingabe < 1001) {
 
-				DeltaT = MessrateEingabe;
-
+				DeltaT = 1000 / (MessrateEingabe * TimerTakt);
+				//nachlFaktorImExp = Math.log(1/Elektron.AnfangsKreuzGroesse)/nachl;
+				//System.out.println(DeltaT + "   " + nachlFaktorImExp);
 			}
 		};
-
 		MessrateEing.addActionListener(MessrateWarter);
 
 		ActionListener NachleuchtZeitWarter = Eing -> {
 
 			int NachleuchtZeitEingabe = Integer.parseInt(NachleuchtZeitEing.getText());
+			//System.out.println(Flaeche.nachl);
 			if (NachleuchtZeitEingabe > 4 && NachleuchtZeitEingabe < 10001) {
-
-				//nachl = NachleuchtZeitEingabe;
-
+				//System.out.println(Flaeche.nachl);
+				nachl = NachleuchtZeitEingabe;
+				nachlFaktorImExp = Math.log(1/Elektron.AnfangsKreuzGroesse)/nachl;
 			}
 		};
-
-		MessrateEing.addActionListener(MessrateWarter);
+		NachleuchtZeitEing.addActionListener(NachleuchtZeitWarter);
  
 /*
 		String Text, VorgabeText;

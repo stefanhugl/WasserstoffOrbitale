@@ -12,7 +12,8 @@ public class Flaeche extends JPanel {		//TODO: Spaghetticode bereinigen
 	public static int MassstabPosY = 146;  //TODO: ist 146 allgemein genug?
 	public static double Laenge = 0.18897*h;		// Das Atom wird beobachtet in einer Kugel mit  
 	public static double vgr = 1.8897*h / Laenge;	// Radius vgr in Einheiten a0=5.291772e-11m
-	public static int TimerTakt = 20, DeltaT, TaktNummer = 0;		// Startzeit und Intervall des Timers; Zeit=T.Nr*dT
+	public static int TimerTakt = 20;		// in ms (mind. 1)
+	public static int DeltaT, TaktNummer = 0;		// Startzeit und Intervall des Timers
 	//TODO: Festgelegte Anfangsgrössen automatisch in Textfelder schreiben, wie schon bei DeltaT geschehen
 	public static int Schnitt = 0;	// Schnittebene für 2D-Darstellung (0: räuml.;  1: x-y-Ebene; ...)
 	public static double nachl = 1000;
@@ -33,7 +34,7 @@ public class Flaeche extends JPanel {		//TODO: Spaghetticode bereinigen
 	double a11, a12, a13, a21, a22, a23, a31, a32, a33;	//Drehmatrix
 	JTextField WinkelEing = erzeugtesEingabeFeld("0", 135, h - 330, 40);
 	JTextField MaxAnzEing = erzeugtesEingabeFeld("100", 132, 254, 40);
-	JTextField MessrateEing = erzeugtesEingabeFeld("20", 132, 280, 40);
+	EingabeFeld MessrateEing = new EingabeFeld(); //erzeugtesEingabeFeld("20", 132, 280, 40);
 	JTextField NachleuchtZeitEing = erzeugtesEingabeFeld("1000", 132, 310, 40);
 	Schild  Chemisch = new Schild() , Magnetisch = new Schild(), Massstab = new Schild(), Angstroem = new Schild(), zieh = new Schild(),
 			Raeuml = new Schild(), odr = new Schild(), Schn = new Schild(),
@@ -53,6 +54,7 @@ public class Flaeche extends JPanel {		//TODO: Spaghetticode bereinigen
 		erzeugeEinstellungenUndBedienelemente();
 		ActionListener ZeitNehmer = Takt -> {
 			TaktNummer++;
+			//System.out.println(DeltaT);
 			if (TaktNummer % DeltaT == 0) {		//Division mit Rest, damit die folgenden Aktionen nur nach jedem DeltaT-ten Takt ausgeführt wird
 
 				Atom.suche();					//sucht möglichen Ort des Elektrons
@@ -360,9 +362,10 @@ public class Flaeche extends JPanel {		//TODO: Spaghetticode bereinigen
 
 	public void erzeugeElektronenWahl() {
 
-
+		EingabeFeld.richteEin(MessrateEing, "20", 132, 280); add(MessrateEing);
 		dF = Integer.parseInt(MessrateEing.getText()) * TimerTakt;  //TODO: prüfen ... wie unten
 		if (dF > 0 && dF < 1001) DeltaT = 1000 / dF;
+		System.out.println("   " + DeltaT);
 
 		erzeugeSchild(MaxAnz,"<html><body>Max. Anz. sichtb.<br>El.-Fundorte</body></html>", 10, 247, 200, 30);
 		erzeugeSchild(Messrate,"Messrate",  58, 280, 100, 20);
@@ -378,15 +381,13 @@ public class Flaeche extends JPanel {		//TODO: Spaghetticode bereinigen
 		};
 		MaxAnzEing.addActionListener(MaxAnzWarter);
 
+		//richteEingabeFeldEin(MessrateEing, "20", 132, 280);
+
 		ActionListener MessrateWarter = Eing -> {
 
-			//dF = Integer.parseInt(MessrateEing.getText()) * TimerTakt;
-			//if (dF > 0 && dF < 1001) DeltaT = 1000 / dF;
-
 			int mE = Integer.parseInt(MessrateEing.getText());
-			int uG = 1; int oG = 1000 / TimerTakt;
-			if (mE < uG) { mE = uG; MessrateEing.setText(Integer.toString(uG)); }
-			if (mE > oG) { mE = oG; MessrateEing.setText(Integer.toString(oG)); }
+			int uG = 1; int oG = 1000 / Flaeche.TimerTakt;
+			mE = EingabeFeld.pruefe(MessrateEing, mE, uG, oG);
 			DeltaT = 1000 / (mE * TimerTakt);
 		};
 		MessrateEing.addActionListener(MessrateWarter);
@@ -396,7 +397,7 @@ public class Flaeche extends JPanel {		//TODO: Spaghetticode bereinigen
 			int NachleuchtZeitEingabe = Integer.parseInt(NachleuchtZeitEing.getText());
 			if (NachleuchtZeitEingabe > 4 && NachleuchtZeitEingabe < 10001) {
 				nachl = NachleuchtZeitEingabe;
-				nachlFaktorImExp = Math.log(1/Elektron.AnfangsKreuzGroesse)/nachl;
+				nachlFaktorImExp = Math.log(1 / Elektron.AnfangsKreuzGroesse) / nachl;
 			}
 		};
 		NachleuchtZeitEing.addActionListener(NachleuchtZeitWarter);
@@ -456,7 +457,14 @@ public class Flaeche extends JPanel {		//TODO: Spaghetticode bereinigen
 		add(DiesesEingabefeld);
 		return DiesesEingabefeld;
 	}
+/*
+	public void richteEingabeFeldEin(EingabeFeld DiesesEingabeFeld, String VorgabeText, int xOrt, int yOrt) {
 
+		DiesesEingabeFeld.setText(VorgabeText);
+		DiesesEingabeFeld.setBounds(xOrt, yOrt, 40, 20);
+
+	}
+*/
 	public void richteOrbitalBenennungEin() {
 
 		erzeugeSchild(Chemisch, "1s", 40, 30, 360, 300);

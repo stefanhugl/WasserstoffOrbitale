@@ -17,7 +17,7 @@ public class EingabeFeld extends JTextField {
     public static void richteEin(EingabeFeld DiesesEingabeFeld, String VorgabeText, int xOrt, int yOrt) {
 
         DiesesEingabeFeld.setText(VorgabeText);
-        DiesesEingabeFeld.setBounds(xOrt, yOrt, 40, 20);
+        DiesesEingabeFeld.setBounds(xOrt, yOrt, 45, 20);
     }
 
     public static int pruefe(EingabeFeld DiesesEingabeFeld, int Eing, int uGr, int oGr) {
@@ -26,4 +26,12 @@ public class EingabeFeld extends JTextField {
         if (Eing > oGr) { Eing = oGr; DiesesEingabeFeld.setText(Integer.toString(oGr)); }
         return Eing;
     }
+/*
+		ActionListener NachleuchtZeitWarter = Eing -> {
+
+			int NachleuchtZeitEingabe = Integer.parseInt(NachleuchtZeitEing.getText());
+			if (NachleuchtZeitEingabe > 4 && NachleuchtZeitEingabe < 10001) {
+				nachl = NachleuchtZeitEingabe;
+				nachlFaktorImExp = Math.log(1 / Elektron.AnfangsKreuzGroesse) / nachl;
+			} */
 }

@@ -19,8 +19,6 @@ public class Flaeche extends JPanel {		//TODO: Spaghetticode bereinigen
 	public static double nachl = 1000;
 	public static double nachlFaktorImExp;
 	public static int n, l, m;	// Quantenzahlen
-	public static int dF;
-	
 	public static void setSchnitt(int schnitt) {
 		Schnitt = schnitt;
 	}  // Schnittebene für 2D-Darstellung
@@ -33,9 +31,9 @@ public class Flaeche extends JPanel {		//TODO: Spaghetticode bereinigen
 	public static double Winkel = 0.0;					//für Drehung
 	double a11, a12, a13, a21, a22, a23, a31, a32, a33;	//Drehmatrix
 	JTextField WinkelEing = erzeugtesEingabeFeld("0", 135, h - 330, 40);
-	JTextField MaxAnzEing = erzeugtesEingabeFeld("100", 132, 254, 40);
-	EingabeFeld MessrateEing = new EingabeFeld(); //erzeugtesEingabeFeld("20", 132, 280, 40);
-	JTextField NachleuchtZeitEing = erzeugtesEingabeFeld("1000", 132, 310, 40);
+	EingabeFeld         MaxAnzEing = new EingabeFeld(); //"100", 132, 254, 40);
+	EingabeFeld       MessrateEing = new EingabeFeld(); //erzeugtesEingabeFeld("20", 132, 280, 40);
+	EingabeFeld NachleuchtZeitEing = new EingabeFeld();	//"1000", 132, 310, 40);
 	Schild  Chemisch = new Schild() , Magnetisch = new Schild(), Massstab = new Schild(), Angstroem = new Schild(), zieh = new Schild(),
 			Raeuml = new Schild(), odr = new Schild(), Schn = new Schild(),
 			xAch = new Schild(), yAch = new Schild(),zAch = new Schild(),		//AchsSchild = new Schild(),
@@ -323,18 +321,7 @@ public class Flaeche extends JPanel {		//TODO: Spaghetticode bereinigen
 			if (Schnitt == 0) Winkel = (Double.parseDouble(WinkelEing.getText()) * pi * DeltaT / 30000);
 			if (Schnitt != 0) WinkelEing.setText("0");
 		};
-/*
-		Runnable r = ()-> System.out.print("Run method");
 
-		is equivalent to
-
-		Runnable r = new Runnable() {
-			@Override
-			public void run() {
-				System.out.print("Run method");
-			}
-		};
-*/
 		WinkelEing.addActionListener(DrehgeschwWarter);
 
 		String Text, VorgabeText;
@@ -362,68 +349,41 @@ public class Flaeche extends JPanel {		//TODO: Spaghetticode bereinigen
 
 	public void erzeugeElektronenWahl() {
 
-		EingabeFeld.richteEin(MessrateEing, "20", 132, 280); add(MessrateEing);
-		dF = Integer.parseInt(MessrateEing.getText()) * TimerTakt;  //TODO: prüfen ... wie unten
-		if (dF > 0 && dF < 1001) DeltaT = 1000 / dF;
-		System.out.println("   " + DeltaT);
-
 		erzeugeSchild(MaxAnz,"<html><body>Max. Anz. sichtb.<br>El.-Fundorte</body></html>", 10, 247, 200, 30);
 		erzeugeSchild(Messrate,"Messrate",  58, 280, 100, 20);
-		erzeugeSchild(proS,"pro s",  177, 280, 200, 20);
+		erzeugeSchild(proS,"pro s",  179, 280, 200, 20);
 		erzeugeSchild(NachleuchtZeit,"Nachleuchtzeit", 18, 310, 190, 20);
-		erzeugeSchild(inMs,"ms",  177, 310, 200, 20);
+		erzeugeSchild(inMs,"ms",  179, 310, 200, 20);
 		add(MaxAnz); add(proS); add(NachleuchtZeit); add(inMs); add(Messrate);
 
+		EingabeFeld.richteEin(MaxAnzEing, "100", 132, 254); add(MaxAnzEing);
+		MaxAnzEl = Integer.parseInt(MaxAnzEing.getText());
 		ActionListener MaxAnzWarter = Eing -> {
-
-			int MaxAnzEingabe = Integer.parseInt(MaxAnzEing.getText());
-			if (MaxAnzEingabe > 0 && MaxAnzEingabe < 1001)	MaxAnzEl = MaxAnzEingabe;
+			int Ein = Integer.parseInt(MaxAnzEing.getText());
+			int uG = 1; int oG = 10000;
+			MaxAnzEl = EingabeFeld.pruefe(MaxAnzEing, Ein, uG, oG);
 		};
 		MaxAnzEing.addActionListener(MaxAnzWarter);
 
-		//richteEingabeFeldEin(MessrateEing, "20", 132, 280);
-
+		EingabeFeld.richteEin(MessrateEing, "20", 132, 280); add(MessrateEing);
+		DeltaT = 1000 / (Integer.parseInt(MessrateEing.getText()) * TimerTakt);
 		ActionListener MessrateWarter = Eing -> {
-
 			int mE = Integer.parseInt(MessrateEing.getText());
 			int uG = 1; int oG = 1000 / Flaeche.TimerTakt;
 			mE = EingabeFeld.pruefe(MessrateEing, mE, uG, oG);
 			DeltaT = 1000 / (mE * TimerTakt);
 		};
 		MessrateEing.addActionListener(MessrateWarter);
-
+;
+		EingabeFeld.richteEin(NachleuchtZeitEing, "1000", 132, 310); add(NachleuchtZeitEing);
+		nachl = Integer.parseInt(NachleuchtZeitEing.getText());
 		ActionListener NachleuchtZeitWarter = Eing -> {
-
-			int NachleuchtZeitEingabe = Integer.parseInt(NachleuchtZeitEing.getText());
-			if (NachleuchtZeitEingabe > 4 && NachleuchtZeitEingabe < 10001) {
-				nachl = NachleuchtZeitEingabe;
-				nachlFaktorImExp = Math.log(1 / Elektron.AnfangsKreuzGroesse) / nachl;
-			}
+			int Ein = Integer.parseInt(NachleuchtZeitEing.getText());
+			int uG = 1; int oG = 10000;
+			nachl = EingabeFeld.pruefe(NachleuchtZeitEing, Ein, uG, oG);
+			nachlFaktorImExp = Math.log(1 / Elektron.AnfangsKreuzGroesse) / nachl;
 		};
 		NachleuchtZeitEing.addActionListener(NachleuchtZeitWarter);
- 
-/*
-		String Text, VorgabeText;
-		int xOrt, yOrt;
-
-		erzeugeSchild(xAch, "             Achse: x", 13, h - 290, 160, 20);
-		add(xAch);
-		VorgabeText = "0";
-		xOrt = 13;
-		yOrt = h - 290;
-		erzeugeAchsEingabe(VorgabeText, xOrt, yOrt, 1, 2, 3);
-
-		erzeugeSchild(yAch, "                          y", 13, h - 260, 160, 20);
-		add(yAch);
-		VorgabeText = "0";
-		yOrt = h - 260;
-		erzeugeAchsEingabe(VorgabeText, xOrt, yOrt, 2, 3, 1);
-
-		erzeugeSchild(zAch, "                          z", 13, h - 230, 160, 20);
-		add(zAch);
-		VorgabeText = "1";
-		yOrt = h - 230;
-		erzeugeAchsEingabe(VorgabeText, xOrt, yOrt, 3, 1, 2);					*/
 	}
 
 	public void erzeugeAchsEingabe(String VorgabeText, int xOrt, int yOrt, int i, int j, int k) {
@@ -493,3 +453,16 @@ public class Flaeche extends JPanel {		//TODO: Spaghetticode bereinigen
 		DieserKnopf.setText(Text);
 	}
 }
+																				//Bsp. zum Pfeil ->
+/*
+		Runnable r = ()-> System.out.print("Run method");
+
+		is equivalent to
+
+		Runnable r = new Runnable() {
+			@Override
+			public void run() {
+				System.out.print("Run method");
+			}
+		};
+*/

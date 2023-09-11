@@ -30,7 +30,7 @@ public class Flaeche extends JPanel {		//TODO: Spaghetticode bereinigen
 
 	public static double Winkel = 0.0;					//für Drehung
 	double a11, a12, a13, a21, a22, a23, a31, a32, a33;	//Drehmatrix
-	JTextField WinkelEing = erzeugtesEingabeFeld("0", 135, h - 330, 40);
+	EingabeFeld WinkelEing = new EingabeFeld();  // erzeugtesEingabeFeld("0", 135, h - 330, 40);
 	EingabeFeld         MaxAnzEing = new EingabeFeld(); //"100", 132, 254, 40);
 	EingabeFeld       MessrateEing = new EingabeFeld(); //erzeugtesEingabeFeld("20", 132, 280, 40);
 	EingabeFeld NachleuchtZeitEing = new EingabeFeld();	//"1000", 132, 310, 40);
@@ -316,12 +316,21 @@ public class Flaeche extends JPanel {		//TODO: Spaghetticode bereinigen
 		erzeugeSchild(Umdr,"Umdr. pro min", 180, h - 330, 190, 20);
 		add(Umdr); add(Dreh); add(Geschw);
 
+		EingabeFeld.richteEin(WinkelEing, "0", 135, h - 330); add(WinkelEing);
+		Winkel = Integer.parseInt(WinkelEing.getText()) * pi * DeltaT / 30000;
+		ActionListener DrehgeschwWarter = Eing -> {
+			int Ein = Integer.parseInt(WinkelEing.getText());
+			int uG = 0; int oG = 100;
+			Winkel = EingabeFeld.pruefe(WinkelEing, Ein, uG, oG) * pi * DeltaT * TimerTakt / 30000;
+		};
+		WinkelEing.addActionListener(DrehgeschwWarter);
+/*
 		ActionListener DrehgeschwWarter = Eing -> {
 
 			if (Schnitt == 0) Winkel = (Double.parseDouble(WinkelEing.getText()) * pi * DeltaT / 30000);
 			if (Schnitt != 0) WinkelEing.setText("0");
 		};
-
+*/
 		WinkelEing.addActionListener(DrehgeschwWarter);
 
 		String Text, VorgabeText;

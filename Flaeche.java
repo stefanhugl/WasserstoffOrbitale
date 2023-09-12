@@ -116,16 +116,16 @@ public class Flaeche extends JPanel {		//TODO: Spaghetticode bereinigen
 	}
 	public void richteQuantenzahlWahlEin() {
 
-		erzeugeSchild(Quantenzahlen,"<html><u>Quantenzahlen</u></<html>", 10, 15, 150, 20);
+		Schild.erzeuge(Quantenzahlen,"<html><u>Quantenzahlen</u></<html>", 10, 15, 150, 20);
 		add(Quantenzahlen);
-		erzeugeSchild(nSchild,"n = 1", 15, 60, 50, 20);
+		Schild.erzeuge(nSchild,"n = 1", 15, 60, 50, 20);
 		add(nSchild);
-		erzeugeSchild(lSchild,"l = 0", 85, 60, 50, 20);
+		Schild.erzeuge(lSchild,"l = 0", 85, 60, 50, 20);
 		add(lSchild);
-		erzeugeSchild(mSchild,"m = 0",153, 60, 50, 20);
+		Schild.erzeuge(mSchild,"m = 0",153, 60, 50, 20);
 		add(mSchild);
 
-		erzeugeKnopf(nPlus, "+", 10, 35, 45, 21);
+		Knopf.erzeuge(nPlus, "+", 10, 35, 45, 21);
 		add(nPlus);
 		
 		ActionListener nPlusWarter = Erhoehe -> {
@@ -139,7 +139,7 @@ public class Flaeche extends JPanel {		//TODO: Spaghetticode bereinigen
 		
 		nPlus.addActionListener(nPlusWarter);
 
-		erzeugeKnopf(nMinus, "-", 10, 86, 45, 21);
+		Knopf.erzeuge(nMinus, "-", 10, 86, 45, 21);
 		add(nMinus);
 		
 		ActionListener nMinusWarter = Erniedrige -> {
@@ -159,7 +159,7 @@ public class Flaeche extends JPanel {		//TODO: Spaghetticode bereinigen
 		
 		nMinus.addActionListener(nMinusWarter);
 
-		erzeugeKnopf(lPlus, "+", 80, 35, 45, 21);
+		Knopf.erzeuge(lPlus, "+", 80, 35, 45, 21);
 		add(lPlus);
 
 		ActionListener lPlusWarter = Erhoehe -> {
@@ -174,7 +174,7 @@ public class Flaeche extends JPanel {		//TODO: Spaghetticode bereinigen
 		
 		lPlus.addActionListener(lPlusWarter);
 
-		erzeugeKnopf(lMinus, "-", 80, 86, 45, 21);
+		Knopf.erzeuge(lMinus, "-", 80, 86, 45, 21);
 		add(lMinus);
 		
 		ActionListener lMinusWarter = Erniedrige -> {
@@ -191,7 +191,7 @@ public class Flaeche extends JPanel {		//TODO: Spaghetticode bereinigen
 		
 		lMinus.addActionListener(lMinusWarter);
 
-		erzeugeKnopf(mPlus, "+", 150, 35, 45, 21);
+		Knopf.erzeuge(mPlus, "+", 150, 35, 45, 21);
 		add(mPlus);
 		
 		ActionListener mPlusWarter = Erhoehe -> {
@@ -204,7 +204,7 @@ public class Flaeche extends JPanel {		//TODO: Spaghetticode bereinigen
 		
 		mPlus.addActionListener(mPlusWarter);
 
-		erzeugeKnopf(mMinus, "-", 150, 86, 45, 21);
+		Knopf.erzeuge(mMinus, "-", 150, 86, 45, 21);
 		add(mMinus);
 		
 		ActionListener mMinusWarter = Erniedrige -> {
@@ -239,15 +239,15 @@ public class Flaeche extends JPanel {		//TODO: Spaghetticode bereinigen
 	}
 	public void richteSchnittWahlEin() {
 
-		erzeugeSchild(xAch,"x", b - 142, h - 336, 12, 12);
+		Schild.erzeuge(xAch,"x", b - 142, h - 336, 12, 12);
 		add(xAch);
-		erzeugeSchild(yAch,"y", b -  30, h - 380, 12, 16);
+		Schild.erzeuge(yAch,"y", b -  30, h - 380, 12, 16);
 		add(yAch);
-		erzeugeSchild(zAch,"z", b - 104, h - 449, 12, 12);
+		Schild.erzeuge(zAch,"z", b - 104, h - 449, 12, 12);
 		add(zAch);
-		erzeugeSchild(Raeuml,"räumlich",b - 60, h - 292, 60, 30);
+		Schild.erzeuge(Raeuml,"räumlich",b - 60, h - 292, 60, 30);
 		add(Raeuml);
-		erzeugeSchild(odr,"oder", b - 60, h - 236, 60, 12);
+		Schild.erzeuge(odr,"oder", b - 60, h - 236, 60, 12);
 		add(odr);
 
 		JRadioButton Raeumlich = new JRadioButton("3D", true);
@@ -305,15 +305,15 @@ public class Flaeche extends JPanel {		//TODO: Spaghetticode bereinigen
 		XSchnitt.addActionListener(SchnittKnopfWarter);
 		YSchnitt.addActionListener(SchnittKnopfWarter);
 
-		erzeugeSchild(Schn,"-Schnitt", b - 60, h - 130, 60, 12);
+		Schild.erzeuge(Schn,"-Schnitt", b - 60, h - 130, 60, 12);
 		add(Schn);
 	}
 
 	public void erzeugeDrehWahl() {
 
-		erzeugeSchild(Dreh,"<html><u>Drehung</u></<html>", 10, h - 350, 200, 20);
-		erzeugeSchild(Geschw,"Geschwindigkeit", 10, h - 330, 200, 20);
-		erzeugeSchild(Umdr,"Umdr. pro min", 180, h - 330, 190, 20);
+		Schild.erzeuge(Dreh,"<html><u>Drehung</u></<html>", 10, h - 350, 200, 20);
+		Schild.erzeuge(Geschw,"Geschwindigkeit", 10, h - 330, 200, 20);
+		Schild.erzeuge(Umdr,"Umdr. pro min", 180, h - 330, 190, 20);
 		add(Umdr); add(Dreh); add(Geschw);
 
 		EingabeFeld.richteEin(WinkelEing, "0", 135, h - 330); add(WinkelEing);
@@ -324,32 +324,24 @@ public class Flaeche extends JPanel {		//TODO: Spaghetticode bereinigen
 			Winkel = EingabeFeld.pruefe(WinkelEing, Ein, uG, oG) * pi * DeltaT * TimerTakt / 30000;
 		};
 		WinkelEing.addActionListener(DrehgeschwWarter);
-/*
-		ActionListener DrehgeschwWarter = Eing -> {
-
-			if (Schnitt == 0) Winkel = (Double.parseDouble(WinkelEing.getText()) * pi * DeltaT / 30000);
-			if (Schnitt != 0) WinkelEing.setText("0");
-		};
-*/
-		WinkelEing.addActionListener(DrehgeschwWarter);
 
 		String Text, VorgabeText;
 		int xOrt, yOrt;
 
-		erzeugeSchild(xAch, "             Achse: x", 13, h - 290, 160, 20);
+		Schild.erzeuge(xAch, "             Achse: x", 13, h - 290, 160, 20);
 		add(xAch);
 		VorgabeText = "0";
 		xOrt = 13;
 		yOrt = h - 290;
 		erzeugeAchsEingabe(VorgabeText, xOrt, yOrt, 1, 2, 3);
 
-		erzeugeSchild(yAch, "                          y", 13, h - 260, 160, 20);
+		Schild.erzeuge(yAch, "                          y", 13, h - 260, 160, 20);
 		add(yAch);
 		VorgabeText = "0";
 		yOrt = h - 260;
 		erzeugeAchsEingabe(VorgabeText, xOrt, yOrt, 2, 3, 1);
 
-		erzeugeSchild(zAch, "                          z", 13, h - 230, 160, 20);
+		Schild.erzeuge(zAch, "                          z", 13, h - 230, 160, 20);
 		add(zAch);
 		VorgabeText = "1";
 		yOrt = h - 230;
@@ -358,11 +350,11 @@ public class Flaeche extends JPanel {		//TODO: Spaghetticode bereinigen
 
 	public void erzeugeElektronenWahl() {
 
-		erzeugeSchild(MaxAnz,"<html><body>Max. Anz. sichtb.<br>El.-Fundorte</body></html>", 10, 247, 200, 30);
-		erzeugeSchild(Messrate,"Messrate",  58, 280, 100, 20);
-		erzeugeSchild(proS,"pro s",  179, 280, 200, 20);
-		erzeugeSchild(NachleuchtZeit,"Nachleuchtzeit", 18, 310, 190, 20);
-		erzeugeSchild(inMs,"ms",  179, 310, 200, 20);
+		Schild.erzeuge(MaxAnz,"<html><body>Max. Anz. sichtb.<br>El.-Fundorte</body></html>", 10, 247, 200, 30);
+		Schild.erzeuge(Messrate,"Messrate",  58, 280, 100, 20);
+		Schild.erzeuge(proS,"pro s",  179, 280, 200, 20);
+		Schild.erzeuge(NachleuchtZeit,"Nachleuchtzeit", 18, 310, 190, 20);
+		Schild.erzeuge(inMs,"ms",  179, 310, 200, 20);
 		add(MaxAnz); add(proS); add(NachleuchtZeit); add(inMs); add(Messrate);
 
 		EingabeFeld.richteEin(MaxAnzEing, "100", 132, 254); add(MaxAnzEing);
@@ -426,40 +418,24 @@ public class Flaeche extends JPanel {		//TODO: Spaghetticode bereinigen
 		add(DiesesEingabefeld);
 		return DiesesEingabefeld;
 	}
-/*
-	public void richteEingabeFeldEin(EingabeFeld DiesesEingabeFeld, String VorgabeText, int xOrt, int yOrt) {
 
-		DiesesEingabeFeld.setText(VorgabeText);
-		DiesesEingabeFeld.setBounds(xOrt, yOrt, 40, 20);
-
-	}
-*/
 	public void richteOrbitalBenennungEin() {
 
-		erzeugeSchild(Chemisch, "1s", 40, 30, 360, 300);
+		Schild.erzeuge(Chemisch, "1s", 40, 30, 360, 300);
 		Chemisch.setFont(Chemisch.getFont().deriveFont(48f));				//.setFont(new Font( "Times New Roman", Font.BOLD, 48));
-		erzeugeSchild(Magnetisch,"",110, 50, 360, 300);
+		Schild.erzeuge(Magnetisch,"",110, 50, 360, 300);
 		Magnetisch.setFont(Magnetisch.getFont().deriveFont(24f));
 		add(Chemisch); add(Magnetisch);
 	}
 	public void richteMasstabWahlEin() {
 
-		erzeugeSchild(Massstab,"<html><u>Massstab</u></<html>", 10, h - 195, 200, 20);
+		Schild.erzeuge(Massstab,"<html><u>Massstab</u></<html>", 10, h - 195, 200, 20);
 		add(Massstab);
-		erzeugeSchild(Angstroem,"1Å", 10 + (int)Laenge / 2 - 5, h - 140, 40, 30);
+		Schild.erzeuge(Angstroem,"1Å", 10 + (int)Laenge / 2 - 5, h - 140, 40, 30);
 		Angstroem.setFont(Angstroem.getFont().deriveFont(16f));
 		add(Angstroem);
-		erzeugeSchild(zieh,"hier ziehen ↓", 10 + (int)Laenge-88, h - 180, 140, 30);
+		Schild.erzeuge(zieh,"hier ziehen ↓", 10 + (int)Laenge-88, h - 180, 140, 30);
 		add(zieh);
-	}
-
-	public void erzeugeSchild(Schild DiesesSchild, String Text, int xOrt, int yOrt, int Breite, int Hoehe) {
-		DiesesSchild.setBounds(xOrt, yOrt, Breite, Hoehe);
-		DiesesSchild.setText(Text);
-	}
-	public void erzeugeKnopf(Knopf DieserKnopf, String Text, int xOrt, int yOrt, int Breite, int Hoehe) {
-		DieserKnopf.setBounds(xOrt, yOrt, Breite, Hoehe);
-		DieserKnopf.setText(Text);
 	}
 }
 																				//Bsp. zum Pfeil ->

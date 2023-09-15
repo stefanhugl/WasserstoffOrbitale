@@ -52,17 +52,17 @@ public class Elektron {
 		}
 
 		int mstY = Flaeche.MassstabPosY, msl = (int)Flaeche.Laenge;			//Massstab aktualisieren
-		Color Farbe1 = new Color(1, 1, 1, 1.0f);		
+		Color Farbe1 = new Color(1, 1, 1, 1.0f);
 		ebeneZeichnung.setColor(Farbe1);
-		ebeneZeichnung.drawLine(10+msl,     h-mstY-6, 10+msl, h-mstY+6);		//KoSy zeichnen
+		ebeneZeichnung.drawLine(10+msl,     h-mstY-6, 10+msl, h-mstY+6);		//Massstab zeichnen
 		ebeneZeichnung.drawLine(10,         h-mstY-2, 10+msl, h-mstY-2);
  		ebeneZeichnung.fillRect(10,         h-mstY-2, msl/5,  4);
  		ebeneZeichnung.fillRect(10+2*msl/5, h-mstY-2, msl/5,  4);
  		ebeneZeichnung.fillRect(10+4*msl/5, h-mstY-2, msl/5,  4);
  		ebeneZeichnung.drawLine(10,         h-mstY+2, 10+msl, h-mstY+2);		
 		ebeneZeichnung.drawLine(10,         h-mstY-6, 10,     h-mstY+6);
-		
-		ebeneZeichnung.drawLine(b-100, h-370, b-130, h-340);
+
+		ebeneZeichnung.drawLine(b-100, h-370, b-130, h-340);					//KoSy zeichnen
 		ebeneZeichnung.drawLine(b-130, h-340, b-130, h-344);
 		ebeneZeichnung.drawLine(b-130, h-340, b-126, h-340);
 		ebeneZeichnung.drawLine(b-100, h-370, b-40,  h-370);

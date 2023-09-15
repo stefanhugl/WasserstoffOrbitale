@@ -30,16 +30,17 @@ public class Flaeche extends JPanel {		//TODO: Spaghetticode bereinigen
 
 	public static double Winkel = 0.0;					//für Drehung
 	double a11, a12, a13, a21, a22, a23, a31, a32, a33;	//Drehmatrix
-	EingabeFeld WinkelEing = new EingabeFeld();  // erzeugtesEingabeFeld("0", 135, h - 330, 40);
-	EingabeFeld         MaxAnzEing = new EingabeFeld(); //"100", 132, 254, 40);
-	EingabeFeld       MessrateEing = new EingabeFeld(); //erzeugtesEingabeFeld("20", 132, 280, 40);
-	EingabeFeld NachleuchtZeitEing = new EingabeFeld();	//"1000", 132, 310, 40);
+	EingabeFeld WinkelEing = new EingabeFeld();
+	EingabeFeld         MaxAnzEing = new EingabeFeld();
+	EingabeFeld       MessrateEing = new EingabeFeld();
+	EingabeFeld NachleuchtZeitEing = new EingabeFeld();
 	Schild  Chemisch = new Schild() , Magnetisch = new Schild(), Massstab = new Schild(), Angstroem = new Schild(), zieh = new Schild(),
 			Raeuml = new Schild(), odr = new Schild(), Schn = new Schild(),
 			xAch = new Schild(), yAch = new Schild(),zAch = new Schild(),		//AchsSchild = new Schild(),
 			Quantenzahlen = new Schild(), nSchild = new Schild(), lSchild = new Schild(), mSchild = new Schild(),
 			Dreh = new Schild(), Geschw = new Schild(), Umdr = new Schild(),
-			MaxAnz = new Schild(), Messrate = new Schild(), proS = new Schild(),  NachleuchtZeit = new Schild(), inMs = new Schild();
+			MaxAnz = new Schild(), Messrate = new Schild(), proS = new Schild(), NachleuchtZeit = new Schild(), inMs = new Schild(),
+			xAchBeschr = new Schild(), yAchBeschr = new Schild(), zAchBeschr = new Schild();
 
 	Knopf	nPlus = new Knopf(), nMinus = new Knopf(),
 			lPlus = new Knopf(), lMinus = new Knopf(),
@@ -239,12 +240,12 @@ public class Flaeche extends JPanel {		//TODO: Spaghetticode bereinigen
 	}
 	public void richteSchnittWahlEin() {
 
-		Schild.erzeuge(xAch,"x", b - 142, h - 336, 12, 12);
-		add(xAch);
-		Schild.erzeuge(yAch,"y", b -  30, h - 380, 12, 16);
-		add(yAch);
-		Schild.erzeuge(zAch,"z", b - 104, h - 449, 12, 12);
-		add(zAch);
+		Schild.erzeuge(xAchBeschr,"x",  b - 142, h - 336, 12, 12);
+		add(xAchBeschr);
+		Schild.erzeuge(yAchBeschr,"y", b -  30, h - 380, 12, 16);
+		add(yAchBeschr);
+		Schild.erzeuge(zAchBeschr,"z", b - 104, h - 449, 12, 12);
+		add(zAchBeschr);
 		Schild.erzeuge(Raeuml,"räumlich",b - 60, h - 292, 60, 30);
 		add(Raeuml);
 		Schild.erzeuge(odr,"oder", b - 60, h - 236, 60, 12);
@@ -313,7 +314,7 @@ public class Flaeche extends JPanel {		//TODO: Spaghetticode bereinigen
 
 		Schild.erzeuge(Dreh,"<html><u>Drehung</u></<html>", 10, h - 350, 200, 20);
 		Schild.erzeuge(Geschw,"Geschwindigkeit", 10, h - 330, 200, 20);
-		Schild.erzeuge(Umdr,"Umdr. pro min", 180, h - 330, 190, 20);
+		Schild.erzeuge(Umdr,"Umdr. pro min", 182, h - 330, 190, 20);
 		add(Umdr); add(Dreh); add(Geschw);
 
 		EingabeFeld.richteEin(WinkelEing, "0", 135, h - 330); add(WinkelEing);
@@ -352,10 +353,10 @@ public class Flaeche extends JPanel {		//TODO: Spaghetticode bereinigen
 
 		Schild.erzeuge(MaxAnz,"<html><body>Max. Anz. sichtb.<br>El.-Fundorte</body></html>", 10, 247, 200, 30);
 		Schild.erzeuge(Messrate,"Messrate",  58, 280, 100, 20);
-		Schild.erzeuge(proS,"pro s",  179, 280, 200, 20);
+		Schild.erzeuge(proS,"pro s",  180, 280, 200, 20);
 		Schild.erzeuge(NachleuchtZeit,"Nachleuchtzeit", 18, 310, 190, 20);
-		Schild.erzeuge(inMs,"ms",  179, 310, 200, 20);
-		add(MaxAnz); add(proS); add(NachleuchtZeit); add(inMs); add(Messrate);
+		Schild.erzeuge(inMs,"ms",  180, 310, 200, 20);
+		add(MaxAnz); add(proS); add(Messrate); add(NachleuchtZeit); add(inMs);
 
 		EingabeFeld.richteEin(MaxAnzEing, "100", 132, 254); add(MaxAnzEing);
 		MaxAnzEl = Integer.parseInt(MaxAnzEing.getText());

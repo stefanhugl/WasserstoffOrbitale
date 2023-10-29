@@ -1,6 +1,7 @@
 package de.kratzer.horb;
 
 import java.awt.*;
+//import java.awt.color;
 
 public class Elektron {
 
@@ -26,13 +27,14 @@ public class Elektron {
 		xs=  x;					//3D->2D
 		x =  y - xs/3 + b/2;
 		y = -z + xs/5 + h/2;
+
+		Color Farbe2 = new Color(1, 1, 1, 1.0f);
+		ebeneZeichnung.setColor(Farbe2);
 		
-		float Saettigung = 1f; if (Flaeche.Schnitt == 0) Saettigung = 0.5f-((float)(xs))/((float)(h/2));
+		float Saettigung = 0.5f-((float)(xs))/((float)(h/2));	//Saettigung = 1f; if (Flaeche.Schnitt == 0) Saettigung = 0.5f-((float)(xs))/((float)(h/2));
 		if (Saettigung<0) { Saettigung = 0;}
 		if (Saettigung>1) { Saettigung = 1;}						//Farbton bestimmen
-		Color Farbe = new Color(1, 1, 1, Saettigung);		
-		ebeneZeichnung.setColor(Farbe);
-															// t ist die Zeit der Messung
+																// t ist die Zeit der Messung
 		Alter = Flaeche.TaktNummer - t;				// mit zunehmendem Alter..
 		Alter = Alter * 20;
 
@@ -50,7 +52,7 @@ public class Elektron {
 			ebeneZeichnung.drawLine((int)x - KrGr, (int)y - KrGr, (int)x + KrGr, (int)y + KrGr);	//Kreuz
 			ebeneZeichnung.drawLine((int)x + KrGr, (int)y - KrGr, (int)x - KrGr, (int)y + KrGr);	//zeichnen mit x und y Koord.
 		}
-
+/*
 		int mstY = Flaeche.MassstabPosY, msl = (int)Flaeche.Laenge;			//Massstab aktualisieren
 		Color Farbe1 = new Color(1, 1, 1, 1.0f);
 		ebeneZeichnung.setColor(Farbe1);
@@ -88,6 +90,6 @@ public class Elektron {
 			int[] XZalleX = {b-102, b-102, b-122, b-122};
 			int[] XZalleY = {h-372, h-422, h-402, h-352};		 
 			ebeneZeichnung.fillPolygon(XZalleX, XZalleY, 4);
-		}		
+		}		*/
 	}
 }

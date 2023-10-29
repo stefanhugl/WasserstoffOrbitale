@@ -1,6 +1,7 @@
 package de.kratzer.horb;
 
 import java.awt.*;
+import java.awt.Color;
 import java.awt.event.*;
 import javax.swing.*;
 import java.text.NumberFormat;
@@ -8,6 +9,7 @@ import javax.swing.text.NumberFormatter;
 
 public class Flaeche extends JPanel {		//TODO: Spaghetticode bereinigen
 	final static double pi = 3.14159265;
+	public static Color Farbe;
 	public static int h = Rahmen.BildschirmHoehe, b = Rahmen.BildschirmBreite;
 	public static int MassstabPosY = 146;  //TODO: ist 146 allgemein genug?
 	public static double Laenge = 0.18897*h;		// Das Atom wird beobachtet in einer Kugel mit  
@@ -47,6 +49,7 @@ public class Flaeche extends JPanel {		//TODO: Spaghetticode bereinigen
 			mPlus = new Knopf(), mMinus = new Knopf();
 
 	public static double[][] Fund = new double[100001][4];          //TODO: 100001 prüfen    \ Fund[][] besser in anderer Klasse?
+	public static double[] 	 Farb = new double[100001];
 
 	public Flaeche() {
 
@@ -73,6 +76,8 @@ public class Flaeche extends JPanel {		//TODO: Spaghetticode bereinigen
 
 		super.paintComponent(Zeichnung);
 		Graphics2D ebeneZeichnung = (Graphics2D) Zeichnung;
+
+		Bleibendes.zeichne(ebeneZeichnung);
 
 		int nEl = Atom.AnzEl;
 		if (nEl > MaxAnzEl) nEl = MaxAnzEl;

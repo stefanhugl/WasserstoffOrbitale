@@ -54,7 +54,7 @@ public class Flaeche extends JPanel {		//TODO: Spaghetticode bereinigen
 	public Flaeche() {
 
 		erzeugeEinstellungenUndBedienelemente();
-		//Änderug?
+
 		ActionListener ZeitNehmer = Takt -> {
 			TaktNummer++;
 			//System.out.println(DeltaT);

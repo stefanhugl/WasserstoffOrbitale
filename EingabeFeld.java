@@ -26,12 +26,4 @@ public class EingabeFeld extends JTextField {
         if (Eing > oGr) { Eing = oGr; DiesesEingabeFeld.setText(Integer.toString(oGr)); }
         return Eing;
     }
-/*
-		ActionListener NachleuchtZeitWarter = Eing -> {
-
-			int NachleuchtZeitEingabe = Integer.parseInt(NachleuchtZeitEing.getText());
-			if (NachleuchtZeitEingabe > 4 && NachleuchtZeitEingabe < 10001) {
-				nachl = NachleuchtZeitEingabe;
-				nachlFaktorImExp = Math.log(1 / Elektron.AnfangsKreuzGroesse) / nachl;
-			} */
 }

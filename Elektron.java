@@ -1,7 +1,6 @@
 package de.kratzer.horb;
 
 import java.awt.*;
-//import java.awt.color;
 
 public class Elektron {
 

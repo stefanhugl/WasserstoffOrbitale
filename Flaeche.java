@@ -445,7 +445,7 @@ public class Flaeche extends JPanel {		//TODO: Spaghetticode bereinigen
 		add(zieh);
 	}
 }
-																				//Bsp. zum Pfeil ->
+																		//Bsp. zum Pfeil ->
 /*
 		Runnable r = ()-> System.out.print("Run method");
 

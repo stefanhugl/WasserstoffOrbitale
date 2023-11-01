@@ -68,10 +68,10 @@ public abstract class Orbital {
         if (Flaeche.Schnitt == 1) {
             Flaeche.Fund[Nummer][3] = Flaeche.Fund[Nummer][1];
             Flaeche.Fund[Nummer][1] = 0;
-        }    //in Zeichen-
+        }                                                       //in Zeichen-
         if (Flaeche.Schnitt == 3) {
             Flaeche.Fund[Nummer][2] = Flaeche.Fund[Nummer][1];
             Flaeche.Fund[Nummer][1] = 0;
-        }    //-ebene klappen
+        }                                                      //-ebene klappen
     }
 }

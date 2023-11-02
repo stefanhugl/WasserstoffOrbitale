@@ -8,7 +8,7 @@ public abstract class Orbital {
     public static double Dicke = 1;
     public static double MessZeit;
     public double r, phi, theta;
-    public double x, y, z, v;
+    public double x, y, z, v, q;
     public boolean gefunden = false;
     public double Psi;
     //public static double[][] Fund = new double[100001][4];          //TODO: 100001 prüfen
@@ -35,7 +35,11 @@ public abstract class Orbital {
             berechneKugelKoordinaten();         //x y z  ->  r phi theta
 
             Psi = Wellenfunktion();                // so normiert, dass die größte...
-            double p = Psi * Psi;                    // ...Wahrscheinlichkeit = 1 ist.
+            double p = Psi * Psi;                  // ...Wahrscheinlichkeit = 1 ist.
+            //if (p != 0) q = Math.log(110*p);
+            //if (q < 0) q = 0;                    //wäre eineMöglichkeit,
+            //if (q > 1) q = 1;                    //die Maxima zu überhöhen
+            //p = q;                            //bloß passt 110 nur für 2s
             double Zz = Zufallsgenerator.nextDouble();    //mit Wahrscheinlichkeit p
             if (Zz < p) gefunden = true;                //entscheiden, ob das Elektron dort ist.
             if (gefunden) merkeKoordinaten(Nummer);

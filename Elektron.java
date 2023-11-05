@@ -27,13 +27,13 @@ public class Elektron {
 		x =  y - xs/3 + b/2;
 		y = -z + xs/5 + h/2;
 
-		Color Farbe2 = new Color(1, 1, 1, 1.0f);
-		ebeneZeichnung.setColor(Farbe2);
-		
-		float Saettigung = 0.5f-((float)(xs))/((float)(h/2));	//Saettigung = 1f; if (Flaeche.Schnitt == 0) Saettigung = 0.5f-((float)(xs))/((float)(h/2));
+		float Saettigung = 1f; if (Flaeche.Schnitt == 0) Saettigung = 0.5f-((float)(xs))/((float)(h/2));  //Saettigung = 0.5f-((float)(xs))/((float)(h/2));
 		if (Saettigung<0) { Saettigung = 0;}
 		if (Saettigung>1) { Saettigung = 1;}						//Farbton bestimmen
 																// t ist die Zeit der Messung
+		Color Farbe2 = new Color(1, 1, 1, Saettigung);
+		ebeneZeichnung.setColor(Farbe2);
+
 		Alter = Flaeche.TaktNummer - t;				// mit zunehmendem Alter..
 		Alter = Alter * 20;
 

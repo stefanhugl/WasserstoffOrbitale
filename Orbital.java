@@ -36,10 +36,16 @@ public abstract class Orbital {
 
             Psi = Wellenfunktion();                // so normiert, dass die größte...
             double p = Psi * Psi;                  // ...Wahrscheinlichkeit = 1 ist.
+
             //if (p != 0) q = Math.log(110*p);
-            //if (q < 0) q = 0;                    //wäre eineMöglichkeit,
+            //if (q < 0) q = 0;                    //wäre eine Möglichkeit,
             //if (q > 1) q = 1;                    //die Maxima zu überhöhen
             //p = q;                            //bloß passt 110 nur für 2s
+
+            //weitere Möglichkeit
+            //if (p < (1/Math.exp(4))) p =   0.5*Math.exp(8)*p*p;
+            //                    else p = -(0.5/(Math.pow((1/Math.exp(4)-1),2)))*(p-1)*(p-1)+1;
+
             double Zz = Zufallsgenerator.nextDouble();    //mit Wahrscheinlichkeit p
             if (Zz < p) gefunden = true;                //entscheiden, ob das Elektron dort ist.
             if (gefunden) merkeKoordinaten(Nummer);

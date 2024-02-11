@@ -7,11 +7,11 @@ import javax.swing.*;
 import java.text.NumberFormat;
 import javax.swing.text.NumberFormatter;
 
-public class Flaeche extends JPanel {		//TODO: Spaghetticode bereinigen
+public class Flaeche extends JPanel {
 	final static double pi = 3.14159265;
 	public static Color Farbe;
 	public static int h = Rahmen.BildschirmHoehe, b = Rahmen.BildschirmBreite;
-	public static int MassstabPosY = 146;  //TODO: ist 146 allgemein genug?
+	public static int MassstabPosY = 146; //Abstand vom unteren Rand
 	public static double Laenge = 0.18897*h;		// Das Atom wird beobachtet in einer Kugel mit  
 	public static double vgr = 1.8897*h / Laenge;	// Radius vgr in Einheiten a0=5.291772e-11m
 	public static int TimerTakt = 20;		// in ms (mind. 1)
@@ -238,8 +238,8 @@ public class Flaeche extends JPanel {		//TODO: Spaghetticode bereinigen
 					Atom.setzeZurueck();
 					Laenge = mouX - 10;
 					vgr = 1.8897*h / Laenge;
-					Angstroem.setBounds(10 + (int)Laenge / 2 - 5, h - 140, 40, 20);
-					zieh.setBounds(10 + (int)Laenge-88, h - 180, 140, 30);
+					Angstroem.setBounds(10 + (int)Laenge / 2 - 5, h - MassstabPosY + 6, 40, 20);
+					zieh.setBounds(10 + (int)Laenge-88, h - MassstabPosY - 34, 140, 30);
 				}
 			}
 		});
@@ -436,12 +436,12 @@ public class Flaeche extends JPanel {		//TODO: Spaghetticode bereinigen
 	}
 	public void richteMasstabWahlEin() {
 
-		Schild.erzeuge(Massstab,"<html><u>Massstab</u></<html>", 10, h - 195, 200, 20);
+		Schild.erzeuge(Massstab,"<html><u>Massstab</u></<html>", 10, h - MassstabPosY - 51, 200, 20);
 		add(Massstab);
-		Schild.erzeuge(Angstroem,"1Å", 10 + (int)Laenge / 2 - 5, h - 140, 40, 30);
+		Schild.erzeuge(Angstroem,"1Å", 10 + (int)Laenge / 2 - 5, h - MassstabPosY + 6, 40, 30);
 		Angstroem.setFont(Angstroem.getFont().deriveFont(16f));
 		add(Angstroem);
-		Schild.erzeuge(zieh,"hier ziehen ↓", 10 + (int)Laenge-88, h - 180, 140, 30);
+		Schild.erzeuge(zieh,"hier ziehen ↓", 10 + (int)Laenge-88, h - MassstabPosY - 34, 140, 30);
 		add(zieh);
 	}
 }

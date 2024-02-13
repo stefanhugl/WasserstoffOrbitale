@@ -25,8 +25,8 @@ public class Flaeche extends JPanel {
 		Schnitt = schnitt;
 	}  // Schnittebene für 2D-Darstellung
 
-	public static int MaxAnzEl = 100;				//maximale Zahl gleichzeitig sichtbarer Elektronenfundorte
-	//TODO: 100 mit Orbital.Fund[][] vergleichen
+	public static int MaxAnzEl = 100, MaxAnzElObergrenze = 10000;	//maximale Zahl gleichzeitig sichtbarer Elektronenfundorte
+
 	public static double[] Achse = new double[4];		//Drehachse
 	double alpha = 0.0;
 
@@ -48,7 +48,8 @@ public class Flaeche extends JPanel {
 			lPlus = new Knopf(), lMinus = new Knopf(),
 			mPlus = new Knopf(), mMinus = new Knopf();
 
-	public static double[][] Fund = new double[100001][4];          //TODO: 100001 prüfen    \ Fund[][] besser in anderer Klasse?
+	public static double[][] Fund = new double[MaxAnzElObergrenze+1][4];
+															//TODO Fund[][] besser in anderer Klasse?
 	public static double[] 	 Farb = new double[100001];
 
 	public Flaeche() {
@@ -237,7 +238,7 @@ public class Flaeche extends JPanel {
 
 					Atom.setzeZurueck();
 					Laenge = mouX - 10;
-					vgr = 1.8897*h / Laenge;
+					vgr = 1.8897*h / Laenge; System.out.println("Laenge=" + Laenge + "     vgr=" + vgr);
 					Angstroem.setBounds(10 + (int)Laenge / 2 - 5, h - MassstabPosY + 6, 40, 20);
 					zieh.setBounds(10 + (int)Laenge-88, h - MassstabPosY - 34, 140, 30);
 				}
@@ -368,7 +369,7 @@ public class Flaeche extends JPanel {
 		MaxAnzEl = Integer.parseInt(MaxAnzEing.getText());
 		ActionListener MaxAnzWarter = Eing -> {
 			int Ein = Integer.parseInt(MaxAnzEing.getText());
-			int uG = 1; int oG = 10000;
+			int uG = 1; int oG = MaxAnzElObergrenze;
 			MaxAnzEl = EingabeFeld.pruefe(MaxAnzEing, Ein, uG, oG);
 		};
 		MaxAnzEing.addActionListener(MaxAnzWarter);

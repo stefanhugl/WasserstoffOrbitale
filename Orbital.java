@@ -42,9 +42,9 @@ public abstract class Orbital {
             //p = q;                            //bloß passt 110 nur für 2s
 
             //weitere Möglichkeit:
-            double n = 10;
-            if (p < (1/Math.exp(4))) p =   0.5*Math.exp(4*n)*Math.pow(p,n);
-                                else p = -(0.5/(Math.pow((1/Math.exp(4)-1),2)))*(p-1)*(p-1)+1;
+            //double n = 10;
+            //if (p < (1/Math.exp(4))) p =   0.5*Math.exp(4*n)*Math.pow(p,n);
+            //                    else p = -(0.5/(Math.pow((1/Math.exp(4)-1),2)))*(p-1)*(p-1)+1;
 
             double Zz = Zufallsgenerator.nextDouble();    //mit Wahrscheinlichkeit p
             if (Zz < p) gefunden = true;                //entscheiden, ob das Elektron dort ist.

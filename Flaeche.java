@@ -9,14 +9,14 @@ import javax.swing.text.NumberFormatter;
 
 public class Flaeche extends JPanel {
 	final static double pi = 3.14159265;
-	public static Color Farbe;
 	public static int h = Rahmen.BildschirmHoehe, b = Rahmen.BildschirmBreite;
 	public static int MassstabPosY = 146; //Abstand vom unteren Rand
-	public static double Laenge = 0.18897*h;		// Das Atom wird beobachtet in einer Kugel mit  
-	public static double vgr = 1.8897*h / Laenge;	// Radius vgr in Einheiten a0=5.291772e-11m
+	public static double Laenge = 0.1*h; 	//Anfangslänge des Maßstabs (entspricht 1 Angström)
+	public static double vgr = h / Laenge;	// Das Atom wird beobachtet in einem
+	                                        // Würfel der Kantenlänge vgr
+											// in Einheiten des Bohrschen Radius 5.291772e-11m
 	public static int TimerTakt = 20;		// in ms (mind. 1)
 	public static int DeltaT, TaktNummer = 0;		// Startzeit und Intervall des Timers
-	//TODO: Festgelegte Anfangsgrössen automatisch in Textfelder schreiben, wie schon bei DeltaT geschehen
 	public static int Schnitt = 0;	// Schnittebene für 2D-Darstellung (0: räuml.;  1: x-y-Ebene; ...)
 	public static double nachl = 1000;
 	public static double nachlFaktorImExp;
@@ -47,10 +47,6 @@ public class Flaeche extends JPanel {
 	Knopf	nPlus = new Knopf(), nMinus = new Knopf(),
 			lPlus = new Knopf(), lMinus = new Knopf(),
 			mPlus = new Knopf(), mMinus = new Knopf();
-
-	public static double[][] Fund = new double[MaxAnzElObergrenze+1][4];
-															//TODO Fund[][] besser in anderer Klasse?
-	public static double[] 	 Farb = new double[100001];
 
 	public Flaeche() {
 
@@ -238,7 +234,7 @@ public class Flaeche extends JPanel {
 
 					Atom.setzeZurueck();
 					Laenge = mouX - 10;
-					vgr = 1.8897*h / Laenge; System.out.println("Laenge=" + Laenge + "     vgr=" + vgr);
+					vgr = 1.8897*h / Laenge;
 					Angstroem.setBounds(10 + (int)Laenge / 2 - 5, h - MassstabPosY + 6, 40, 20);
 					zieh.setBounds(10 + (int)Laenge-88, h - MassstabPosY - 34, 140, 30);
 				}
@@ -333,7 +329,7 @@ public class Flaeche extends JPanel {
 		};
 		WinkelEing.addActionListener(DrehgeschwWarter);
 
-		String Text, VorgabeText;
+		String VorgabeText;
 		int xOrt, yOrt;
 
 		Schild.erzeuge(xAch, "             Achse: x", 13, h - 290, 160, 20);
@@ -383,7 +379,7 @@ public class Flaeche extends JPanel {
 			DeltaT = 1000 / (mE * TimerTakt);
 		};
 		MessrateEing.addActionListener(MessrateWarter);
-;
+
 		EingabeFeld.richteEin(NachleuchtZeitEing, "1000", 132, 310); add(NachleuchtZeitEing);
 		nachl = Integer.parseInt(NachleuchtZeitEing.getText());
 		ActionListener NachleuchtZeitWarter = Eing -> {
@@ -450,7 +446,7 @@ public class Flaeche extends JPanel {
 /*
 		Runnable r = ()-> System.out.print("Run method");
 
-		is equivalent to
+		ist äquivalent zu
 
 		Runnable r = new Runnable() {
 			@Override

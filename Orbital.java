@@ -12,8 +12,8 @@ public abstract class Orbital {
     public boolean gefunden = false;
     public double Psi;
     private final java.util.Random Zufallsgenerator = new java.util.Random();
-
     double h = Rahmen.BildschirmHoehe;
+    public static double[][] Fund = new double[Flaeche.MaxAnzElObergrenze+1][4];
 
     public boolean beobachte(int Nummer) {
 
@@ -70,18 +70,18 @@ public abstract class Orbital {
 
     public void merkeKoordinaten(int Nummer) {
 
-        Flaeche.Fund[Nummer][1] = x / (v/2) * (h/2);    //anpassen an Bildschirmgröße
-        Flaeche.Fund[Nummer][2] = y / (v/2) * (h/2);
-        Flaeche.Fund[Nummer][3] = z / (v/2) * (h/2);
-        Flaeche.Fund[Nummer][0] = Flaeche.TaktNummer;                     //Zeit der Messung eines Eelektrons
+        Fund[Nummer][1] = x / (v/2) * (h/2);    //anpassen an Bildschirmgröße
+        Fund[Nummer][2] = y / (v/2) * (h/2);
+        Fund[Nummer][3] = z / (v/2) * (h/2);
+        Fund[Nummer][0] = Flaeche.TaktNummer;                     //Zeit der Messung eines Eelektrons
 
         if (Flaeche.Schnitt == 1) {
-            Flaeche.Fund[Nummer][3] = Flaeche.Fund[Nummer][1];
-            Flaeche.Fund[Nummer][1] = 0;
+            Fund[Nummer][3] = Orbital.Fund[Nummer][1];
+            Fund[Nummer][1] = 0;
         }                                                       //in Zeichen-
         if (Flaeche.Schnitt == 3) {
-            Flaeche.Fund[Nummer][2] = Flaeche.Fund[Nummer][1];
-            Flaeche.Fund[Nummer][1] = 0;
+            Fund[Nummer][2] = Fund[Nummer][1];
+            Fund[Nummer][1] = 0;
         }                                                      //-ebene klappen
     }
 }

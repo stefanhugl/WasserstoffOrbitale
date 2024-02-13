@@ -15,10 +15,10 @@ public class Elektron {
 		double h = Rahmen.BildschirmHoehe;	double b = Rahmen.BildschirmBreite;
 		double t, x, y, z, xx, yy, zz, xs;
 				
-		 t = Flaeche.Fund[i][0];	//Zeit und
-		xx = Flaeche.Fund[i][1];	//Koordinaten
-		yy = Flaeche.Fund[i][2];		//des Fundes eines Eelektrons
-		zz = Flaeche.Fund[i][3];
+		 t = Orbital.Fund[i][0];	//Zeit und
+		xx = Orbital.Fund[i][1];	//Koordinaten
+		yy = Orbital.Fund[i][2];		//des Fundes eines Eelektrons
+		zz = Orbital.Fund[i][3];
 		x = a11*xx + a12*yy + a13*zz;	//Drehen mit Drehmatrix a11..a33
 		y = a21*xx + a22*yy + a23*zz;
 		z = a31*xx + a32*yy + a33*zz;	

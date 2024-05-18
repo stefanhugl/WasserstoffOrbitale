@@ -26,7 +26,7 @@ public class Flaeche extends JPanel {
 	}  // Schnittebene für 2D-Darstellung
 
 	public static int MaxAnzEl = 100, MaxAnzElObergrenze = 10000;	//maximale Zahl gleichzeitig sichtbarer Elektronenfundorte
-
+	//TODO sollte sich MaxAnzEl nicht aus Messrate und Nachleuchtzeit ergeben?
 	public static double[] Achse = new double[4];		//Drehachse
 	double alpha = 0.0;
 
@@ -55,8 +55,8 @@ public class Flaeche extends JPanel {
 		ActionListener ZeitNehmer = Takt -> {
 			TaktNummer++;
 			//System.out.println(DeltaT);
-			if (TaktNummer % DeltaT == 0) {		//Division mit Rest, damit die folgenden Aktionen nur nach jedem DeltaT-ten Takt ausgeführt wird
-
+			if (TaktNummer % DeltaT == 0) {		//Division mit Rest, damit die folgenden Aktionen...
+												// ...nur nach jedem DeltaT-ten Takt ausgeführt wird
 				Atom.suche();					//sucht möglichen Ort des Elektrons
 				alpha = alpha + Winkel;			//dreht das Orbital
 				if (alpha > 2 * pi)				//fängt nach 2pi// wieder bei 0 an
@@ -361,7 +361,7 @@ public class Flaeche extends JPanel {
 		Schild.erzeuge(inMs,"ms",  180, 310, 200, 20);
 		add(MaxAnz); add(proS); add(Messrate); add(NachleuchtZeit); add(inMs);
 
-		EingabeFeld.richteEin(MaxAnzEing, "100", 132, 254); add(MaxAnzEing);
+		/*EingabeFeld.richteEin(MaxAnzEing, "100", 132, 254); add(MaxAnzEing);
 		MaxAnzEl = Integer.parseInt(MaxAnzEing.getText());
 		ActionListener MaxAnzWarter = Eing -> {
 			int Ein = Integer.parseInt(MaxAnzEing.getText());
@@ -369,7 +369,7 @@ public class Flaeche extends JPanel {
 			MaxAnzEl = EingabeFeld.pruefe(MaxAnzEing, Ein, uG, oG);
 		};
 		MaxAnzEing.addActionListener(MaxAnzWarter);
-
+		*/
 		EingabeFeld.richteEin(MessrateEing, "20", 132, 280); add(MessrateEing);
 		DeltaT = 1000 / (Integer.parseInt(MessrateEing.getText()) * TimerTakt);
 		ActionListener MessrateWarter = Eing -> {
@@ -432,7 +432,7 @@ public class Flaeche extends JPanel {
 		add(Chemisch); add(Magnetisch);
 	}
 	public void richteMasstabWahlEin() {
-
+	//TODO Mausempfindlichkeit großzügiger machen
 		Schild.erzeuge(Massstab,"<html><u>Massstab</u></<html>", 10, h - MassstabPosY - 51, 200, 20);
 		add(Massstab);
 		Schild.erzeuge(Angstroem,"1Å", 10 + (int)Laenge / 2 - 5, h - MassstabPosY + 6, 40, 30);

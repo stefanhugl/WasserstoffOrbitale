@@ -1,35 +1,36 @@
 package de.kratzer.horb;
 
-import java.awt.*;
-import java.awt.Color;
-import java.awt.event.*;
 import javax.swing.*;
-import java.text.NumberFormat;
 import javax.swing.text.NumberFormatter;
+import java.awt.*;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseMotionListener;
+import java.text.NumberFormat;
 
 public class Flaeche extends JPanel {
 	final static double pi = 3.14159265;
 	public static int h = Rahmen.BildschirmHoehe, b = Rahmen.BildschirmBreite;
 	public static int MassstabPosY = 146; //Abstand vom unteren Rand
 	public static double Laenge = 0.1*h; 	//Anfangslänge des Maßstabs (entspricht 1 Angström)
-	public static double vgr = h / Laenge;	// Das Atom wird beobachtet in einem
-	                                        // Würfel der Kantenlänge vgr
+	public static double Kante = h / Laenge;	// Das Atom wird beobachtet in einem
+	                                        // Würfel der Kantenlänge "Kante"
 											// in Einheiten des Bohrschen Radius 5.291772e-11m
-	public static int TimerTakt = 20;		// in ms (mind. 1)
-	public static int DeltaT, TaktNummer = 0;		// Startzeit und Intervall des Timers
-	public static int Schnitt = 0;	// Schnittebene für 2D-Darstellung (0: räuml.;  1: x-y-Ebene; ...)
-	public static double nachl = 1000;
+	public static int TimerTakt = 20, TaktNummer = 0;	// Takt des Timers in ms (mind. 1)
+	public static int MessrateWert = 25, DeltaT = 1000 / (MessrateWert * TimerTakt);
+	//MessrateWert gibt an, wie oft pro s das Elektron gesucht wird.
+	// DeltaT gibt an, nach wie  vielen Timertakten jeweils das Elektron gesucht wird.
+	public static int NachleuchtZeitVorgabe = 1000;
 	public static double nachlFaktorImExp;
+	public static int Schnitt = 0;	// Schnittebene für 2D-Darstellung (0: räuml.;  1: x-y-Ebene; ...)
 	public static int n, l, m;	// Quantenzahlen
 	public static void setSchnitt(int schnitt) {
 		Schnitt = schnitt;
 	}  // Schnittebene für 2D-Darstellung
-
-	public static int MaxAnzEl = 100, MaxAnzElObergrenze = 10000;	//maximale Zahl gleichzeitig sichtbarer Elektronenfundorte
-	//TODO sollte sich MaxAnzEl nicht aus Messrate und Nachleuchtzeit ergeben?
+	public static int MaxAnzEl = NachleuchtZeitVorgabe /(DeltaT*TimerTakt) + 1;
+	//maximale Zahl gleichzeitig sichtbarer Elektronenfundorte
 	public static double[] Achse = new double[4];		//Drehachse
 	double alpha = 0.0;
-
 	public static double Winkel = 0.0;					//für Drehung
 	double a11, a12, a13, a21, a22, a23, a31, a32, a33;	//Drehmatrix
 	EingabeFeld WinkelEing = new EingabeFeld();
@@ -54,7 +55,7 @@ public class Flaeche extends JPanel {
 
 		ActionListener ZeitNehmer = Takt -> {
 			TaktNummer++;
-			//System.out.println(DeltaT);
+			//System.out.println(DeltaT);  //TODO %-Formel verbessern
 			if (TaktNummer % DeltaT == 0) {		//Division mit Rest, damit die folgenden Aktionen...
 												// ...nur nach jedem DeltaT-ten Takt ausgeführt wird
 				Atom.suche();					//sucht möglichen Ort des Elektrons
@@ -62,8 +63,9 @@ public class Flaeche extends JPanel {
 				if (alpha > 2 * pi)				//fängt nach 2pi// wieder bei 0 an
 					alpha = alpha - 2 * pi;		// wieder bei 0 an
 			}
-
-			repaint();						//zeichnet auf "Flaeche", wie in der überschriebenen "paintComponent" angegeben
+//TODO  if (TaktNummer % ... == 0)
+ 			repaint();						//zeichnet auf "Flaeche", wie in der
+											// überschriebenen "paintComponent" angegeben
 		};
 
 		Timer Uhr = new Timer(TimerTakt, ZeitNehmer);
@@ -78,7 +80,7 @@ public class Flaeche extends JPanel {
 		Bleibendes.zeichne(ebeneZeichnung);
 
 		int nEl = Atom.AnzEl;
-		if (nEl > MaxAnzEl) nEl = MaxAnzEl;
+		//TODO nicht nötig: if (nEl > MaxAnzEl) nEl = MaxAnzEl;
 
 		berechneDrehmatrix(alpha, Achse[1], Achse[2], Achse[3]);
 		for (int i = 0; i < nEl; i++) {
@@ -107,7 +109,7 @@ public class Flaeche extends JPanel {
 
 	public void erzeugeEinstellungenUndBedienelemente() {
 		setBackground(Color.black); setLayout(null);
-		nachlFaktorImExp = Math.log(1/Elektron.AnfangsKreuzGroesse) / nachl;
+		nachlFaktorImExp = Math.log(1/Elektron.AnfangsKreuzGroesse) / NachleuchtZeitVorgabe;
 		n = 1; l = 0;
 		richteQuantenzahlWahlEin();
 		richteOrbitalBenennungEin();
@@ -234,7 +236,7 @@ public class Flaeche extends JPanel {
 
 					Atom.setzeZurueck();
 					Laenge = mouX - 10;
-					vgr = 1.8897*h / Laenge;
+					Kante = 1.8897*h / Laenge;
 					Angstroem.setBounds(10 + (int)Laenge / 2 - 5, h - MassstabPosY + 6, 40, 20);
 					zieh.setBounds(10 + (int)Laenge-88, h - MassstabPosY - 34, 140, 30);
 				}
@@ -354,39 +356,29 @@ public class Flaeche extends JPanel {
 
 	public void erzeugeElektronenWahl() {
 
-		Schild.erzeuge(MaxAnz,"<html><body>Max. Anz. sichtb.<br>El.-Fundorte</body></html>", 10, 247, 200, 30);
 		Schild.erzeuge(Messrate,"Messrate",  58, 280, 100, 20);
 		Schild.erzeuge(proS,"pro s",  180, 280, 200, 20);
 		Schild.erzeuge(NachleuchtZeit,"Nachleuchtzeit", 18, 310, 190, 20);
 		Schild.erzeuge(inMs,"ms",  180, 310, 200, 20);
 		add(MaxAnz); add(proS); add(Messrate); add(NachleuchtZeit); add(inMs);
-
-		/*EingabeFeld.richteEin(MaxAnzEing, "100", 132, 254); add(MaxAnzEing);
-		MaxAnzEl = Integer.parseInt(MaxAnzEing.getText());
-		ActionListener MaxAnzWarter = Eing -> {
-			int Ein = Integer.parseInt(MaxAnzEing.getText());
-			int uG = 1; int oG = MaxAnzElObergrenze;
-			MaxAnzEl = EingabeFeld.pruefe(MaxAnzEing, Ein, uG, oG);
-		};
-		MaxAnzEing.addActionListener(MaxAnzWarter);
-		*/
-		EingabeFeld.richteEin(MessrateEing, "20", 132, 280); add(MessrateEing);
+		EingabeFeld.richteEin(MessrateEing, String.valueOf(MessrateWert), 132, 280); add(MessrateEing);
 		DeltaT = 1000 / (Integer.parseInt(MessrateEing.getText()) * TimerTakt);
 		ActionListener MessrateWarter = Eing -> {
 			int mE = Integer.parseInt(MessrateEing.getText());
-			int uG = 1; int oG = 1000 / Flaeche.TimerTakt;
+			int uG = 1; int oG = 1000 / TimerTakt;				//damit DeltaT>1 bleibt
 			mE = EingabeFeld.pruefe(MessrateEing, mE, uG, oG);
-			DeltaT = 1000 / (mE * TimerTakt);
+			DeltaT = (int)((1000f / ((float)mE * (float)TimerTakt)) + 0.5);
 		};
 		MessrateEing.addActionListener(MessrateWarter);
 
-		EingabeFeld.richteEin(NachleuchtZeitEing, "1000", 132, 310); add(NachleuchtZeitEing);
-		nachl = Integer.parseInt(NachleuchtZeitEing.getText());
+		String ErsteNachleuchtZeit = Integer.toString(NachleuchtZeitVorgabe);
+		EingabeFeld.richteEin(NachleuchtZeitEing, ErsteNachleuchtZeit, 132, 310); add(NachleuchtZeitEing);
+		NachleuchtZeitVorgabe = Integer.parseInt(NachleuchtZeitEing.getText());
 		ActionListener NachleuchtZeitWarter = Eing -> {
 			int Ein = Integer.parseInt(NachleuchtZeitEing.getText());
 			int uG = 1; int oG = 10000;
-			nachl = EingabeFeld.pruefe(NachleuchtZeitEing, Ein, uG, oG);
-			nachlFaktorImExp = Math.log(1 / Elektron.AnfangsKreuzGroesse) / nachl;
+			NachleuchtZeitVorgabe = EingabeFeld.pruefe(NachleuchtZeitEing, Ein, uG, oG);
+			nachlFaktorImExp = Math.log(1 / Elektron.AnfangsKreuzGroesse) / NachleuchtZeitVorgabe;
 		};
 		NachleuchtZeitEing.addActionListener(NachleuchtZeitWarter);
 	}

@@ -1,7 +1,7 @@
 package de.kratzer.horb;
 
-import java.awt.*;
 import javax.swing.*;
+import java.awt.*;
 public class Schild extends JLabel {
 
     public Schild() {

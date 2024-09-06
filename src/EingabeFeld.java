@@ -1,10 +1,6 @@
 package de.kratzer.horb;
 
 import javax.swing.*;
-import javax.swing.text.NumberFormatter;
-import java.text.NumberFormat;
-import java.text.NumberFormat;
-import javax.swing.text.NumberFormatter;
 
 public class EingabeFeld extends JTextField {
 

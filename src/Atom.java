@@ -12,10 +12,8 @@ public class Atom {
 
 		Orbital Orb = getOrbital(Flaeche.n, Flaeche.l, Flaeche.m);
 		gef = Orb.beobachte(MessungNummer);
-		
-		if (gef) { MessungNummer++; if (AnzEl < Flaeche.MaxAnzEl) AnzEl++; }		
-		if (MessungNummer >= Flaeche.MaxAnzEl)
-			MessungNummer = 0;		
+		if (gef) { MessungNummer++; if (AnzEl < Flaeche.MaxAnzEl) AnzEl++; }
+		if (MessungNummer >= Flaeche.MaxAnzEl) MessungNummer = 0;
 	}
 	
 	public static Orbital getOrbital(int n, int l, int m) {

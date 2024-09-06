@@ -7,9 +7,11 @@ public class Rahmen extends JFrame{
     
     public static int BildschirmBreite, BildschirmHoehe;
     
-    public Rahmen() {   
-    	
-    	setExtendedState(JFrame.MAXIMIZED_BOTH);
+    public Rahmen() {
+
+        setExtendedState(JFrame.MAXIMIZED_BOTH);
+        //setResizable(false);
+        //setUndecorated(true);
     	setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); 
     	
     	BildschirmBreite = Toolkit.getDefaultToolkit().getScreenSize().width; 

@@ -16,6 +16,7 @@ public class Flaeche extends JPanel {
 	public static double Kante = h / Laenge;	// Das Atom wird beobachtet in einem
 	                                        // Würfel der Kantenlänge "Kante"
 											// in Einheiten des Bohrschen Radius 5.291772e-11 m
+	//TODO Wert für TimerTakt überlegen
 	public static int TimerTakt = 20, TaktNummer = 0;	// Takt des Timers in ms (mind. 1)
 	public static int MessrateWert = 25, DeltaT = 1000 / (MessrateWert * TimerTakt);
 	//MessrateWert gibt an, wie oft pro s das Elektron gesucht wird.

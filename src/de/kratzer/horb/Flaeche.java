@@ -17,18 +17,19 @@ public class Flaeche extends JPanel {
 	                                        // Würfel der Kantenlänge "Kante"
 											// in Einheiten des Bohrschen Radius 5.291772e-11 m
 	//TODO Wert für TimerTakt überlegen
-	public static int TimerTakt = 20, TaktNummer = 0;	// Takt des Timers in ms (mind. 1)
-	public static int MessrateWert = 25, DeltaT = 1000 / (MessrateWert * TimerTakt);
+	public static int TimerTakt = 100, TaktNummer = 0;	// Takt des Timers in ms (mind. 1)
+	public static int MessrateWert = 5, DeltaT = 1000 / (MessrateWert * TimerTakt);
 	//MessrateWert gibt an, wie oft pro s das Elektron gesucht wird.
 	//DeltaT gibt an, nach wie vielen Timertakten jeweils das Elektron gesucht wird.
-	public static int NachleuchtZeitVorgabe = 1000;
+	//TODO Nachleuchten geschmeidiger machen
+	public static int NachleuchtZeitVorgabe = 2000;
 	public static double nachlFaktorImExp;
 	public static int Schnitt = 0;	// Schnittebene für 2D-Darstellung (0: räuml.;  1: x-y-Ebene; ...)
 	public static int n, l, m;	// Quantenzahlen
 	public static void setSchnitt(int schnitt) {
 		Schnitt = schnitt;
 	}  // Schnittebene für 2D-Darstellung
-	public static int MaxAnzEl = NachleuchtZeitVorgabe /(DeltaT*TimerTakt) + 1;
+	public static int MaxAnzEl;
 	//maximale Zahl gleichzeitig sichtbarer Elektronenfundorte
 	public static double[] Achse = new double[4];		//Drehachse
 	double alpha = 0.0;
@@ -53,22 +54,28 @@ public class Flaeche extends JPanel {
 
 		erzeugeEinstellungenUndBedienelemente();
 
+		if (DeltaT == 0) DeltaT =1;
+		MaxAnzEl = NachleuchtZeitVorgabe /(DeltaT*TimerTakt) + 1;
+
 		ActionListener ZeitNehmer = Takt -> {
 			TaktNummer++;
-			if (TaktNummer % DeltaT == 0) {		//Division mit Rest, damit die folgenden Aktionen...
-												// ...nur nach jedem DeltaT-ten Takt ausgeführt wird
-				Atom.suche();					//sucht möglichen Ort des Elektrons
-				alpha = alpha + Winkel;			//dreht das Orbital
-				if (alpha > 2 * pi)				//fängt nach 2pi// wieder bei 0 an
-					alpha = alpha - 2 * pi;		// wieder bei 0 an
+			if (TaktNummer < 50) {
+				if (TaktNummer % DeltaT == 0) {        //Division mit Rest, damit die folgenden Aktionen...
+					// ...nur nach jedem DeltaT-ten Takt ausgeführt wird
+					Atom.suche();                    //sucht möglichen Ort des Elektrons
+					alpha = alpha + Winkel;            //dreht das Orbital
+					if (alpha > 2 * pi)                //fängt nach 2pi// wieder bei 0 an
+						alpha = alpha - 2 * pi;        // wieder bei 0 an
+				}
+
+				repaint();
+				//if (TaktNummer % DeltaT == 0) { repaint(); }
+				// zeichnet nach jedem DeltaT-ten Takt
+				// auf "Flaeche", wie in der
+				// überschriebenen "paintComponent" angegeben
 			}
-
-			if (TaktNummer % DeltaT == 0) { repaint(); }
-											// zeichnet nach jedem DeltaT-ten Takt
-											// auf "Flaeche", wie in der
-											// überschriebenen "paintComponent" angegeben
+			;
 		};
-
 		Timer Uhr = new Timer(TimerTakt, ZeitNehmer);
 		Uhr.start();
 	}

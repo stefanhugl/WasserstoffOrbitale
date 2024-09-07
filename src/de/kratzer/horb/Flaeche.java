@@ -229,7 +229,7 @@ public class Flaeche extends JPanel {
 			public void mouseDragged(MouseEvent Pos) {
 
 				int mstY = h-MassstabPosY, mouY = Pos.getY(), mouX = Pos.getX(), mstX = (int)(10+Laenge);
-				if (mouY > mstY-8 && mouY < mstY+8 && mouX > mstX-8 && mouX < mstX+8) {
+				if (mouY > mstY-8 && mouY < mstY+8 && mouX > mstX-48 && mouX < mstX+48 && mouX > 10) {
 
 					Atom.setzeZurueck();
 					Laenge = mouX - 10;
@@ -421,7 +421,6 @@ public class Flaeche extends JPanel {
 		add(Chemisch); add(Magnetisch);
 	}
 	public void richteMasstabWahlEin() {
-	//TODO Mausempfindlichkeit großzügiger machen
 		Schild.erzeuge(Massstab,"<html><u>Massstab</u></<html>", 10, h - MassstabPosY - 51, 200, 20);
 		add(Massstab);
 		Schild.erzeuge(Angstroem,"1Å", 10 + (int)Laenge / 2 - 5, h - MassstabPosY + 6, 40, 30);

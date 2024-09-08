@@ -35,9 +35,9 @@ public class Elektron {
 		ebeneZeichnung.setColor(Farbe);
 
 		Alter = Flaeche.TaktNummer - t;				// mit zunehmendem Alter...
-		Alter = Alter * 20;
+		Alter = Alter * Flaeche.DeltaT;
 
-		if (Alter < 0) Alter = 20;	//(für den Fall, dass Flaeche.TaktNummer die doubleGröße überstiegen hat)
+		if (Alter < 0) Alter = Flaeche.DeltaT;	//(für den Fall, dass Flaeche.TaktNummer die doubleGröße überstiegen hat)
 		KreuzGroesse = AnfangsKreuzGroesse * (Math.exp(Alter * Flaeche.nachlFaktorImExp));	//..verkleinern
 		if (KreuzGroesse < 0) KreuzGroesse = 0;
 		KrGr = (int)KreuzGroesse;

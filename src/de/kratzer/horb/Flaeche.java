@@ -17,8 +17,9 @@ public class Flaeche extends JPanel {
 	                                        // Würfel der Kantenlänge "Kante"
 											// in Einheiten des Bohrschen Radius 5.291772e-11 m
 	//TODO Wert für TimerTakt überlegen
-	public static int TimerTakt = 100, TaktNummer = 0;	// Takt des Timers in ms (mind. 1)
-	public static int MessrateWert = 5, DeltaT = 1000 / (MessrateWert * TimerTakt);
+	public static int TimerTakt = 10, TaktNummer = 0;	// Takt des Timers in ms (mind. 1)
+	//TODO DeltaT muss in Zeile 22, 371 und 376 wieder auf "...=1000/..." gesetzt werden!
+	public static int MessrateWert = 100, DeltaT = 10000 / (MessrateWert * TimerTakt);
 	//MessrateWert gibt an, wie oft pro s das Elektron gesucht wird.
 	//DeltaT gibt an, nach wie vielen Timertakten jeweils das Elektron gesucht wird.
 	//TODO Nachleuchten geschmeidiger machen
@@ -40,7 +41,7 @@ public class Flaeche extends JPanel {
 	EingabeFeld NachleuchtZeitEing = new EingabeFeld();
 	Schild  Chemisch = new Schild() , Magnetisch = new Schild(), Massstab = new Schild(), Angstroem = new Schild(), zieh = new Schild(),
 			Raeuml = new Schild(), odr = new Schild(), Schn = new Schild(),
-			xAch = new Schild(), yAch = new Schild(),zAch = new Schild(),		//AchsSchild = new Schild(),
+			xAch = new Schild(), yAch = new Schild(),zAch = new Schild(),
 			Quantenzahlen = new Schild(), nSchild = new Schild(), lSchild = new Schild(), mSchild = new Schild(),
 			Dreh = new Schild(), Geschw = new Schild(), Umdr = new Schild(),
 			MaxAnz = new Schild(), Messrate = new Schild(), proS = new Schild(), NachleuchtZeit = new Schild(), inMs = new Schild(),
@@ -55,11 +56,12 @@ public class Flaeche extends JPanel {
 		erzeugeEinstellungenUndBedienelemente();
 
 		if (DeltaT == 0) DeltaT =1;
-		MaxAnzEl = NachleuchtZeitVorgabe /(DeltaT*TimerTakt) + 1;
+		MaxAnzEl = NachleuchtZeitVorgabe/(DeltaT*TimerTakt) + 1;
 
 		ActionListener ZeitNehmer = Takt -> {
-			TaktNummer++;
-			if (TaktNummer < 50) {
+			TaktNummer++; System.out.println(TaktNummer + "   " + DeltaT + "   " + TaktNummer % DeltaT);
+			if (TaktNummer < 5000) {      //TODO die %-Formel funktioniert nicht richtig, so lang Taktnummer<DeltaT ist
+				System.out.println("     " + TaktNummer);
 				if (TaktNummer % DeltaT == 0) {        //Division mit Rest, damit die folgenden Aktionen...
 					// ...nur nach jedem DeltaT-ten Takt ausgeführt wird
 					Atom.suche();                    //sucht möglichen Ort des Elektrons
@@ -366,12 +368,12 @@ public class Flaeche extends JPanel {
 		Schild.erzeuge(inMs,"ms",  180, 310, 200, 20);
 		add(MaxAnz); add(proS); add(Messrate); add(NachleuchtZeit); add(inMs);
 		EingabeFeld.richteEin(MessrateEing, String.valueOf(MessrateWert), 132, 280); add(MessrateEing);
-		DeltaT = 1000 / (Integer.parseInt(MessrateEing.getText()) * TimerTakt);
+		DeltaT = 10000 / (Integer.parseInt(MessrateEing.getText()) * TimerTakt);
 		ActionListener MessrateWarter = Eing -> {
 			int mE = Integer.parseInt(MessrateEing.getText());
 			int uG = 1; int oG = 1000 / TimerTakt;				//damit DeltaT>1 bleibt
 			mE = EingabeFeld.pruefe(MessrateEing, mE, uG, oG);
-			DeltaT = (int)((1000f / ((float)mE * (float)TimerTakt)) + 0.5);
+			DeltaT = (int)((10000f / ((float)mE * (float)TimerTakt)) + 0.5);
 		};
 		MessrateEing.addActionListener(MessrateWarter);
 

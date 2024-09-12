@@ -18,7 +18,7 @@ public class Atom {
 	
 	public static Orbital getOrbital(int n, int l, int m) {
 		
-		Zustand = n*100 + l*10 + m;
+		Zustand = n*100 + l*10 + m;  //die drei Quantenzahlen werden in EINE Zahl verwandelt, damit man mit "case" entscheiden kann
 		switch (Zustand) {
 
 			case 100: { OrbitalEinsS Orbital = new OrbitalEinsS(); Chem="1s"; Magn="";  return Orbital;}
@@ -45,6 +45,5 @@ public class Atom {
 		MessungNummer = 0;
 		Orbital.MessZeit = 0;
 		Flaeche.Winkel = 0;
-		//Diagramm.setzeZurueck();
 	}
 }

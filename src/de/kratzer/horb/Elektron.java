@@ -45,11 +45,12 @@ public class Elektron {
 		PunktGroesse = AnfangsPunktGroesse * (Math.exp(Alter * Flaeche.nachlFaktorImExp / 2));
 		if (PunktGroesse < 0) PunktGroesse = 0;
 		PuGr = (int)PunktGroesse;
-
-		if (x<=b && y<=h && PunktGroesse>1 && KreuzGroesse>1) {															//falls innerhalb des Bildschirms
+		//System.out.print((int)(Alter/10000)); //"A" + Alter + " " + " " +PuGr
+		if (x<=b && y<=h && PunktGroesse>=1 ) {															//falls innerhalb des Bildschirms
 			ebeneZeichnung.fillOval((int)x - PuGr/2, (int)y - PuGr/2, PuGr, PuGr);						//Punkt und
 			ebeneZeichnung.drawLine((int)x - KrGr, (int)y - KrGr, (int)x + KrGr, (int)y + KrGr);	//Kreuz
 			ebeneZeichnung.drawLine((int)x + KrGr, (int)y - KrGr, (int)x - KrGr, (int)y + KrGr);	//zeichnen mit x und y Koord.
+			//System.out.print("gez ");
 		}
 	}
 }

@@ -14,16 +14,17 @@ public class Flaeche extends JPanel {
 	public static int MassstabPosY = 146; //Abstand vom unteren Rand
 	public static double Laenge = 0.1*h; 	//Anfangslänge des Maßstabs (entspricht 1 Angström)
 	public static double Kante = h / Laenge;	// Das Atom wird beobachtet in einem
-	                                        // Würfel der Kantenlänge "Kante"
-											// in Einheiten des Bohrschen Radius 5.291772e-11 m
-	//TODO Wert für TimerTakt überlegen
-	public static int TimerTakt = 10, TaktNummer = 0;	// Takt des Timers in ms (mind. 1)
-	//TODO DeltaT muss in Zeile 22, 371 und 376 wieder auf "...=1000/..." gesetzt werden!
-	public static int MessrateWert = 100, DeltaT = 10000 / (MessrateWert * TimerTakt);
+												// Würfel der Kantenlänge "Kante"
+												// in Einheiten des Bohrschen Radius 5.291772e-11 m
+	//TODO Wert für TimerTakt überlegen, auch in Zusammenhang mit Orbital.VersuchsZähler-Begrenzung
+	public static int TimerTakt = 5, TaktNummer = 0;	// Takt des Timers in ms (mind. 1)
+	// DeltaT muss in Zeile 22, 371 und 376 wieder auf "...=1000/..." gesetzt werden!
+	public static int MessrateWert = 4, DeltaT = 1000 / (MessrateWert * TimerTakt);
 	//MessrateWert gibt an, wie oft pro s das Elektron gesucht wird.
 	//DeltaT gibt an, nach wie vielen Timertakten jeweils das Elektron gesucht wird.
 	//TODO Nachleuchten geschmeidiger machen
-	public static int NachleuchtZeitVorgabe = 2000;
+	public static int NachleuchtZeitVorgabe = 10000; // in ms
+	//TODO Warum ist die Nachleuchtzeit kürzer als NachleuchtZeitVorgabe?
 	public static double nachlFaktorImExp;
 	public static int Schnitt = 0;	// Schnittebene für 2D-Darstellung (0: räuml.;  1: x-y-Ebene; ...)
 	public static int n, l, m;	// Quantenzahlen
@@ -59,9 +60,9 @@ public class Flaeche extends JPanel {
 		MaxAnzEl = NachleuchtZeitVorgabe/(DeltaT*TimerTakt) + 1;
 
 		ActionListener ZeitNehmer = Takt -> {
-			TaktNummer++; System.out.println(TaktNummer + "   " + DeltaT + "   " + TaktNummer % DeltaT);
-			if (TaktNummer < 5000) {      //TODO die %-Formel funktioniert nicht richtig, so lang Taktnummer<DeltaT ist
-				System.out.println("     " + TaktNummer);
+			TaktNummer++; //System.out.println(TaktNummer + "   " + DeltaT + "   " + TaktNummer % DeltaT);
+			if (TaktNummer < 3000) {      //TODO die %-Formel funktioniert nicht richtig, so lang Taktnummer<DeltaT ist
+				//System.out.println("     " + TaktNummer);
 				if (TaktNummer % DeltaT == 0) {        //Division mit Rest, damit die folgenden Aktionen...
 					// ...nur nach jedem DeltaT-ten Takt ausgeführt wird
 					Atom.suche();                    //sucht möglichen Ort des Elektrons
@@ -88,10 +89,12 @@ public class Flaeche extends JPanel {
 		Graphics2D ebeneZeichnung = (Graphics2D) Zeichnung;
 		Bleibendes.zeichne(ebeneZeichnung);
 		int nEl = Atom.AnzEl;
+		//System.out.println(); System.out.print(nEl); System.out.println();
 		berechneDrehmatrix(alpha, Achse[1], Achse[2], Achse[3]);
 		for (int i = 0; i < nEl; i++) {
 			Elektron.zeichne(i, a11, a12, a13, a21, a22, a23, a31, a32, a33, ebeneZeichnung);
 		}
+		//System.out.println();
 	}
 	
 	public void berechneDrehmatrix(double alpha, double n1, double n2, double n3) {
@@ -368,12 +371,12 @@ public class Flaeche extends JPanel {
 		Schild.erzeuge(inMs,"ms",  180, 310, 200, 20);
 		add(MaxAnz); add(proS); add(Messrate); add(NachleuchtZeit); add(inMs);
 		EingabeFeld.richteEin(MessrateEing, String.valueOf(MessrateWert), 132, 280); add(MessrateEing);
-		DeltaT = 10000 / (Integer.parseInt(MessrateEing.getText()) * TimerTakt);
+		DeltaT = 1000 / (Integer.parseInt(MessrateEing.getText()) * TimerTakt);
 		ActionListener MessrateWarter = Eing -> {
 			int mE = Integer.parseInt(MessrateEing.getText());
 			int uG = 1; int oG = 1000 / TimerTakt;				//damit DeltaT>1 bleibt
 			mE = EingabeFeld.pruefe(MessrateEing, mE, uG, oG);
-			DeltaT = (int)((10000f / ((float)mE * (float)TimerTakt)) + 0.5);
+			DeltaT = (int)((1000f / ((float)mE * (float)TimerTakt)) + 0.5);
 		};
 		MessrateEing.addActionListener(MessrateWarter);
 

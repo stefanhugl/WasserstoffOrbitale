@@ -36,7 +36,8 @@ public abstract class Orbital {
 
             double Zz = Zufallsgenerator.nextDouble();    //mit Wahrscheinlichkeit p
             if (Zz < p) gefunden = true;                //entscheiden, ob das Elektron dort ist.
-            if (gefunden) { merkeKoordinaten(Nummer); System.out.println(VersuchsZaehler); }
+            if (gefunden) merkeKoordinaten(Nummer);
+            //System.out.println(VersuchsZaehler);
         }
 
         return gefunden;

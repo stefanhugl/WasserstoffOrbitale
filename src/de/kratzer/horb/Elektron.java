@@ -36,7 +36,7 @@ public class Elektron {
 
 		Alter = Flaeche.TaktNummer - t;				// mit zunehmendem Alter...
 		Alter = Alter * Flaeche.DeltaT;
-
+/*
 		if (Alter < 0) Alter = Flaeche.DeltaT;	//(für den Fall, dass Flaeche.TaktNummer die doubleGröße überstiegen hat)
 		KreuzGroesse = AnfangsKreuzGroesse * (Math.exp(Alter * Flaeche.nachlFaktorImExp));	//..verkleinern
 		if (KreuzGroesse < 0) KreuzGroesse = 0;
@@ -45,7 +45,14 @@ public class Elektron {
 		PunktGroesse = AnfangsPunktGroesse * (Math.exp(Alter * Flaeche.nachlFaktorImExp / 2));
 		if (PunktGroesse < 0) PunktGroesse = 0;
 		PuGr = (int)PunktGroesse;
+ */
 		//System.out.print((int)(Alter/10000)); //"A" + Alter + " " + " " +PuGr
+
+		KreuzGroesse = AnfangsKreuzGroesse*(Alter/(Flaeche.NachleuchtZeitVorgabe/Flaeche.TimerTakt)); if (Alter > Flaeche.NachleuchtZeitVorgabe/Flaeche.TimerTakt) KreuzGroesse = 0;
+		PunktGroesse = AnfangsPunktGroesse*(Alter/(Flaeche.NachleuchtZeitVorgabe/Flaeche.TimerTakt)); if (Alter > Flaeche.NachleuchtZeitVorgabe/Flaeche.TimerTakt) PunktGroesse = 0;
+		KrGr = (int)KreuzGroesse; PuGr = (int)PunktGroesse;
+		System.out.print(Alter + " " + Flaeche.NachleuchtZeitVorgabe/Flaeche.TimerTakt + "   "); //System.out.print(KrGr + " ");
+
 		if (x<=b && y<=h && PunktGroesse>=1 ) {															//falls innerhalb des Bildschirms
 			ebeneZeichnung.fillOval((int)x - PuGr/2, (int)y - PuGr/2, PuGr, PuGr);						//Punkt und
 			ebeneZeichnung.drawLine((int)x - KrGr, (int)y - KrGr, (int)x + KrGr, (int)y + KrGr);	//Kreuz

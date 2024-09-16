@@ -16,13 +16,13 @@ public class Flaeche extends JPanel {
 	public static double Kante = h / Laenge;	// Das Atom wird beobachtet in einem
 												// Würfel der Kantenlänge "Kante"
 												// in Einheiten des Bohrschen Radius 5.291772e-11 m
-	//TODO Wert für TimerTakt überlegen, auch in Zusammenhang mit Orbital.VersuchsZähler-Bekgrenzung
-	public static int TimerTakt = 25, TaktNummer = 0;	// Takt des Timers in ms (mind. 1)
+	//TODO kann bei schnelleren Computern die der Takt kleiner als 10 ms gewählt werden?
+	public static int TimerTakt = 20, TaktNummer = 0;	// Takt des Timers in ms (mind. 1)
 	// DeltaT muss in Zeile 22, 371 und 376 wieder auf "...=1000/..." gesetzt werden!
-	public static int MessrateWert = 20, DeltaT = 1000 / (MessrateWert * TimerTakt);
+	public static int MessrateWert = 10, DeltaT = 1000 / (MessrateWert * TimerTakt);
+	//MessrateWert * TimerTakt darf nicht größer als 1000 sein.
 	//MessrateWert gibt an, wie oft pro s das Elektron gesucht wird.
 	//DeltaT gibt an, nach wie vielen Timertakten jeweils das Elektron gesucht wird.
-	//TODO Nachleuchten geschmeidiger machen
 	public static int NachleuchtZeitVorgabe = 2000; // in ms
 	public static double nachlFaktorImExp;
 	public static int Schnitt = 0;	// Schnittebene für 2D-Darstellung (0: räuml.;  1: x-y-Ebene; ...)
@@ -60,7 +60,7 @@ public class Flaeche extends JPanel {
 
 		ActionListener ZeitNehmer = Takt -> {
 			TaktNummer++; //System.out.println(TaktNummer + "   " + DeltaT + "   " + TaktNummer % DeltaT);
-			if (TaktNummer < 500) {      //TODO die %-Formel funktioniert nicht richtig, so lang Taktnummer<DeltaT ist
+			if (TaktNummer < 4000) {      //TODO die %-Formel funktioniert nicht richtig, so lang Taktnummer<DeltaT ist
 				//System.out.println("     " + TaktNummer);
 				if (TaktNummer % DeltaT == 0) {        //Division mit Rest, damit die folgenden Aktionen...
 					// ...nur nach jedem DeltaT-ten Takt ausgeführt wird

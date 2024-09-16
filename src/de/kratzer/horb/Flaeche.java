@@ -18,13 +18,12 @@ public class Flaeche extends JPanel {
 												// in Einheiten des Bohrschen Radius 5.291772e-11 m
 	//TODO kann bei schnelleren Computern die der Takt kleiner als 10 ms gewählt werden?
 	public static int TimerTakt = 20, TaktNummer = 0;	// Takt des Timers in ms (mind. 1)
-	// DeltaT muss in Zeile 22, 371 und 376 wieder auf "...=1000/..." gesetzt werden!
 	public static int MessrateWert = 10, DeltaT = 1000 / (MessrateWert * TimerTakt);
 	//MessrateWert * TimerTakt darf nicht größer als 1000 sein.
 	//MessrateWert gibt an, wie oft pro s das Elektron gesucht wird.
 	//DeltaT gibt an, nach wie vielen Timertakten jeweils das Elektron gesucht wird.
 	public static int NachleuchtZeitVorgabe = 2000; // in ms
-	public static double nachlFaktorImExp;
+	public static double nachlFaktorImExp; //TODO umbenennen
 	public static int Schnitt = 0;	// Schnittebene für 2D-Darstellung (0: räuml.;  1: x-y-Ebene; ...)
 	public static int n, l, m;	// Quantenzahlen
 	public static void setSchnitt(int schnitt) {
@@ -36,7 +35,7 @@ public class Flaeche extends JPanel {
 	double alpha = 0.0;
 	public static double Winkel = 0.0;					//für Drehung
 	double a11, a12, a13, a21, a22, a23, a31, a32, a33;	//Drehmatrix
-	EingabeFeld WinkelEing = new EingabeFeld();
+	EingabeFeld         WinkelEing = new EingabeFeld();
 	EingabeFeld       MessrateEing = new EingabeFeld();
 	EingabeFeld NachleuchtZeitEing = new EingabeFeld();
 	Schild  Chemisch = new Schild() , Magnetisch = new Schild(), Massstab = new Schild(), Angstroem = new Schild(), zieh = new Schild(),
@@ -59,11 +58,11 @@ public class Flaeche extends JPanel {
 		MaxAnzEl = NachleuchtZeitVorgabe/(DeltaT*TimerTakt) + 1;
 
 		ActionListener ZeitNehmer = Takt -> {
-			TaktNummer++; //System.out.println(TaktNummer + "   " + DeltaT + "   " + TaktNummer % DeltaT);
-			if (TaktNummer < 4000) {      //TODO die %-Formel funktioniert nicht richtig, so lang Taktnummer<DeltaT ist
+			TaktNummer++;
+			if (TaktNummer < 4000) {
 				//System.out.println("     " + TaktNummer);
 				if (TaktNummer % DeltaT == 0) {        //Division mit Rest, damit die folgenden Aktionen...
-					// ...nur nach jedem DeltaT-ten Takt ausgeführt wird
+													  // ...nur nach jedem DeltaT-ten Takt ausgeführt wird
 					Atom.suche();                    //sucht möglichen Ort des Elektrons
 					alpha = alpha + Winkel;            //dreht das Orbital
 					if (alpha > 2 * pi)                //fängt nach 2pi// wieder bei 0 an
@@ -76,7 +75,6 @@ public class Flaeche extends JPanel {
 				// auf "Flaeche", wie in der
 				// überschriebenen "paintComponent" angegeben
 			}
-			;
 		};
 		Timer Uhr = new Timer(TimerTakt, ZeitNehmer);
 		Uhr.start();
@@ -88,7 +86,6 @@ public class Flaeche extends JPanel {
 		Graphics2D ebeneZeichnung = (Graphics2D) Zeichnung;
 		Bleibendes.zeichne(ebeneZeichnung);
 		int nEl = Atom.AnzEl;
-		//System.out.println(); System.out.print(nEl); System.out.println();
 		berechneDrehmatrix(alpha, Achse[1], Achse[2], Achse[3]);
 		for (int i = 0; i < nEl; i++) {
 			Elektron.zeichne(i, a11, a12, a13, a21, a22, a23, a31, a32, a33, ebeneZeichnung);
@@ -157,7 +154,6 @@ public class Flaeche extends JPanel {
 		add(nMinus);
 		
 		ActionListener nMinusWarter = Erniedrige -> {
-			//erzeugeTextFeld("   ", 15, 65, 50);
 			if (n > 1) n--;
 			if (l > n-1) l--;
 			if (m > l) m--;

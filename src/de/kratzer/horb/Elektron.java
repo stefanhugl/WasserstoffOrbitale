@@ -8,6 +8,7 @@ public class Elektron {
 	public static double AnfangsPunktGroesse = 10;
 	public static double Alter, KreuzGroesse, PunktGroesse;
 	public static int KrGr, PuGr;
+	public static float Gr, Saettigung;
 
 	public static void zeichne(int i, double a11, double a12, double a13, double a21, double a22, double a23, double a31, double a32, double a33, Graphics2D ebeneZeichnung) {
 
@@ -26,10 +27,11 @@ public class Elektron {
 		x =  y - xs/3 + b/2;
 		y = -z + xs/5 + h/2;
 
-		float Saettigung = 1f; if (Flaeche.Schnitt == 0) Saettigung = 0.5f-((float)(xs))/((float)(h/2));  //Saettigung = 0.5f-((float)(xs))/((float)(h/2));
+		float Saettigung = 1f; if (Flaeche.Schnitt == 0) Saettigung = 0.5f-((float)(xs))/((float)(h/2));
+
 		if (Saettigung<0) { Saettigung = 0;}
 		if (Saettigung>1) { Saettigung = 1;}						//Farbton bestimmen
-																// t ist die Zeit der Messung
+		// t ist die Zeit der Messung
 		Color Farbe = new Color(1, 1, 1, Saettigung);
 		ebeneZeichnung.setColor(Farbe);
 

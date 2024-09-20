@@ -23,7 +23,7 @@ public class Flaeche extends JPanel {
 	//MessrateWert gibt an, wie oft pro s das Elektron gesucht wird.
 	//DeltaT gibt an, nach wie vielen Timertakten jeweils das Elektron gesucht wird.
 	public static int NachleuchtZeitVorgabe = 2000; // in ms
-	public static double nachlFaktorImExp; //TODO umbenennen
+	//public static double nachlFaktorImExp; //TODO umbenennen
 	public static int Schnitt = 0;	// Schnittebene für 2D-Darstellung (0: räuml.;  1: x-y-Ebene; ...)
 	public static int n, l, m;	// Quantenzahlen
 	public static void setSchnitt(int schnitt) {
@@ -59,8 +59,6 @@ public class Flaeche extends JPanel {
 
 		ActionListener ZeitNehmer = Takt -> {
 			TaktNummer++;
-			if (TaktNummer < 4000) {
-				//System.out.println("     " + TaktNummer);
 				if (TaktNummer % DeltaT == 0) {        //Division mit Rest, damit die folgenden Aktionen...
 													  // ...nur nach jedem DeltaT-ten Takt ausgeführt wird
 					Atom.suche();                    //sucht möglichen Ort des Elektrons
@@ -74,11 +72,11 @@ public class Flaeche extends JPanel {
 				// zeichnet nach jedem DeltaT-ten Takt
 				// auf "Flaeche", wie in der
 				// überschriebenen "paintComponent" angegeben
-			}
 		};
 		Timer Uhr = new Timer(TimerTakt, ZeitNehmer);
 		Uhr.start();
 	}
+
 	@Override
 	public void paintComponent(Graphics Zeichnung) {
 
@@ -114,7 +112,7 @@ public class Flaeche extends JPanel {
 
 	public void erzeugeEinstellungenUndBedienelemente() {
 		setBackground(Color.black); setLayout(null);
-		nachlFaktorImExp = Math.log(1/Elektron.AnfangsKreuzGroesse) / NachleuchtZeitVorgabe;
+		//nachlFaktorImExp = Math.log(1/Elektron.AnfangsKreuzGroesse) / NachleuchtZeitVorgabe;
 		n = 1; l = 0;
 		richteQuantenzahlWahlEin();
 		richteOrbitalBenennungEin();
@@ -125,6 +123,7 @@ public class Flaeche extends JPanel {
 		erzeugeMassstabsAenderung();
 		erzeugeElektronenWahl();
 	}
+
 	public void richteQuantenzahlWahlEin() {
 
 		Schild.erzeuge(Quantenzahlen,"<html><u>Quantenzahlen</u></<html>", 10, 15, 150, 20);
@@ -382,7 +381,7 @@ public class Flaeche extends JPanel {
 			int Ein = Integer.parseInt(NachleuchtZeitEing.getText());
 			int uG = 1; int oG = 10000;
 			NachleuchtZeitVorgabe = EingabeFeld.pruefe(NachleuchtZeitEing, Ein, uG, oG);
-			nachlFaktorImExp = Math.log(1 / Elektron.AnfangsKreuzGroesse) / NachleuchtZeitVorgabe;
+			//nachlFaktorImExp = Math.log(1 / Elektron.AnfangsKreuzGroesse) / NachleuchtZeitVorgabe;
 		};
 		NachleuchtZeitEing.addActionListener(NachleuchtZeitWarter);
 	}

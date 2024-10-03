@@ -6,7 +6,7 @@ public class Bleibendes {
     public static void zeichne(Graphics2D ebeneZeichnung){
 
         int h = Rahmen.BildschirmHoehe;	int b = Rahmen.BildschirmBreite;
-        int mstY = Flaeche.MassstabPosY, msl = (int)Flaeche.Laenge;			//Massstab aktualisieren
+        int mstY = Flaeche.MassstabPosY, msl = (int)Flaeche.MassstabLaenge;			//Massstab aktualisieren
         Color Farbe1 = new Color(1, 1, 1, 1.0f);
         ebeneZeichnung.setColor(Farbe1);
         ebeneZeichnung.drawLine(10+msl,     h-mstY-6, 10+msl, h-mstY+6);		//Massstab zeichnen

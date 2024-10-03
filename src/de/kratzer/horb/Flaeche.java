@@ -12,8 +12,8 @@ public class Flaeche extends JPanel {
 	final static double pi = 3.14159265;
 	public static int h = Rahmen.BildschirmHoehe, b = Rahmen.BildschirmBreite;
 	public static int MassstabPosY = 146; //Abstand vom unteren Rand
-	public static double Laenge = 0.1*h; 	//Anfangslänge des Maßstabs (entspricht 1 Angström)
-	public static double Kante = h / Laenge;	// Das Atom wird beobachtet in einem
+	public static double MassstabLaenge = 0.1*h; 	//Anfangslänge des Maßstabs (entspricht 1 Angström)
+	public static double Kante = h / MassstabLaenge;	// Das Atom wird beobachtet in einem
 												// Würfel der Kantenlänge "Kante"
 												// in Einheiten des Bohrschen Radius 5.291772e-11 m
 	//TODO kann bei schnelleren Computern die der Takt kleiner als 10 ms gewählt werden?
@@ -23,7 +23,6 @@ public class Flaeche extends JPanel {
 	//MessrateWert gibt an, wie oft pro s das Elektron gesucht wird.
 	//DeltaT gibt an, nach wie vielen Timertakten jeweils das Elektron gesucht wird.
 	public static int NachleuchtZeitVorgabe = 2000; // in ms
-	//public static double nachlFaktorImExp; //TODO umbenennen
 	public static int Schnitt = 0;	// Schnittebene für 2D-Darstellung (0: räuml.;  1: x-y-Ebene; ...)
 	public static int n, l, m;	// Quantenzahlen
 	public static void setSchnitt(int schnitt) {
@@ -87,12 +86,13 @@ public class Flaeche extends JPanel {
 		berechneDrehmatrix(alpha, Achse[1], Achse[2], Achse[3]);
 		for (int i = 0; i < nEl; i++) {
 			Elektron.zeichne(i, a11, a12, a13, a21, a22, a23, a31, a32, a33, ebeneZeichnung);
+			//i: Nummer des Elektronenfundortes; a11..a33: Drehmatrix
 		}
 		System.out.println();
 	}
 	
 	public void berechneDrehmatrix(double alpha, double n1, double n2, double n3) {
-
+								//alpha: Drehwinkel; n: Vektor der Drehachse
 		double co, si, mi;
 		co = Math.cos(alpha);
 		si = Math.sin(alpha);
@@ -112,7 +112,6 @@ public class Flaeche extends JPanel {
 
 	public void erzeugeEinstellungenUndBedienelemente() {
 		setBackground(Color.black); setLayout(null);
-		//nachlFaktorImExp = Math.log(1/Elektron.AnfangsKreuzGroesse) / NachleuchtZeitVorgabe;
 		n = 1; l = 0;
 		richteQuantenzahlWahlEin();
 		richteOrbitalBenennungEin();
@@ -143,7 +142,6 @@ public class Flaeche extends JPanel {
 			nSchild.setText("n = " + n);
 			Atom.getOrbital(n, l, m);
 			Chemisch.setText(Atom.Chem);
-			//Magnetisch.setText(Atom.Magn);
 			Atom.setzeZurueck();
 		};
 		
@@ -234,14 +232,14 @@ public class Flaeche extends JPanel {
 			@Override
 			public void mouseDragged(MouseEvent Pos) {
 
-				int mstY = h-MassstabPosY, mouY = Pos.getY(), mouX = Pos.getX(), mstX = (int)(10+Laenge);
+				int mstY = h-MassstabPosY, mouY = Pos.getY(), mouX = Pos.getX(), mstX = (int)(10+ MassstabLaenge);
 				if (mouY > mstY-8 && mouY < mstY+8 && mouX > mstX-48 && mouX < mstX+48 && mouX > 10) {
 
 					Atom.setzeZurueck();
-					Laenge = mouX - 10;
-					Kante = 1.8897*h / Laenge;
-					Angstroem.setBounds(10 + (int)Laenge / 2 - 5, h - MassstabPosY + 6, 40, 20);
-					zieh.setBounds(10 + (int)Laenge-88, h - MassstabPosY - 34, 140, 30);
+					MassstabLaenge = mouX - 10;
+					Kante = 1.8897*h / MassstabLaenge;
+					Angstroem.setBounds(10 + (int) MassstabLaenge / 2 - 5, h - MassstabPosY + 6, 40, 20);
+					zieh.setBounds(10 + (int) MassstabLaenge -88, h - MassstabPosY - 34, 140, 30);
 				}
 			}
 		});
@@ -429,10 +427,10 @@ public class Flaeche extends JPanel {
 	public void richteMasstabWahlEin() {
 		Schild.erzeuge(Massstab,"<html><u>Massstab</u></<html>", 10, h - MassstabPosY - 51, 200, 20);
 		add(Massstab);
-		Schild.erzeuge(Angstroem,"1Å", 10 + (int)Laenge / 2 - 5, h - MassstabPosY + 6, 40, 30);
+		Schild.erzeuge(Angstroem,"1Å", 10 + (int) MassstabLaenge / 2 - 5, h - MassstabPosY + 6, 40, 30);
 		Angstroem.setFont(Angstroem.getFont().deriveFont(16f));
 		add(Angstroem);
-		Schild.erzeuge(zieh,"hier ziehen ↓", 10 + (int)Laenge-88, h - MassstabPosY - 34, 140, 30);
+		Schild.erzeuge(zieh,"hier ziehen ↓", 10 + (int) MassstabLaenge -88, h - MassstabPosY - 34, 140, 30);
 		add(zieh);
 	}
 }

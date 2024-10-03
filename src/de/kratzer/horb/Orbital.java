@@ -10,7 +10,7 @@ public abstract class Orbital {
     public boolean gefunden = false;
     public double Psi;
     private final java.util.Random Zufallsgenerator = new java.util.Random();
-    double h = Rahmen.BildschirmHoehe;
+    double h = Rahmen.BildschirmHoehe; //TODO ist das nicht schon in Flaeche definiert?
     public static double[][] Fund = new double[Flaeche.MaxAnzEl][4];
     public boolean beobachte(int Nummer) {
 

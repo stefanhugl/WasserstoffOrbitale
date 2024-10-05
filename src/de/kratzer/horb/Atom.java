@@ -4,21 +4,21 @@ public class Atom {
 	
 	public static int MessungNummer = 0;
 	public static int AnzEl = 0;
-	public static boolean gef;
+	public static boolean gefunden; //ist true, wenn in Klasse Orbital ein Elektronenort gefunden wurde
 	public static int Zustand;
 	public static String Chem="1s", Magn="";
 	
 	public static void suche() {
 
 		Orbital Orb = getOrbital(Flaeche.n, Flaeche.l, Flaeche.m);
-		gef = Orb.beobachte(MessungNummer);
-		if (gef) { MessungNummer++; if (AnzEl < Flaeche.MaxAnzEl) AnzEl++; }
+		gefunden = Orb.beobachte(MessungNummer);
+		if (gefunden) { MessungNummer++; if (AnzEl < Flaeche.MaxAnzEl) AnzEl++; }
 		if (MessungNummer >= Flaeche.MaxAnzEl) MessungNummer = 0;
 	}
 	
 	public static Orbital getOrbital(int n, int l, int m) {
 		
-		Zustand = n*100 + l*10 + m;
+		Zustand = n*100 + l*10 + m;  //die drei Quantenzahlen werden in EINE Zahl verwandelt, damit man mit "case" entscheiden kann
 		switch (Zustand) {
 
 			case 100: { OrbitalEinsS Orbital = new OrbitalEinsS(); Chem="1s"; Magn="";  return Orbital;}
@@ -45,6 +45,5 @@ public class Atom {
 		MessungNummer = 0;
 		Orbital.MessZeit = 0;
 		Flaeche.Winkel = 0;
-		//Diagramm.setzeZurueck();
 	}
 }

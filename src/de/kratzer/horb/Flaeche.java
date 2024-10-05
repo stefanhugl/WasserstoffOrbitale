@@ -12,34 +12,34 @@ public class Flaeche extends JPanel {
 	final static double pi = 3.14159265;
 	public static int h = Rahmen.BildschirmHoehe, b = Rahmen.BildschirmBreite;
 	public static int MassstabPosY = 146; //Abstand vom unteren Rand
-	public static double Laenge = 0.1*h; 	//Anfangslänge des Maßstabs (entspricht 1 Angström)
-	public static double Kante = h / Laenge;	// Das Atom wird beobachtet in einem
-	                                        // Würfel der Kantenlänge "Kante"
-											// in Einheiten des Bohrschen Radius 5.291772e-11m
+	public static double MassstabLaenge = 0.1*h; 	//Anfangslänge des Maßstabs (entspricht 1 Angström)
+	public static double Kante = h / MassstabLaenge;	// Das Atom wird beobachtet in einem
+												// Würfel der Kantenlänge "Kante"
+												// in Einheiten des Bohrschen Radius 5.291772e-11 m
+	//TODO kann bei schnelleren Computern die der Takt kleiner als 10 ms gewählt werden?
 	public static int TimerTakt = 20, TaktNummer = 0;	// Takt des Timers in ms (mind. 1)
-	public static int MessrateWert = 25, DeltaT = 1000 / (MessrateWert * TimerTakt);
+	public static int MessrateWert = 10, DeltaT = 1000 / (MessrateWert * TimerTakt);
+	//MessrateWert * TimerTakt darf nicht größer als 1000 sein.
 	//MessrateWert gibt an, wie oft pro s das Elektron gesucht wird.
-	// DeltaT gibt an, nach wie  vielen Timertakten jeweils das Elektron gesucht wird.
-	public static int NachleuchtZeitVorgabe = 1000;
-	public static double nachlFaktorImExp;
+	//DeltaT gibt an, nach wie vielen Timertakten jeweils das Elektron gesucht wird.
+	public static int NachleuchtZeitVorgabe = 2000; // in ms
 	public static int Schnitt = 0;	// Schnittebene für 2D-Darstellung (0: räuml.;  1: x-y-Ebene; ...)
 	public static int n, l, m;	// Quantenzahlen
 	public static void setSchnitt(int schnitt) {
 		Schnitt = schnitt;
 	}  // Schnittebene für 2D-Darstellung
-	public static int MaxAnzEl = NachleuchtZeitVorgabe /(DeltaT*TimerTakt) + 1;
+	public static int MaxAnzEl;
 	//maximale Zahl gleichzeitig sichtbarer Elektronenfundorte
 	public static double[] Achse = new double[4];		//Drehachse
 	double alpha = 0.0;
 	public static double Winkel = 0.0;					//für Drehung
 	double a11, a12, a13, a21, a22, a23, a31, a32, a33;	//Drehmatrix
-	EingabeFeld WinkelEing = new EingabeFeld();
-	EingabeFeld         MaxAnzEing = new EingabeFeld();
+	EingabeFeld         WinkelEing = new EingabeFeld();
 	EingabeFeld       MessrateEing = new EingabeFeld();
 	EingabeFeld NachleuchtZeitEing = new EingabeFeld();
 	Schild  Chemisch = new Schild() , Magnetisch = new Schild(), Massstab = new Schild(), Angstroem = new Schild(), zieh = new Schild(),
 			Raeuml = new Schild(), odr = new Schild(), Schn = new Schild(),
-			xAch = new Schild(), yAch = new Schild(),zAch = new Schild(),		//AchsSchild = new Schild(),
+			xAch = new Schild(), yAch = new Schild(),zAch = new Schild(),
 			Quantenzahlen = new Schild(), nSchild = new Schild(), lSchild = new Schild(), mSchild = new Schild(),
 			Dreh = new Schild(), Geschw = new Schild(), Umdr = new Schild(),
 			MaxAnz = new Schild(), Messrate = new Schild(), proS = new Schild(), NachleuchtZeit = new Schild(), inMs = new Schild(),
@@ -53,43 +53,46 @@ public class Flaeche extends JPanel {
 
 		erzeugeEinstellungenUndBedienelemente();
 
+		if (DeltaT == 0) DeltaT =1;
+		MaxAnzEl = NachleuchtZeitVorgabe/(DeltaT*TimerTakt) + 1;
+
 		ActionListener ZeitNehmer = Takt -> {
 			TaktNummer++;
-			//System.out.println(DeltaT);  //TODO %-Formel verbessern
-			if (TaktNummer % DeltaT == 0) {		//Division mit Rest, damit die folgenden Aktionen...
-												// ...nur nach jedem DeltaT-ten Takt ausgeführt wird
-				Atom.suche();					//sucht möglichen Ort des Elektrons
-				alpha = alpha + Winkel;			//dreht das Orbital
-				if (alpha > 2 * pi)				//fängt nach 2pi// wieder bei 0 an
-					alpha = alpha - 2 * pi;		// wieder bei 0 an
-			}
-//TODO  if (TaktNummer % ... == 0)
- 			repaint();						//zeichnet auf "Flaeche", wie in der
-											// überschriebenen "paintComponent" angegeben
-		};
+				if (TaktNummer % DeltaT == 0) {        //Division mit Rest, damit die folgenden Aktionen...
+													  // ...nur nach jedem DeltaT-ten Takt ausgeführt wird
+					Atom.suche();                    //sucht möglichen Ort des Elektrons
+					alpha = alpha + Winkel;            //dreht das Orbital
+					if (alpha > 2 * pi)                //fängt nach 2pi// wieder bei 0 an
+						alpha = alpha - 2 * pi;        // wieder bei 0 an
+				}
 
+				repaint();
+				//if (TaktNummer % DeltaT == 0) { repaint(); }
+				// zeichnet nach jedem DeltaT-ten Takt
+				// auf "Flaeche", wie in der
+				// überschriebenen "paintComponent" angegeben
+		};
 		Timer Uhr = new Timer(TimerTakt, ZeitNehmer);
 		Uhr.start();
 	}
+
 	@Override
 	public void paintComponent(Graphics Zeichnung) {
 
 		super.paintComponent(Zeichnung);
 		Graphics2D ebeneZeichnung = (Graphics2D) Zeichnung;
-
 		Bleibendes.zeichne(ebeneZeichnung);
-
 		int nEl = Atom.AnzEl;
-		//TODO nicht nötig: if (nEl > MaxAnzEl) nEl = MaxAnzEl;
-
 		berechneDrehmatrix(alpha, Achse[1], Achse[2], Achse[3]);
 		for (int i = 0; i < nEl; i++) {
 			Elektron.zeichne(i, a11, a12, a13, a21, a22, a23, a31, a32, a33, ebeneZeichnung);
+			//i: Nummer des Elektronenfundortes; a11..a33: Drehmatrix
 		}
+		System.out.println();
 	}
 	
 	public void berechneDrehmatrix(double alpha, double n1, double n2, double n3) {
-
+								//alpha: Drehwinkel; n: Vektor der Drehachse
 		double co, si, mi;
 		co = Math.cos(alpha);
 		si = Math.sin(alpha);
@@ -109,7 +112,6 @@ public class Flaeche extends JPanel {
 
 	public void erzeugeEinstellungenUndBedienelemente() {
 		setBackground(Color.black); setLayout(null);
-		nachlFaktorImExp = Math.log(1/Elektron.AnfangsKreuzGroesse) / NachleuchtZeitVorgabe;
 		n = 1; l = 0;
 		richteQuantenzahlWahlEin();
 		richteOrbitalBenennungEin();
@@ -120,6 +122,7 @@ public class Flaeche extends JPanel {
 		erzeugeMassstabsAenderung();
 		erzeugeElektronenWahl();
 	}
+
 	public void richteQuantenzahlWahlEin() {
 
 		Schild.erzeuge(Quantenzahlen,"<html><u>Quantenzahlen</u></<html>", 10, 15, 150, 20);
@@ -139,7 +142,6 @@ public class Flaeche extends JPanel {
 			nSchild.setText("n = " + n);
 			Atom.getOrbital(n, l, m);
 			Chemisch.setText(Atom.Chem);
-			//Magnetisch.setText(Atom.Magn);
 			Atom.setzeZurueck();
 		};
 		
@@ -149,7 +151,6 @@ public class Flaeche extends JPanel {
 		add(nMinus);
 		
 		ActionListener nMinusWarter = Erniedrige -> {
-			//erzeugeTextFeld("   ", 15, 65, 50);
 			if (n > 1) n--;
 			if (l > n-1) l--;
 			if (m > l) m--;
@@ -231,14 +232,14 @@ public class Flaeche extends JPanel {
 			@Override
 			public void mouseDragged(MouseEvent Pos) {
 
-				int mstY = h-MassstabPosY, mouY = Pos.getY(), mouX = Pos.getX(), mstX = (int)(10+Laenge);
-				if (mouY > mstY-8 && mouY < mstY+8 && mouX > mstX-8 && mouX < mstX+8) {
+				int mstY = h-MassstabPosY, mouY = Pos.getY(), mouX = Pos.getX(), mstX = (int)(10+ MassstabLaenge);
+				if (mouY > mstY-8 && mouY < mstY+8 && mouX > mstX-48 && mouX < mstX+48 && mouX > 10) {
 
 					Atom.setzeZurueck();
-					Laenge = mouX - 10;
-					Kante = 1.8897*h / Laenge;
-					Angstroem.setBounds(10 + (int)Laenge / 2 - 5, h - MassstabPosY + 6, 40, 20);
-					zieh.setBounds(10 + (int)Laenge-88, h - MassstabPosY - 34, 140, 30);
+					MassstabLaenge = mouX - 10;
+					Kante = 1.8897*h / MassstabLaenge;
+					Angstroem.setBounds(10 + (int) MassstabLaenge / 2 - 5, h - MassstabPosY + 6, 40, 20);
+					zieh.setBounds(10 + (int) MassstabLaenge -88, h - MassstabPosY - 34, 140, 30);
 				}
 			}
 		});
@@ -378,7 +379,7 @@ public class Flaeche extends JPanel {
 			int Ein = Integer.parseInt(NachleuchtZeitEing.getText());
 			int uG = 1; int oG = 10000;
 			NachleuchtZeitVorgabe = EingabeFeld.pruefe(NachleuchtZeitEing, Ein, uG, oG);
-			nachlFaktorImExp = Math.log(1 / Elektron.AnfangsKreuzGroesse) / NachleuchtZeitVorgabe;
+			//nachlFaktorImExp = Math.log(1 / Elektron.AnfangsKreuzGroesse) / NachleuchtZeitVorgabe;
 		};
 		NachleuchtZeitEing.addActionListener(NachleuchtZeitWarter);
 	}
@@ -424,13 +425,12 @@ public class Flaeche extends JPanel {
 		add(Chemisch); add(Magnetisch);
 	}
 	public void richteMasstabWahlEin() {
-	//TODO Mausempfindlichkeit großzügiger machen
 		Schild.erzeuge(Massstab,"<html><u>Massstab</u></<html>", 10, h - MassstabPosY - 51, 200, 20);
 		add(Massstab);
-		Schild.erzeuge(Angstroem,"1Å", 10 + (int)Laenge / 2 - 5, h - MassstabPosY + 6, 40, 30);
+		Schild.erzeuge(Angstroem,"1Å", 10 + (int) MassstabLaenge / 2 - 5, h - MassstabPosY + 6, 40, 30);
 		Angstroem.setFont(Angstroem.getFont().deriveFont(16f));
 		add(Angstroem);
-		Schild.erzeuge(zieh,"hier ziehen ↓", 10 + (int)Laenge-88, h - MassstabPosY - 34, 140, 30);
+		Schild.erzeuge(zieh,"hier ziehen ↓", 10 + (int) MassstabLaenge -88, h - MassstabPosY - 34, 140, 30);
 		add(zieh);
 	}
 }

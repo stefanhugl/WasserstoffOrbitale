@@ -16,7 +16,7 @@ public class Rahmen extends JFrame{
     	
     	BildschirmBreite = Toolkit.getDefaultToolkit().getScreenSize().width; 
     	BildschirmHoehe = Toolkit.getDefaultToolkit().getScreenSize().height;
-    	
+
     	Flaeche OrbitalFlaeche = new Flaeche();
     	add(OrbitalFlaeche);
         pack();        

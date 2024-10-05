@@ -6,9 +6,9 @@ public class Elektron {
 
 	public static double AnfangsKreuzGroesse = 10;
 	public static double AnfangsPunktGroesse = 10;
-
-	public static int KrGr, PuGr;
 	public static double Alter, KreuzGroesse, PunktGroesse;
+	public static int KrGr, PuGr, NachleuchtZ;
+	public static float Gr, Saettigung;
 
 	public static void zeichne(int i, double a11, double a12, double a13, double a21, double a22, double a23, double a31, double a32, double a33, Graphics2D ebeneZeichnung) {
 
@@ -27,26 +27,30 @@ public class Elektron {
 		x =  y - xs/3 + b/2;
 		y = -z + xs/5 + h/2;
 
-		float Saettigung = 1f; if (Flaeche.Schnitt == 0) Saettigung = 0.5f-((float)(xs))/((float)(h/2));  //Saettigung = 0.5f-((float)(xs))/((float)(h/2));
+		float Saettigung = 1f; if (Flaeche.Schnitt == 0) Saettigung = 0.5f-((float)(xs))/((float)(h/2));
+
 		if (Saettigung<0) { Saettigung = 0;}
 		if (Saettigung>1) { Saettigung = 1;}						//Farbton bestimmen
-																// t ist die Zeit der Messung
+		// t ist die Zeit der Messung
 		Color Farbe = new Color(1, 1, 1, Saettigung);
 		ebeneZeichnung.setColor(Farbe);
 
 		Alter = Flaeche.TaktNummer - t;				// mit zunehmendem Alter...
-		Alter = Alter * 20;
+		Alter = Alter * Flaeche.TimerTakt;
+		if (Alter < 0) Alter = Flaeche.TimerTakt;	//(für den Fall, dass Flaeche.TaktNummer die doubleGröße überstiegen hat)
+		NachleuchtZ = Flaeche.NachleuchtZeitVorgabe;
 
-		if (Alter < 0) Alter = 20;	//(für den Fall, dass Flaeche.TaktNummer die doubleGröße überstiegen hat)
-		KreuzGroesse = AnfangsKreuzGroesse * (Math.exp(Alter * Flaeche.nachlFaktorImExp));	//..verkleinern
+		KreuzGroesse = Math.pow(AnfangsKreuzGroesse, 1-Alter/NachleuchtZ);
+		//KreuzGroesse = AnfangsKreuzGroesse * (Math.exp(Alter * Flaeche.nachlFaktorImExp));	//..verkleinern
 		if (KreuzGroesse < 0) KreuzGroesse = 0;
 		KrGr = (int)KreuzGroesse;
 
-		PunktGroesse = AnfangsPunktGroesse * (Math.exp(Alter * Flaeche.nachlFaktorImExp / 2));
+		PunktGroesse = Math.pow(AnfangsPunktGroesse, 1-Alter/NachleuchtZ);
+		//PunktGroesse = AnfangsPunktGroesse * (Math.exp(Alter * Flaeche.nachlFaktorImExp / 2));
 		if (PunktGroesse < 0) PunktGroesse = 0;
 		PuGr = (int)PunktGroesse;
 
-		if (x<=b && y<=h && PunktGroesse>1 && KreuzGroesse>1) {															//falls innerhalb des Bildschirms
+		if (x<=b && y<=h && PunktGroesse>=1 ) {															//falls innerhalb des Bildschirms
 			ebeneZeichnung.fillOval((int)x - PuGr/2, (int)y - PuGr/2, PuGr, PuGr);						//Punkt und
 			ebeneZeichnung.drawLine((int)x - KrGr, (int)y - KrGr, (int)x + KrGr, (int)y + KrGr);	//Kreuz
 			ebeneZeichnung.drawLine((int)x + KrGr, (int)y - KrGr, (int)x - KrGr, (int)y + KrGr);	//zeichnen mit x und y Koord.

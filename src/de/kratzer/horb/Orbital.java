@@ -1,5 +1,7 @@
 package de.kratzer.horb;
 
+import jdk.nashorn.internal.runtime.Version;
+
 public abstract class Orbital {
     final static double pi = 3.14159265;
     public static double MessZeit;
@@ -8,13 +10,14 @@ public abstract class Orbital {
     public boolean gefunden = false;
     public double Psi;
     private final java.util.Random Zufallsgenerator = new java.util.Random();
-    double h = Rahmen.BildschirmHoehe;
+    double h = Rahmen.BildschirmHoehe; //TODO ist das nicht schon in Flaeche definiert?
     public static double[][] Fund = new double[Flaeche.MaxAnzEl][4];
     public boolean beobachte(int Nummer) {
 
         v = Flaeche.Kante;        // Kantenlänge des Beobachtungswürfels
         gefunden = false;
         int VersuchsZaehler = 0;                             // höchstens
+
         while (!gefunden && VersuchsZaehler < 1000) {        // so viele Orte werden untersucht
 
             VersuchsZaehler++;
@@ -34,6 +37,7 @@ public abstract class Orbital {
             double Zz = Zufallsgenerator.nextDouble();    //mit Wahrscheinlichkeit p
             if (Zz < p) gefunden = true;                //entscheiden, ob das Elektron dort ist.
             if (gefunden) merkeKoordinaten(Nummer);
+            //System.out.println(VersuchsZaehler);
         }
 
         return gefunden;

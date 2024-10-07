@@ -16,7 +16,7 @@ public class Flaeche extends JPanel {
 	public static double Kante = h / MassstabLaenge;	// Das Atom wird beobachtet in einem
 												// Würfel der Kantenlänge "Kante"
 												// in Einheiten des Bohrschen Radius 5.291772e-11 m
-	//TODO kann bei schnelleren Computern die der Takt kleiner als 10 ms gewählt werden?
+	//kann bei schnelleren Computern die der Takt kleiner als 10 ms gewählt werden?
 	public static int TimerTakt = 20, TaktNummer = 0;	// Takt des Timers in ms (mind. 1)
 	public static int MessrateWert = 10, DeltaT = 1000 / (MessrateWert * TimerTakt);
 	//MessrateWert * TimerTakt darf nicht größer als 1000 sein.

@@ -6,12 +6,13 @@ public class Atom {
 	public static int AnzEl = 0;
 	public static boolean gefunden; //ist true, wenn in Klasse Orbital ein Elektronenort gefunden wurde
 	public static int Zustand;
-	public static String Chem="1s", Magn="";
+	public static String Chem="1s", Magn="";	//Texte für die Anzeige des Zustandes
 	
 	public static void suche() {
 
-		Orbital Orb = getOrbital(Flaeche.n, Flaeche.l, Flaeche.m);
-		gefunden = Orb.beobachte(MessungNummer);
+		Orbital aktuellesOrbital = getOrbital(Flaeche.n, Flaeche.l, Flaeche.m);	//gemäß den Quantenzahlen
+																		// wird das aktuelle Orbital definiert
+		gefunden = aktuellesOrbital.beobachte(MessungNummer);
 		if (gefunden) { MessungNummer++; if (AnzEl < Flaeche.MaxAnzEl) AnzEl++; }
 		if (MessungNummer >= Flaeche.MaxAnzEl) MessungNummer = 0;
 	}
@@ -20,7 +21,8 @@ public class Atom {
 		
 		Zustand = n*100 + l*10 + m;  //die drei Quantenzahlen werden in EINE Zahl verwandelt, damit man mit "case" entscheiden kann
 		switch (Zustand) {
-
+			//die Methode getOrbital gibt als Orbital die mit der aktuellen Wellenfunktion
+			//ausgestattete Klasse Orbital zurück
 			case 100: { OrbitalEinsS Orbital = new OrbitalEinsS(); Chem="1s"; Magn="";  return Orbital;}
 			case 200: { OrbitalZweiS Orbital = new OrbitalZweiS(); Chem="2s"; Magn="";  return Orbital;}
 			case 209: { OrbitalZwPME Orbital = new OrbitalZwPME(); Chem="2p"; Magn="-"; return Orbital;}

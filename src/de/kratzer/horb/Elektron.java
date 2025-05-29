@@ -6,7 +6,7 @@ public class Elektron {
 
 	public static double AnfangsKreuzGroesse = 10;
 	public static double AnfangsPunktGroesse = 10;
-	public static double Alter, KreuzGroesse, PunktGroesse;
+	public static double Alter, NachleuchtExponent, KreuzGroesse, PunktGroesse;
 	public static int KrGr, PuGr, NachleuchtZ;
 	public static float Gr, Saettigung;
 
@@ -37,10 +37,14 @@ public class Elektron {
 
 		Alter = Flaeche.TaktNummer - t;				// mit zunehmendem Alter...
 		Alter = Alter * Flaeche.TimerTakt;
+		NachleuchtExponent = Alter/NachleuchtZ*8;
+
 		if (Alter < 0) Alter = Flaeche.TimerTakt;	//(für den Fall, dass Flaeche.TaktNummer die doubleGröße überstiegen hat)
 		NachleuchtZ = Flaeche.NachleuchtZeitVorgabe;
 
-		KreuzGroesse = Math.pow(AnfangsKreuzGroesse, 1-Alter/NachleuchtZ); //todo do wie unten?
+		//KreuzGroesse = Math.pow(AnfangsKreuzGroesse, 1-Alter/NachleuchtZ);
+		//todo do besser wie unten oder oben?
+		KreuzGroesse = 1 * AnfangsKreuzGroesse * (Math.exp(-NachleuchtExponent));
 		//KreuzGroesse = AnfangsKreuzGroesse * (Math.exp(Alter * Flaeche.nachlFaktorImExp));	//..verkleinern
 		if (KreuzGroesse < 0) KreuzGroesse = 0;
 		KrGr = (int)KreuzGroesse;

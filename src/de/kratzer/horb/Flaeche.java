@@ -64,9 +64,10 @@ public class Flaeche extends JPanel {
 					alpha = alpha + Winkel;            //dreht das Orbital
 					if (alpha > 2 * pi)                //fängt nach 2pi// wieder bei 0 an
 						alpha = alpha - 2 * pi;        // wieder bei 0 an
+					//repaint();
 				}
 
-				repaint();
+				repaint();  //todo besser so wie unten? oder oben?
 				//if (TaktNummer % DeltaT == 0) { repaint(); }
 				// zeichnet nach jedem DeltaT-ten Takt
 				// auf "Flaeche", wie in der

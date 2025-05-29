@@ -23,7 +23,7 @@ public class Elektron {
 		y = a21*xx + a22*yy + a23*zz;
 		z = a31*xx + a32*yy + a33*zz;	
 		
-		xs=  x;					//3D->2D
+		xs=  x;					//3D->2D für Darstellung auf dem flachen Bildschirm
 		x =  y - xs/3 + b/2;
 		y = -z + xs/5 + h/2;
 
@@ -32,7 +32,7 @@ public class Elektron {
 		if (Saettigung<0) { Saettigung = 0;}
 		if (Saettigung>1) { Saettigung = 1;}						//Farbton bestimmen
 		// t ist die Zeit der Messung
-		Color Farbe = new Color(1, 1, 1, Saettigung);
+		Color Farbe = new Color(1, 1, 1, Saettigung);   //je weiter hinten, desto schwächer
 		ebeneZeichnung.setColor(Farbe);
 
 		Alter = Flaeche.TaktNummer - t;				// mit zunehmendem Alter...
@@ -40,7 +40,7 @@ public class Elektron {
 		if (Alter < 0) Alter = Flaeche.TimerTakt;	//(für den Fall, dass Flaeche.TaktNummer die doubleGröße überstiegen hat)
 		NachleuchtZ = Flaeche.NachleuchtZeitVorgabe;
 
-		KreuzGroesse = Math.pow(AnfangsKreuzGroesse, 1-Alter/NachleuchtZ);
+		KreuzGroesse = Math.pow(AnfangsKreuzGroesse, 1-Alter/NachleuchtZ); //todo do wie unten?
 		//KreuzGroesse = AnfangsKreuzGroesse * (Math.exp(Alter * Flaeche.nachlFaktorImExp));	//..verkleinern
 		if (KreuzGroesse < 0) KreuzGroesse = 0;
 		KrGr = (int)KreuzGroesse;

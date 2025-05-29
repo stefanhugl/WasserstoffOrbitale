@@ -54,7 +54,7 @@ public class Flaeche extends JPanel {
 		erzeugeEinstellungenUndBedienelemente();
 
 		if (DeltaT == 0) DeltaT =1;
-		MaxAnzEl = NachleuchtZeitVorgabe/(DeltaT*TimerTakt) + 1;
+		MaxAnzEl = NachleuchtZeitVorgabe*MessrateWert + 1;
 
 		ActionListener ZeitNehmer = Takt -> {
 			TaktNummer++;
@@ -88,7 +88,6 @@ public class Flaeche extends JPanel {
 			Elektron.zeichne(i, a11, a12, a13, a21, a22, a23, a31, a32, a33, ebeneZeichnung);
 			//i: Nummer des Elektronenfundortes; a11..a33: Drehmatrix
 		}
-		System.out.println();
 	}
 	
 	public void berechneDrehmatrix(double alpha, double n1, double n2, double n3) {
@@ -328,7 +327,10 @@ public class Flaeche extends JPanel {
 		ActionListener DrehgeschwWarter = Eing -> {
 			int Ein = Integer.parseInt(WinkelEing.getText());
 			int uG = 0; int oG = 100;
-			Winkel = EingabeFeld.pruefe(WinkelEing, Ein, uG, oG) * pi * DeltaT * TimerTakt / 30000;
+			if (Schnitt == 0) {
+				Winkel = EingabeFeld.pruefe(WinkelEing, Ein, uG, oG) * pi * DeltaT * TimerTakt / 30000;
+			}
+			else { WinkelEing.setText("0"); }
 		};
 		WinkelEing.addActionListener(DrehgeschwWarter);
 
@@ -369,6 +371,7 @@ public class Flaeche extends JPanel {
 			int uG = 1; int oG = 1000 / TimerTakt;				//damit DeltaT>1 bleibt
 			mE = EingabeFeld.pruefe(MessrateEing, mE, uG, oG);
 			DeltaT = (int)((1000f / ((float)mE * (float)TimerTakt)) + 0.5);
+			MaxAnzEl = NachleuchtZeitVorgabe*mE + 1;
 		};
 		MessrateEing.addActionListener(MessrateWarter);
 
@@ -379,6 +382,7 @@ public class Flaeche extends JPanel {
 			int Ein = Integer.parseInt(NachleuchtZeitEing.getText());
 			int uG = 1; int oG = 10000;
 			NachleuchtZeitVorgabe = EingabeFeld.pruefe(NachleuchtZeitEing, Ein, uG, oG);
+			MaxAnzEl = NachleuchtZeitVorgabe*MessrateWert + 1;
 			//nachlFaktorImExp = Math.log(1 / Elektron.AnfangsKreuzGroesse) / NachleuchtZeitVorgabe;
 		};
 		NachleuchtZeitEing.addActionListener(NachleuchtZeitWarter);

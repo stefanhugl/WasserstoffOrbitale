@@ -44,13 +44,13 @@ public class Elektron {
 
 		//KreuzGroesse = Math.pow(AnfangsKreuzGroesse, 1-Alter/NachleuchtZ);
 		//todo do besser wie unten oder oben?
-		KreuzGroesse = 1 * AnfangsKreuzGroesse * (Math.exp(-NachleuchtExponent));
+		KreuzGroesse = AnfangsKreuzGroesse * (Math.exp(-NachleuchtExponent));
 		//KreuzGroesse = AnfangsKreuzGroesse * (Math.exp(Alter * Flaeche.nachlFaktorImExp));	//..verkleinern
 		if (KreuzGroesse < 0) KreuzGroesse = 0;
 		KrGr = (int)KreuzGroesse;
 
-		PunktGroesse = Math.pow(AnfangsPunktGroesse, 1-Alter/NachleuchtZ);
-		//PunktGroesse = AnfangsPunktGroesse * (Math.exp(Alter * Flaeche.nachlFaktorImExp / 2));
+		//PunktGroesse = Math.pow(AnfangsPunktGroesse, 1-Alter/NachleuchtZ);
+		PunktGroesse = AnfangsPunktGroesse * (Math.exp(-NachleuchtExponent/2));
 		if (PunktGroesse < 0) PunktGroesse = 0;
 		PuGr = (int)PunktGroesse;
 

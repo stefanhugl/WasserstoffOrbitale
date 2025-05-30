@@ -23,7 +23,7 @@ public class Flaeche extends JPanel {
 	//MessrateWert gibt an, wie oft pro s das Elektron gesucht wird.
 	//DeltaT gibt an, nach wie vielen Timertakten jeweils das Elektron gesucht wird.
 	public static int NachleuchtZeitVorgabe = 2000; // in ms
-	public static int Schnitt = 0;	// Schnittebene für 2D-Darstellung (0: räuml.;  1: x-y-Ebene; ...)
+	public static int Schnitt = 2;	// Schnittebene für 2D-Darstellung (0: räuml.;  1: x-y-Ebene; ...)
 	public static int n, l, m;	// Quantenzahlen
 	public static void setSchnitt(int schnitt) {
 		Schnitt = schnitt;
@@ -257,9 +257,9 @@ public class Flaeche extends JPanel {
 		Schild.erzeuge(odr,"oder", b - 60, h - 236, 60, 12);
 		add(odr);
 
-		JRadioButton Raeumlich = new JRadioButton("3D", true);
+		JRadioButton Raeumlich = new JRadioButton("3D", false);
 		JRadioButton ZSchnitt = new JRadioButton("x-y", false);
-		JRadioButton XSchnitt = new JRadioButton("y-z", false);
+		JRadioButton XSchnitt = new JRadioButton("y-z", true);
 		JRadioButton YSchnitt = new JRadioButton("x-z", false);
 
 		Raeumlich.setBounds(b - 60, h - 268, 60, 25);

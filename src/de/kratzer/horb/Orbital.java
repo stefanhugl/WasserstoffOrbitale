@@ -9,7 +9,7 @@ public abstract class Orbital {
     public double Psi;
     private final java.util.Random Zufallsgenerator = new java.util.Random();
     double h = Rahmen.BildschirmHoehe;
-    public static double[][] Fund = new double[500000][4]; //todo Variable statt 500000?
+    public static double[][] Fund = new double[1000*Flaeche.NachleuchtZeitVorgabe/Flaeche.TimerTakt][4];
     public boolean beobachte(int Nummer) {
 
         Würfelseite = Flaeche.Kante;        // Kantenlänge des Würfels, in dem das Elektron gesucht wird

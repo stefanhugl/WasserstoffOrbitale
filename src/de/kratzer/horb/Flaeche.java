@@ -17,7 +17,7 @@ public class Flaeche extends JPanel {
 												// Würfel der Kantenlänge "Kante"
 												// in Einheiten des Bohrschen Radius 5.291772e-11 m
 	//kann bei schnelleren Computern die der Takt kleiner als 10 ms gewählt werden?
-	public static int TimerTakt = 20, TaktNummer = 0;	// Takt des Timers in ms (mind. 1)
+	public static int TimerTakt = 5, TaktNummer = 0;	// Takt des Timers in ms (mind. 1)
 	public static int MessrateWert = 10, DeltaT = 1000 / (MessrateWert * TimerTakt);
 	//MessrateWert * TimerTakt darf nicht größer als 1000 sein.
 	//MessrateWert gibt an, wie oft pro s das Elektron gesucht wird.
@@ -365,7 +365,8 @@ public class Flaeche extends JPanel {
 		Schild.erzeuge(NachleuchtZeit,"Nachleuchtzeit", 18, 310, 190, 20);
 		Schild.erzeuge(inMs,"ms",  180, 310, 200, 20);
 		add(MaxAnz); add(proS); add(Messrate); add(NachleuchtZeit); add(inMs);
-		EingabeFeld.richteEin(MessrateEing, String.valueOf(MessrateWert), 132, 280); add(MessrateEing);
+		EingabeFeld.richteEin(MessrateEing, String.valueOf(MessrateWert), 132, 280);
+		add(MessrateEing);
 		DeltaT = 1000 / (Integer.parseInt(MessrateEing.getText()) * TimerTakt);
 		ActionListener MessrateWarter = Eing -> {
 			int mE = Integer.parseInt(MessrateEing.getText());
@@ -377,11 +378,12 @@ public class Flaeche extends JPanel {
 		MessrateEing.addActionListener(MessrateWarter);
 
 		String ErsteNachleuchtZeit = Integer.toString(NachleuchtZeitVorgabe);
-		EingabeFeld.richteEin(NachleuchtZeitEing, ErsteNachleuchtZeit, 132, 310); add(NachleuchtZeitEing);
+		EingabeFeld.richteEin(NachleuchtZeitEing, ErsteNachleuchtZeit, 132, 310);
+		add(NachleuchtZeitEing);
 		NachleuchtZeitVorgabe = Integer.parseInt(NachleuchtZeitEing.getText());
 		ActionListener NachleuchtZeitWarter = Eing -> {
 			int Ein = Integer.parseInt(NachleuchtZeitEing.getText());
-			int uG = 1; int oG = 10000;
+			int uG = 1; int oG = 5000;
 			NachleuchtZeitVorgabe = EingabeFeld.pruefe(NachleuchtZeitEing, Ein, uG, oG);
 			MaxAnzEl = NachleuchtZeitVorgabe*MessrateWert + 1;
 			//nachlFaktorImExp = Math.log(1 / Elektron.AnfangsKreuzGroesse) / NachleuchtZeitVorgabe;

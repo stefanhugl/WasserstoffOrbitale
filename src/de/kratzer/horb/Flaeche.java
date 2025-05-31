@@ -37,7 +37,8 @@ public class Flaeche extends JPanel {
 	EingabeFeld         WinkelEing = new EingabeFeld();
 	EingabeFeld       MessrateEing = new EingabeFeld();
 	EingabeFeld NachleuchtZeitEing = new EingabeFeld();
-	Schild  Chemisch = new Schild() , Magnetisch = new Schild(), Massstab = new Schild(), Angstroem = new Schild(), zieh = new Schild(),
+	Schild  Tipp = new Schild() , Chemisch = new Schild() , Magnetisch = new Schild(),
+			Massstab = new Schild(), Angstroem = new Schild(), zieh = new Schild(),
 			Raeuml = new Schild(), odr = new Schild(), Schn = new Schild(),
 			xAch = new Schild(), yAch = new Schild(),zAch = new Schild(),
 			Quantenzahlen = new Schild(), nSchild = new Schild(), lSchild = new Schild(), mSchild = new Schild(),
@@ -121,6 +122,7 @@ public class Flaeche extends JPanel {
 		erzeugeDrehWahl();
 		erzeugeMassstabsAenderung();
 		erzeugeElektronenWahl();
+		erzeugeTipp();
 	}
 
 	public void richteQuantenzahlWahlEin() {
@@ -438,6 +440,11 @@ public class Flaeche extends JPanel {
 		add(Angstroem);
 		Schild.erzeuge(zieh,"↓ hier ziehen", 10 + (int) MassstabLaenge-3, h - MassstabPosY - 34, 140, 30);
 		add(zieh);
+	}
+
+	public void erzeugeTipp() {
+		Schild.erzeuge(Tipp,"Erhöhe Messrate und Nachleuchtzeit, bis das Muster erkennbar ist.", 10, h - 104, 700, 20);
+		add(Tipp);
 	}
 }
 																		//Bsp. zum Pfeil ->

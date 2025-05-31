@@ -239,7 +239,7 @@ public class Flaeche extends JPanel {
 					MassstabLaenge = mouX - 10;
 					Kante = 1.8897*h / MassstabLaenge;
 					Angstroem.setBounds(10 + (int) MassstabLaenge / 2 - 5, h - MassstabPosY + 6, 40, 20);
-					zieh.setBounds(10 + (int) MassstabLaenge -88, h - MassstabPosY - 34, 140, 30);
+					zieh.setBounds(10 + (int) MassstabLaenge-3, h - MassstabPosY - 34, 140, 30);
 				}
 			}
 		});
@@ -386,7 +386,6 @@ public class Flaeche extends JPanel {
 			int uG = 1; int oG = 5000;
 			NachleuchtZeitVorgabe = EingabeFeld.pruefe(NachleuchtZeitEing, Ein, uG, oG);
 			MaxAnzEl = NachleuchtZeitVorgabe*MessrateWert + 1;
-			//nachlFaktorImExp = Math.log(1 / Elektron.AnfangsKreuzGroesse) / NachleuchtZeitVorgabe;
 		};
 		NachleuchtZeitEing.addActionListener(NachleuchtZeitWarter);
 	}
@@ -437,7 +436,7 @@ public class Flaeche extends JPanel {
 		Schild.erzeuge(Angstroem,"1Å", 10 + (int) MassstabLaenge / 2 - 5, h - MassstabPosY + 6, 40, 30);
 		Angstroem.setFont(Angstroem.getFont().deriveFont(16f));
 		add(Angstroem);
-		Schild.erzeuge(zieh,"hier ziehen ↓", 10 + (int) MassstabLaenge -88, h - MassstabPosY - 34, 140, 30);
+		Schild.erzeuge(zieh,"↓ hier ziehen", 10 + (int) MassstabLaenge-3, h - MassstabPosY - 34, 140, 30);
 		add(zieh);
 	}
 }

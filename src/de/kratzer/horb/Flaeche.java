@@ -12,7 +12,7 @@ public class Flaeche extends JPanel {
 	final static double pi = 3.14159265;
 	public static int h = Rahmen.BildschirmHoehe, b = Rahmen.BildschirmBreite;
 	public static int MassstabPosY = 146; //Abstand vom unteren Rand
-	public static double MassstabLaenge = 0.1*h; 	//Anfangslänge des Maßstabs (entspricht 1 Angström)
+	public static double MassstabLaenge = 0.05*h; 	//Anfangslänge des Maßstabs (entspricht 1 Angström)
 	public static double Kante = h / MassstabLaenge;	// Das Atom wird beobachtet in einem
 												// Würfel der Kantenlänge "Kante"
 												// in Einheiten des Bohrschen Radius 5.291772e-11 m

@@ -112,7 +112,7 @@ public class Flaeche extends JPanel {
 
 	public void erzeugeEinstellungenUndBedienelemente() {
 		setBackground(Color.black); setLayout(null);
-		n = 1; l = 0;
+		n = 2; l = 1;
 		richteQuantenzahlWahlEin();
 		richteOrbitalBenennungEin();
 		richteSchnittWahlEin();
@@ -423,7 +423,7 @@ public class Flaeche extends JPanel {
 
 	public void richteOrbitalBenennungEin() {
 
-		Schild.erzeuge(Chemisch, "1s", 40, 30, 360, 300);
+		Schild.erzeuge(Chemisch, "2p", 40, 30, 360, 300);
 		Chemisch.setFont(Chemisch.getFont().deriveFont(48f));				//.setFont(new Font( "Times New Roman", Font.BOLD, 48));
 		Schild.erzeuge(Magnetisch,"",110, 50, 360, 300);
 		Magnetisch.setFont(Magnetisch.getFont().deriveFont(24f));

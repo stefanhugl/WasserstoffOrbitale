@@ -18,7 +18,7 @@ public class Flaeche extends JPanel {
 												// in Einheiten des Bohrschen Radius 5.291772e-11 m
 	//kann bei schnelleren Computern die der Takt kleiner als 10 ms gewählt werden?
 	public static int TimerTakt = 5, TaktNummer = 0;	// Takt des Timers in ms (mind. 1)
-	public static int MessrateWert = 10, DeltaT = 1000 / (MessrateWert * TimerTakt);
+	public static int MessrateWert = 1, DeltaT = 1000 / (MessrateWert * TimerTakt);
 	//MessrateWert * TimerTakt darf nicht größer als 1000 sein.
 	//MessrateWert gibt an, wie oft pro s das Elektron gesucht wird.
 	//DeltaT gibt an, nach wie vielen Timertakten jeweils das Elektron gesucht wird.
@@ -131,7 +131,7 @@ public class Flaeche extends JPanel {
 		add(Quantenzahlen);
 		Schild.erzeuge(nSchild,"n = 1", 15, 60, 50, 20);
 		add(nSchild);
-		Schild.erzeuge(lSchild,"l = 0", 85, 60, 50, 20);
+		Schild.erzeuge(lSchild,"l = 1", 85, 60, 50, 20);
 		add(lSchild);
 		Schild.erzeuge(mSchild,"m = 0",153, 60, 50, 20);
 		add(mSchild);

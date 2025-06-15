@@ -6,7 +6,7 @@ public class Elektron {
 
 	public static double AnfangsKreuzGroesse = 10;
 	public static double AnfangsPunktGroesse = 10;
-	public static double Alter, KreuzGroesse, PunktGroesse;
+	public static double Alter, NachleuchtExponent, KreuzGroesse, PunktGroesse;
 	public static int KrGr, PuGr, NachleuchtZ;
 	public static float Gr, Saettigung;
 
@@ -23,7 +23,7 @@ public class Elektron {
 		y = a21*xx + a22*yy + a23*zz;
 		z = a31*xx + a32*yy + a33*zz;	
 		
-		xs=  x;					//3D->2D
+		xs=  x;					//3D->2D für Darstellung auf dem flachen Bildschirm
 		x =  y - xs/3 + b/2;
 		y = -z + xs/5 + h/2;
 
@@ -32,21 +32,25 @@ public class Elektron {
 		if (Saettigung<0) { Saettigung = 0;}
 		if (Saettigung>1) { Saettigung = 1;}						//Farbton bestimmen
 		// t ist die Zeit der Messung
-		Color Farbe = new Color(1, 1, 1, Saettigung);
+		Color Farbe = new Color(1, 1, 1, Saettigung);   //je weiter hinten, desto schwächer
 		ebeneZeichnung.setColor(Farbe);
 
 		Alter = Flaeche.TaktNummer - t;				// mit zunehmendem Alter...
 		Alter = Alter * Flaeche.TimerTakt;
+		NachleuchtExponent = Alter/NachleuchtZ*8;
+
 		if (Alter < 0) Alter = Flaeche.TimerTakt;	//(für den Fall, dass Flaeche.TaktNummer die doubleGröße überstiegen hat)
 		NachleuchtZ = Flaeche.NachleuchtZeitVorgabe;
 
-		KreuzGroesse = Math.pow(AnfangsKreuzGroesse, 1-Alter/NachleuchtZ);
+		//KreuzGroesse = Math.pow(AnfangsKreuzGroesse, 1-Alter/NachleuchtZ);
+		//todo do besser wie unten oder oben?
+		KreuzGroesse = AnfangsKreuzGroesse * (Math.exp(-NachleuchtExponent));
 		//KreuzGroesse = AnfangsKreuzGroesse * (Math.exp(Alter * Flaeche.nachlFaktorImExp));	//..verkleinern
 		if (KreuzGroesse < 0) KreuzGroesse = 0;
 		KrGr = (int)KreuzGroesse;
 
-		PunktGroesse = Math.pow(AnfangsPunktGroesse, 1-Alter/NachleuchtZ);
-		//PunktGroesse = AnfangsPunktGroesse * (Math.exp(Alter * Flaeche.nachlFaktorImExp / 2));
+		//PunktGroesse = Math.pow(AnfangsPunktGroesse, 1-Alter/NachleuchtZ);
+		PunktGroesse = AnfangsPunktGroesse * (Math.exp(-NachleuchtExponent/2));
 		if (PunktGroesse < 0) PunktGroesse = 0;
 		PuGr = (int)PunktGroesse;
 

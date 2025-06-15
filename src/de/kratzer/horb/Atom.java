@@ -15,6 +15,7 @@ public class Atom {
 		gefunden = aktuellesOrbital.beobachte(MessungNummer);
 		if (gefunden) { MessungNummer++; if (AnzEl < Flaeche.MaxAnzEl) AnzEl++; }
 		if (MessungNummer >= Flaeche.MaxAnzEl) MessungNummer = 0;
+
 	}
 	
 	public static Orbital getOrbital(int n, int l, int m) {

@@ -12,18 +12,18 @@ public class Flaeche extends JPanel {
 	final static double pi = 3.14159265;
 	public static int h = Rahmen.BildschirmHoehe, b = Rahmen.BildschirmBreite;
 	public static int MassstabPosY = 146; //Abstand vom unteren Rand
-	public static double MassstabLaenge = 0.1*h; 	//Anfangslänge des Maßstabs (entspricht 1 Angström)
+	public static double MassstabLaenge = 0.05*h; 	//Anfangslänge des Maßstabs (entspricht 1 Angström)
 	public static double Kante = h / MassstabLaenge;	// Das Atom wird beobachtet in einem
 												// Würfel der Kantenlänge "Kante"
 												// in Einheiten des Bohrschen Radius 5.291772e-11 m
 	//kann bei schnelleren Computern die der Takt kleiner als 10 ms gewählt werden?
-	public static int TimerTakt = 20, TaktNummer = 0;	// Takt des Timers in ms (mind. 1)
-	public static int MessrateWert = 10, DeltaT = 1000 / (MessrateWert * TimerTakt);
+	public static int TimerTakt = 5, TaktNummer = 0;	// Takt des Timers in ms (mind. 1)
+	public static int MessrateWert = 1, DeltaT = 1000 / (MessrateWert * TimerTakt);
 	//MessrateWert * TimerTakt darf nicht größer als 1000 sein.
 	//MessrateWert gibt an, wie oft pro s das Elektron gesucht wird.
 	//DeltaT gibt an, nach wie vielen Timertakten jeweils das Elektron gesucht wird.
 	public static int NachleuchtZeitVorgabe = 2000; // in ms
-	public static int Schnitt = 0;	// Schnittebene für 2D-Darstellung (0: räuml.;  1: x-y-Ebene; ...)
+	public static int Schnitt = 2;	// Schnittebene für 2D-Darstellung (0: räuml.;  1: x-y-Ebene; ...)
 	public static int n, l, m;	// Quantenzahlen
 	public static void setSchnitt(int schnitt) {
 		Schnitt = schnitt;
@@ -37,7 +37,8 @@ public class Flaeche extends JPanel {
 	EingabeFeld         WinkelEing = new EingabeFeld();
 	EingabeFeld       MessrateEing = new EingabeFeld();
 	EingabeFeld NachleuchtZeitEing = new EingabeFeld();
-	Schild  Chemisch = new Schild() , Magnetisch = new Schild(), Massstab = new Schild(), Angstroem = new Schild(), zieh = new Schild(),
+	Schild  Tipp = new Schild() , Chemisch = new Schild() , Magnetisch = new Schild(),
+			Massstab = new Schild(), Angstroem = new Schild(), zieh = new Schild(),
 			Raeuml = new Schild(), odr = new Schild(), Schn = new Schild(),
 			xAch = new Schild(), yAch = new Schild(),zAch = new Schild(),
 			Quantenzahlen = new Schild(), nSchild = new Schild(), lSchild = new Schild(), mSchild = new Schild(),
@@ -54,7 +55,7 @@ public class Flaeche extends JPanel {
 		erzeugeEinstellungenUndBedienelemente();
 
 		if (DeltaT == 0) DeltaT =1;
-		MaxAnzEl = NachleuchtZeitVorgabe/(DeltaT*TimerTakt) + 1;
+		MaxAnzEl = NachleuchtZeitVorgabe*MessrateWert + 1;
 
 		ActionListener ZeitNehmer = Takt -> {
 			TaktNummer++;
@@ -64,9 +65,10 @@ public class Flaeche extends JPanel {
 					alpha = alpha + Winkel;            //dreht das Orbital
 					if (alpha > 2 * pi)                //fängt nach 2pi// wieder bei 0 an
 						alpha = alpha - 2 * pi;        // wieder bei 0 an
+					//repaint();
 				}
 
-				repaint();
+				repaint();  //todo besser so wie unten? oder oben?
 				//if (TaktNummer % DeltaT == 0) { repaint(); }
 				// zeichnet nach jedem DeltaT-ten Takt
 				// auf "Flaeche", wie in der
@@ -88,7 +90,6 @@ public class Flaeche extends JPanel {
 			Elektron.zeichne(i, a11, a12, a13, a21, a22, a23, a31, a32, a33, ebeneZeichnung);
 			//i: Nummer des Elektronenfundortes; a11..a33: Drehmatrix
 		}
-		System.out.println();
 	}
 	
 	public void berechneDrehmatrix(double alpha, double n1, double n2, double n3) {
@@ -112,7 +113,7 @@ public class Flaeche extends JPanel {
 
 	public void erzeugeEinstellungenUndBedienelemente() {
 		setBackground(Color.black); setLayout(null);
-		n = 1; l = 0;
+		n = 2; l = 1;
 		richteQuantenzahlWahlEin();
 		richteOrbitalBenennungEin();
 		richteSchnittWahlEin();
@@ -121,6 +122,7 @@ public class Flaeche extends JPanel {
 		erzeugeDrehWahl();
 		erzeugeMassstabsAenderung();
 		erzeugeElektronenWahl();
+		erzeugeTipp();
 	}
 
 	public void richteQuantenzahlWahlEin() {
@@ -129,7 +131,7 @@ public class Flaeche extends JPanel {
 		add(Quantenzahlen);
 		Schild.erzeuge(nSchild,"n = 1", 15, 60, 50, 20);
 		add(nSchild);
-		Schild.erzeuge(lSchild,"l = 0", 85, 60, 50, 20);
+		Schild.erzeuge(lSchild,"l = 1", 85, 60, 50, 20);
 		add(lSchild);
 		Schild.erzeuge(mSchild,"m = 0",153, 60, 50, 20);
 		add(mSchild);
@@ -239,7 +241,7 @@ public class Flaeche extends JPanel {
 					MassstabLaenge = mouX - 10;
 					Kante = 1.8897*h / MassstabLaenge;
 					Angstroem.setBounds(10 + (int) MassstabLaenge / 2 - 5, h - MassstabPosY + 6, 40, 20);
-					zieh.setBounds(10 + (int) MassstabLaenge -88, h - MassstabPosY - 34, 140, 30);
+					zieh.setBounds(10 + (int) MassstabLaenge-3, h - MassstabPosY - 34, 140, 30);
 				}
 			}
 		});
@@ -257,9 +259,9 @@ public class Flaeche extends JPanel {
 		Schild.erzeuge(odr,"oder", b - 60, h - 236, 60, 12);
 		add(odr);
 
-		JRadioButton Raeumlich = new JRadioButton("3D", true);
+		JRadioButton Raeumlich = new JRadioButton("3D", false);
 		JRadioButton ZSchnitt = new JRadioButton("x-y", false);
-		JRadioButton XSchnitt = new JRadioButton("y-z", false);
+		JRadioButton XSchnitt = new JRadioButton("y-z", true);
 		JRadioButton YSchnitt = new JRadioButton("x-z", false);
 
 		Raeumlich.setBounds(b - 60, h - 268, 60, 25);
@@ -328,7 +330,10 @@ public class Flaeche extends JPanel {
 		ActionListener DrehgeschwWarter = Eing -> {
 			int Ein = Integer.parseInt(WinkelEing.getText());
 			int uG = 0; int oG = 100;
-			Winkel = EingabeFeld.pruefe(WinkelEing, Ein, uG, oG) * pi * DeltaT * TimerTakt / 30000;
+			if (Schnitt == 0) {
+				Winkel = EingabeFeld.pruefe(WinkelEing, Ein, uG, oG) * pi * DeltaT * TimerTakt / 30000;
+			}
+			else { WinkelEing.setText("0"); }
 		};
 		WinkelEing.addActionListener(DrehgeschwWarter);
 
@@ -362,24 +367,27 @@ public class Flaeche extends JPanel {
 		Schild.erzeuge(NachleuchtZeit,"Nachleuchtzeit", 18, 310, 190, 20);
 		Schild.erzeuge(inMs,"ms",  180, 310, 200, 20);
 		add(MaxAnz); add(proS); add(Messrate); add(NachleuchtZeit); add(inMs);
-		EingabeFeld.richteEin(MessrateEing, String.valueOf(MessrateWert), 132, 280); add(MessrateEing);
+		EingabeFeld.richteEin(MessrateEing, String.valueOf(MessrateWert), 132, 280);
+		add(MessrateEing);
 		DeltaT = 1000 / (Integer.parseInt(MessrateEing.getText()) * TimerTakt);
 		ActionListener MessrateWarter = Eing -> {
 			int mE = Integer.parseInt(MessrateEing.getText());
 			int uG = 1; int oG = 1000 / TimerTakt;				//damit DeltaT>1 bleibt
 			mE = EingabeFeld.pruefe(MessrateEing, mE, uG, oG);
 			DeltaT = (int)((1000f / ((float)mE * (float)TimerTakt)) + 0.5);
+			MaxAnzEl = NachleuchtZeitVorgabe*mE + 1;
 		};
 		MessrateEing.addActionListener(MessrateWarter);
 
 		String ErsteNachleuchtZeit = Integer.toString(NachleuchtZeitVorgabe);
-		EingabeFeld.richteEin(NachleuchtZeitEing, ErsteNachleuchtZeit, 132, 310); add(NachleuchtZeitEing);
+		EingabeFeld.richteEin(NachleuchtZeitEing, ErsteNachleuchtZeit, 132, 310);
+		add(NachleuchtZeitEing);
 		NachleuchtZeitVorgabe = Integer.parseInt(NachleuchtZeitEing.getText());
 		ActionListener NachleuchtZeitWarter = Eing -> {
 			int Ein = Integer.parseInt(NachleuchtZeitEing.getText());
-			int uG = 1; int oG = 10000;
+			int uG = 1; int oG = 5000;
 			NachleuchtZeitVorgabe = EingabeFeld.pruefe(NachleuchtZeitEing, Ein, uG, oG);
-			//nachlFaktorImExp = Math.log(1 / Elektron.AnfangsKreuzGroesse) / NachleuchtZeitVorgabe;
+			MaxAnzEl = NachleuchtZeitVorgabe*MessrateWert + 1;
 		};
 		NachleuchtZeitEing.addActionListener(NachleuchtZeitWarter);
 	}
@@ -418,7 +426,7 @@ public class Flaeche extends JPanel {
 
 	public void richteOrbitalBenennungEin() {
 
-		Schild.erzeuge(Chemisch, "1s", 40, 30, 360, 300);
+		Schild.erzeuge(Chemisch, "2p", 40, 30, 360, 300);
 		Chemisch.setFont(Chemisch.getFont().deriveFont(48f));				//.setFont(new Font( "Times New Roman", Font.BOLD, 48));
 		Schild.erzeuge(Magnetisch,"",110, 50, 360, 300);
 		Magnetisch.setFont(Magnetisch.getFont().deriveFont(24f));
@@ -430,8 +438,13 @@ public class Flaeche extends JPanel {
 		Schild.erzeuge(Angstroem,"1Å", 10 + (int) MassstabLaenge / 2 - 5, h - MassstabPosY + 6, 40, 30);
 		Angstroem.setFont(Angstroem.getFont().deriveFont(16f));
 		add(Angstroem);
-		Schild.erzeuge(zieh,"hier ziehen ↓", 10 + (int) MassstabLaenge -88, h - MassstabPosY - 34, 140, 30);
+		Schild.erzeuge(zieh,"↓ hier ziehen", 10 + (int) MassstabLaenge-3, h - MassstabPosY - 34, 140, 30);
 		add(zieh);
+	}
+
+	public void erzeugeTipp() {
+		Schild.erzeuge(Tipp,"Erhöhe Messrate und Nachleuchtzeit, bis das Muster erkennbar ist.", 10, h - 104, 700, 20);
+		add(Tipp);
 	}
 }
 																		//Bsp. zum Pfeil ->

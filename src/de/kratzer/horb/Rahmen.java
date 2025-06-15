@@ -10,8 +10,7 @@ public class Rahmen extends JFrame{
     public Rahmen() {
 
         setExtendedState(JFrame.MAXIMIZED_BOTH);
-        //setResizable(false);
-        //setUndecorated(true);
+        setResizable(false);
     	setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); 
     	
     	BildschirmBreite = Toolkit.getDefaultToolkit().getScreenSize().width; 

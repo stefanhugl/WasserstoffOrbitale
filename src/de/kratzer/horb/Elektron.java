@@ -4,6 +4,7 @@ import java.awt.*;
 
 public class Elektron {
 
+	//TODO: NachleuchtExp löschen?
 	public static double AnfangsKreuzGroesse = 10;
 	public static double AnfangsPunktGroesse = 10;
 	public static double Alter, NachleuchtExponent, KreuzGroesse, PunktGroesse;
@@ -43,7 +44,7 @@ public class Elektron {
 		NachleuchtZ = Flaeche.NachleuchtZeitVorgabe;
 
 		//KreuzGroesse = Math.pow(AnfangsKreuzGroesse, 1-Alter/NachleuchtZ);
-		//todo do besser wie unten oder oben?
+		//TODO: do besser wie unten oder oben?
 		KreuzGroesse = AnfangsKreuzGroesse * (Math.exp(-NachleuchtExponent));
 		//KreuzGroesse = AnfangsKreuzGroesse * (Math.exp(Alter * Flaeche.nachlFaktorImExp));	//..verkleinern
 		if (KreuzGroesse < 0) KreuzGroesse = 0;

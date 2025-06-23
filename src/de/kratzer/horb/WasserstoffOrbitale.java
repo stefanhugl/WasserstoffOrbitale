@@ -5,7 +5,7 @@ package de.kratzer.horb;
 // x, y, z, t	Koordinaten
 // h, b			Bildschirmhöhe, -breite
 // v			Vergrößerung
-//Fläche.Schnitt	0: räumliche Darstllung; 1,2,3: x-y,x-z,...-Schnitt
+//Fläche.Schnitt	0: räumliche Darstellung; 1,2,3: x-y,x-z,...-Schnitt
 
 public class WasserstoffOrbitale {
 	

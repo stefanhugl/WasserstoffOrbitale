@@ -13,40 +13,40 @@ public class Flaeche extends JPanel {
 	public static int h = Rahmen.BildschirmHoehe, b = Rahmen.BildschirmBreite;
 	public static int MassstabPosY = 146; //Abstand vom unteren Rand
 	public static double MassstabLaenge = 0.05*h; 	//Anfangslänge des Maßstabs (entspricht 1 Angström)
-	public static double Kante = h / MassstabLaenge;	// Das Atom wird beobachtet in einem
-												// Würfel der Kantenlänge "Kante"
-												// in Einheiten des Bohrschen Radius 5.291772e-11 m
-	//kann bei schnelleren Computern die der Takt kleiner als 10 ms gewählt werden?
-	public static int TimerTakt = 5, TaktNummer = 0;	// Takt des Timers in ms (mind. 1)
+	public static double Kante = h / MassstabLaenge;	 //Das Atom wird beobachtet in einem
+												         //Würfel der Kantenlänge "Kante"
+													     //in Einheiten des Bohrschen Radius 5.291772e-11 m
+	public static int TimerTakt = 5, TaktNummer = 0;  //Takt des Timers in ms (mind. 1)
 	public static int MessrateWert = 1, DeltaT = 1000 / (MessrateWert * TimerTakt);
 	//MessrateWert * TimerTakt darf nicht größer als 1000 sein.
 	//MessrateWert gibt an, wie oft pro s das Elektron gesucht wird.
 	//DeltaT gibt an, nach wie vielen Timertakten jeweils das Elektron gesucht wird.
-	public static int NachleuchtZeitVorgabe = 2000; // in ms
-	public static int Schnitt = 2;	// Schnittebene für 2D-Darstellung (0: räuml.;  1: x-y-Ebene; ...)
-	public static int n, l, m;	// Quantenzahlen
+	public static int NachleuchtZeitVorgabe = 2000;  //in ms
+	public static int Schnitt = 2;	//Schnittebene für 2D-Darstellung zu Beginn (0: räuml.;  1: x-y-Ebene; ...)
+	public static int n, l, m;	 //Quantenzahlen
 	public static void setSchnitt(int schnitt) {
 		Schnitt = schnitt;
 	}  // Schnittebene für 2D-Darstellung
 	public static int MaxAnzEl;
 	//maximale Zahl gleichzeitig sichtbarer Elektronenfundorte
 	public static double[] Achse = new double[4];		//Drehachse
-	double alpha = 0.0;
-	public static double Winkel = 0.0;					//für Drehung
+	double alpha = 0.0;									//aktueller Winkel
+	public static double Winkel = 0.0;					//wird addiert bei Drehung
 	double a11, a12, a13, a21, a22, a23, a31, a32, a33;	//Drehmatrix
 	EingabeFeld         WinkelEing = new EingabeFeld();
 	EingabeFeld       MessrateEing = new EingabeFeld();
 	EingabeFeld NachleuchtZeitEing = new EingabeFeld();
-	Schild  Tipp = new Schild() , Chemisch = new Schild() , Magnetisch = new Schild(),
-			Massstab = new Schild(), Angstroem = new Schild(), zieh = new Schild(),
-			Raeuml = new Schild(), odr = new Schild(), Schn = new Schild(),
+	Schild  Tipp = new Schild() , Chemisch = new Schild() , Magnetisch = new Schild(), //Labels
+			Massstab = new Schild(), Angstroem = new Schild(), zieh = new Schild(),    //die an den Rändern
+			Raeuml = new Schild(), odr = new Schild(), Schn = new Schild(),			   //agezeigt werden
 			xAch = new Schild(), yAch = new Schild(),zAch = new Schild(),
 			Quantenzahlen = new Schild(), nSchild = new Schild(), lSchild = new Schild(), mSchild = new Schild(),
 			Dreh = new Schild(), Geschw = new Schild(), Umdr = new Schild(),
-			MaxAnz = new Schild(), Messrate = new Schild(), proS = new Schild(), NachleuchtZeit = new Schild(), inMs = new Schild(),
+			MaxAnz = new Schild(), Messrate = new Schild(), proS = new Schild(),
+			NachleuchtZeit = new Schild(), inMs = new Schild(),
 			xAchBeschr = new Schild(), yAchBeschr = new Schild(), zAchBeschr = new Schild();
 
-	Knopf	nPlus = new Knopf(), nMinus = new Knopf(),
+	Knopf	nPlus = new Knopf(), nMinus = new Knopf(),  //Buttons für Einstellungen
 			lPlus = new Knopf(), lMinus = new Knopf(),
 			mPlus = new Knopf(), mMinus = new Knopf();
 
@@ -54,8 +54,8 @@ public class Flaeche extends JPanel {
 
 		erzeugeEinstellungenUndBedienelemente();
 
-		if (DeltaT == 0) DeltaT =1;
-		MaxAnzEl = NachleuchtZeitVorgabe*MessrateWert + 1;
+		if (DeltaT == 0) DeltaT =1;   //DeltaT muss > 0 sein
+		MaxAnzEl = NachleuchtZeitVorgabe*MessrateWert + 1;   //Maximalanzahl sichtbarer Elektroneb hängt ab von Nachleuchtzeit und Messrate
 
 		ActionListener ZeitNehmer = Takt -> {
 			TaktNummer++;
@@ -63,17 +63,12 @@ public class Flaeche extends JPanel {
 													  // ...nur nach jedem DeltaT-ten Takt ausgeführt wird
 					Atom.suche();                    //sucht möglichen Ort des Elektrons
 					alpha = alpha + Winkel;            //dreht das Orbital
-					if (alpha > 2 * pi)                //fängt nach 2pi// wieder bei 0 an
+					if (alpha > 2 * pi)                //fängt nach 2pi
 						alpha = alpha - 2 * pi;        // wieder bei 0 an
-					//repaint();
 				}
 
-				repaint();  //todo besser so wie unten? oder oben?
-				//if (TaktNummer % DeltaT == 0) { repaint(); }
-				// zeichnet nach jedem DeltaT-ten Takt
-				// auf "Flaeche", wie in der
-				// überschriebenen "paintComponent" angegeben
-		};
+				repaint();                      //zeichnet den Bildschirm neu, wie in
+		};										//paintComponent vorgegeben
 		Timer Uhr = new Timer(TimerTakt, ZeitNehmer);
 		Uhr.start();
 	}
@@ -83,7 +78,7 @@ public class Flaeche extends JPanel {
 
 		super.paintComponent(Zeichnung);
 		Graphics2D ebeneZeichnung = (Graphics2D) Zeichnung;
-		Bleibendes.zeichne(ebeneZeichnung);
+		Bleibendes.zeichne(ebeneZeichnung);					//zeichneet, was dauerhaft gleich bleibt
 		int nEl = Atom.AnzEl;
 		berechneDrehmatrix(alpha, Achse[1], Achse[2], Achse[3]);
 		for (int i = 0; i < nEl; i++) {
@@ -447,16 +442,3 @@ public class Flaeche extends JPanel {
 		add(Tipp);
 	}
 }
-																		//Bsp. zum Pfeil ->
-/*
-		Runnable r = ()-> System.out.print("Run method");
-
-		ist äquivalent zu
-
-		Runnable r = new Runnable() {
-			@Override
-			public void run() {
-				System.out.print("Run method");
-			}
-		};
-*/

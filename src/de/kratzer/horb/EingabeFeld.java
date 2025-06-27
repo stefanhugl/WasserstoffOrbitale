@@ -6,8 +6,7 @@ public class EingabeFeld extends JTextField {
 
     public EingabeFeld() {
 
-        setColumns(4);          //    setSize(int, int), setBounds(int, int, int, int), invalidate()
-
+        setColumns(4);
     }
 
     public static void richteEin(EingabeFeld DiesesEingabeFeld, String VorgabeText, int xOrt, int yOrt) {
@@ -17,7 +16,7 @@ public class EingabeFeld extends JTextField {
     }
 
     public static int pruefe(EingabeFeld DiesesEingabeFeld, int Eing, int uGr, int oGr) {
-                                                                                // uG, oG: untere und obere Grenze
+                                                          // uG, oG: untere und obere Grenze
         if (Eing < uGr) { Eing = uGr; DiesesEingabeFeld.setText(Integer.toString(uGr)); }
         if (Eing > oGr) { Eing = oGr; DiesesEingabeFeld.setText(Integer.toString(oGr)); }
         return Eing;

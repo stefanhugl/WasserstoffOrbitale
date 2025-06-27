@@ -4,7 +4,6 @@ import java.awt.*;
 
 public class Elektron {
 
-	//TODO: NachleuchtExp löschen?
 	public static double AnfangsKreuzGroesse = 10;
 	public static double AnfangsPunktGroesse = 10;
 	public static double Alter, NachleuchtExponent, KreuzGroesse, PunktGroesse;

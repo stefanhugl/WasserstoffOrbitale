@@ -2,7 +2,7 @@ package de.kratzer.horb;
 
 public abstract class Orbital {
     final static double pi = 3.14159265;
-    public static double MessZeit;
+    //public static double MessZeit;
     public double r, phi, theta;            //Kugelkoordinaten
     public double x, y, z, Würfelseite;     //karthesische Koord. und Kantenlänge, des Beobachtungswürfels
     public boolean gefunden = false;

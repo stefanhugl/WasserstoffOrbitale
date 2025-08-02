@@ -46,6 +46,6 @@ public class Atom {
 
 		AnzEl = 0;
 		MessungNummer = 0;
-		Flaeche.Winkel = 0;
+		if (Flaeche.Schnitt != 0) Flaeche.Winkel = 0;
 	}
 }

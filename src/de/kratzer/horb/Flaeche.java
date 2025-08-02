@@ -227,7 +227,7 @@ public class Flaeche extends JPanel {
 		
 		mMinus.addActionListener(mMinusWarter);
 	}
-	public void erzeugeMassstabsAenderung() {
+	public void  erzeugeMassstabsAenderung() {
 		addMouseMotionListener(new MouseMotionListener() {
 			@Override
 			public void mouseMoved(MouseEvent Pos) {}
@@ -237,7 +237,9 @@ public class Flaeche extends JPanel {
 				int mstY = h-MassstabPosY, mouY = Pos.getY(), mouX = Pos.getX(), mstX = (int)(10+ MassstabLaenge);
 				if (mouY > mstY-8 && mouY < mstY+8 && mouX > mstX-48 && mouX < mstX+48 && mouX > 10) {
 
+					System.out.println("vor : " + Winkel);
 					Atom.setzeZurueck();
+					System.out.println("nach: " + Winkel);
 					MassstabLaenge = mouX - 10;
 					Kante = 1.8897*h / MassstabLaenge;
 					Angstroem.setBounds(10 + (int) MassstabLaenge / 2 - 5, h - MassstabPosY + 6, 40, 20);

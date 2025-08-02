@@ -46,7 +46,6 @@ public class Atom {
 
 		AnzEl = 0;
 		MessungNummer = 0;
-		// Orbital.MessZeit = 0;
 		Flaeche.Winkel = 0;
 	}
 }

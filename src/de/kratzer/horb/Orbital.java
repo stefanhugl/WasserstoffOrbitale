@@ -2,25 +2,25 @@ package de.kratzer.horb;
 
 public abstract class Orbital {
     final static double pi = 3.14159265;
-    //public static double MessZeit;
     public double r, phi, theta;            //Kugelkoordinaten
     public double x, y, z, Würfelseite;     //karthesische Koord. und Kantenlänge, des Beobachtungswürfels
-    public boolean gefunden = false;
-    public double Psi;
+    public boolean gefunden = false;        //gibt an, ob das Elektron am Zufallsort gefuden wurde
+    public double Psi;                      //Wert der Wellenfunktion am Zufallsort
     private final java.util.Random Zufallsgenerator = new java.util.Random();
-    double h = Rahmen.BildschirmHoehe;
+    double h = WasserstoffOrbitale.BildschirmHoehe;
     public static double[][] Fund = new double[1000*Flaeche.NachleuchtZeitVorgabe/Flaeche.TimerTakt][4];
+            //erste Stelle: Nummer des Elektrons; zweite Stelle: Nummer der Koordinate (0: Zeit; 1: x; 2:y ..)
     public boolean beobachte(int Nummer) {
 
         Würfelseite = Flaeche.Kante;        // Kantenlänge des Würfels, in dem das Elektron gesucht wird
-        gefunden = false;
-        int VersuchsZaehler = 0;                             // höchstens
+        gefunden = false;                   //vor der Suche: "nicht gefunden"
+        int VersuchsZaehler = 0;                             // höchstens...
 
-        while (!gefunden && VersuchsZaehler < 1000) {        // so viele Orte werden höchstens untersucht
+        while (!gefunden && VersuchsZaehler < 1000) {        // ...so viele Orte werden höchstens untersucht
 
             VersuchsZaehler++;
-            // zufälliger Ort
-            x = (Zufallsgenerator.nextDouble() - 0.5)* Würfelseite;
+            // zufälliger Ort                                           bei Schnittdarstellung
+            x = (Zufallsgenerator.nextDouble() - 0.5)* Würfelseite;     //wird eine Koordinate gleich 0 gesetzt
             if (Flaeche.Schnitt == 2) x = 0;
             y = (Zufallsgenerator.nextDouble() - 0.5)* Würfelseite;
             if (Flaeche.Schnitt == 3) y = 0;

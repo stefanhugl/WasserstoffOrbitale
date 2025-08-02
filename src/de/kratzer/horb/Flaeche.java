@@ -10,7 +10,7 @@ import java.text.NumberFormat;
 
 public class Flaeche extends JPanel {
 	final static double pi = 3.14159265;
-	public static int h = Rahmen.BildschirmHoehe, b = Rahmen.BildschirmBreite;
+	public static int h = WasserstoffOrbitale.BildschirmHoehe, b = WasserstoffOrbitale.BildschirmBreite;
 	public static int MassstabPosY = 146; //Abstand vom unteren Rand
 	public static double MassstabLaenge = 0.05*h; 	//Anfangslänge des Maßstabs (entspricht 1 Angström)
 	public static double Kante = h / MassstabLaenge;	 //Das Atom wird beobachtet in einem
@@ -52,10 +52,13 @@ public class Flaeche extends JPanel {
 
 	public Flaeche() {
 
+		setLayout(null);
+		System.out.println("Fläche: Width " + WasserstoffOrbitale.BildschirmBreite + " und Height " + WasserstoffOrbitale.BildschirmHoehe);
+
 		erzeugeEinstellungenUndBedienelemente();
 
 		if (DeltaT == 0) DeltaT =1;   //DeltaT muss > 0 sein
-		MaxAnzEl = NachleuchtZeitVorgabe*MessrateWert + 1;   //Maximalanzahl sichtbarer Elektroneb hängt ab von Nachleuchtzeit und Messrate
+		MaxAnzEl = NachleuchtZeitVorgabe*MessrateWert + 1;   //Maximalanzahl sichtbarer Elektron hängt ab von Nachleuchtzeit und Messrate
 
 		ActionListener ZeitNehmer = Takt -> {
 			TaktNummer++;
@@ -107,7 +110,9 @@ public class Flaeche extends JPanel {
 	}
 
 	public void erzeugeEinstellungenUndBedienelemente() {
-		setBackground(Color.black); setLayout(null);
+		setForeground(Color.white);
+		setBackground(Color.black);
+		setLayout(null);
 		n = 2; l = 1;
 		richteQuantenzahlWahlEin();
 		richteOrbitalBenennungEin();
@@ -249,9 +254,9 @@ public class Flaeche extends JPanel {
 		add(yAchBeschr);
 		Schild.erzeuge(zAchBeschr,"z", b - 104, h - 449, 12, 12);
 		add(zAchBeschr);
-		Schild.erzeuge(Raeuml,"räumlich",b - 60, h - 292, 60, 30);
+		Schild.erzeuge(Raeuml,"räumlich",b - 90, h - 292, 60, 30);
 		add(Raeuml);
-		Schild.erzeuge(odr,"oder", b - 60, h - 236, 60, 12);
+		Schild.erzeuge(odr,"oder", b - 90, h - 236, 60, 12);
 		add(odr);
 
 		JRadioButton Raeumlich = new JRadioButton("3D", false);
@@ -259,10 +264,10 @@ public class Flaeche extends JPanel {
 		JRadioButton XSchnitt = new JRadioButton("y-z", true);
 		JRadioButton YSchnitt = new JRadioButton("x-z", false);
 
-		Raeumlich.setBounds(b - 60, h - 268, 60, 25);
-		 ZSchnitt.setBounds(b - 60, h - 216, 60, 25);
-		 XSchnitt.setBounds(b - 60, h - 188, 60, 25);
-		 YSchnitt.setBounds(b - 60, h - 160, 60, 25);
+		Raeumlich.setBounds(b - 90, h - 268, 60, 25);
+		 ZSchnitt.setBounds(b - 90, h - 216, 60, 25);
+		 XSchnitt.setBounds(b - 90, h - 188, 60, 25);
+		 YSchnitt.setBounds(b - 90, h - 160, 60, 25);
 
 		ButtonGroup SchnittGruppe = new ButtonGroup();
 		SchnittGruppe.add(Raeumlich);
@@ -309,7 +314,7 @@ public class Flaeche extends JPanel {
 		XSchnitt.addActionListener(SchnittKnopfWarter);
 		YSchnitt.addActionListener(SchnittKnopfWarter);
 
-		Schild.erzeuge(Schn,"-Schnitt", b - 60, h - 130, 60, 12);
+		Schild.erzeuge(Schn,"-Schnitt", b - 90, h - 130, 60, 12);
 		add(Schn);
 	}
 

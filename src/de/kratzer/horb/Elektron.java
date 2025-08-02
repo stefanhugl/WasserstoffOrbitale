@@ -12,7 +12,7 @@ public class Elektron {
 
 	public static void zeichne(int i, double a11, double a12, double a13, double a21, double a22, double a23, double a31, double a32, double a33, Graphics2D ebeneZeichnung) {
 
-		double h = Rahmen.BildschirmHoehe;	double b = Rahmen.BildschirmBreite;
+		double h = WasserstoffOrbitale.BildschirmHoehe;	double b = WasserstoffOrbitale.BildschirmBreite;
 		double t, x, y, z, xx, yy, zz, xs;
 				
 		 t = Orbital.Fund[i][0];	//Zeit und

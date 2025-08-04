@@ -11,7 +11,7 @@ import java.text.NumberFormat;
 public class Flaeche extends JPanel {
 	final static double pi = 3.14159265;
 	public static int h = WasserstoffOrbitale.BildschirmHoehe, b = WasserstoffOrbitale.BildschirmBreite;
-	public static int MassstabPosY = 146; //Abstand vom unteren Rand
+	public static int MassstabPosY = 100; //Abstand vom unteren Rand
 	public static double MassstabLaenge = 0.05*h; 	//Anfangslänge des Maßstabs (entspricht 1 Angström)
 	public static double Kante = h / MassstabLaenge;	 //Das Atom wird beobachtet in einem
 												         //Würfel der Kantenlänge "Kante"
@@ -36,7 +36,7 @@ public class Flaeche extends JPanel {
 	EingabeFeld         WinkelEing = new EingabeFeld();
 	EingabeFeld       MessrateEing = new EingabeFeld();
 	EingabeFeld NachleuchtZeitEing = new EingabeFeld();
-	Schild  Tipp = new Schild() , Chemisch = new Schild() , Magnetisch = new Schild(), //Labels
+	Schild  Chemisch = new Schild(), Magnetisch = new Schild(), //Labels
 			Massstab = new Schild(), Angstroem = new Schild(), zieh = new Schild(),    //die an den Rändern
 			Raeuml = new Schild(), odr = new Schild(), Schn = new Schild(),			   //agezeigt werden
 			xAch = new Schild(), yAch = new Schild(),zAch = new Schild(),
@@ -46,14 +46,20 @@ public class Flaeche extends JPanel {
 			NachleuchtZeit = new Schild(), inMs = new Schild(),
 			xAchBeschr = new Schild(), yAchBeschr = new Schild(), zAchBeschr = new Schild();
 
+
 	Knopf	nPlus = new Knopf(), nMinus = new Knopf(),  //Buttons für Einstellungen
 			lPlus = new Knopf(), lMinus = new Knopf(),
-			mPlus = new Knopf(), mMinus = new Knopf();
+			mPlus = new Knopf(), mMinus = new Knopf(),
+			Tipp  = new Knopf(), Beend  = new Knopf();
 
 	public Flaeche() {
 
 		setLayout(null);
-		System.out.println("Fläche: Width " + WasserstoffOrbitale.BildschirmBreite + " und Height " + WasserstoffOrbitale.BildschirmHoehe);
+
+		//JButton closeButton = new JButton("Schließen");
+		//closeButton.setBounds(500, 200, 150, 30);
+		//closeButton.addActionListener(e -> System.exit(0));
+		//add(closeButton);
 
 		erzeugeEinstellungenUndBedienelemente();
 
@@ -123,6 +129,7 @@ public class Flaeche extends JPanel {
 		erzeugeMassstabsAenderung();
 		erzeugeElektronenWahl();
 		erzeugeTipp();
+		erzeugeBeendSchild();
 	}
 
 	public void richteQuantenzahlWahlEin() {
@@ -250,15 +257,15 @@ public class Flaeche extends JPanel {
 	}
 	public void richteSchnittWahlEin() {
 
-		Schild.erzeuge(xAchBeschr,"x",  b - 142, h - 336, 12, 12);
+		Schild.erzeuge(xAchBeschr,"x",  b - 142, h - 326, 12, 12);
 		add(xAchBeschr);
-		Schild.erzeuge(yAchBeschr,"y", b -  30, h - 380, 12, 16);
+		Schild.erzeuge(yAchBeschr,"y", b -  30, h - 370, 12, 16);
 		add(yAchBeschr);
-		Schild.erzeuge(zAchBeschr,"z", b - 104, h - 449, 12, 12);
+		Schild.erzeuge(zAchBeschr,"z", b - 104, h - 439, 12, 12);
 		add(zAchBeschr);
-		Schild.erzeuge(Raeuml,"räumlich",b - 90, h - 292, 60, 30);
+		Schild.erzeuge(Raeuml,"räumlich",b - 90, h - 290, 60, 30);
 		add(Raeuml);
-		Schild.erzeuge(odr,"oder", b - 90, h - 236, 60, 12);
+		Schild.erzeuge(odr,"oder", b - 90, h - 230, 60, 12);
 		add(odr);
 
 		JRadioButton Raeumlich = new JRadioButton("3D", false);
@@ -427,7 +434,6 @@ public class Flaeche extends JPanel {
 	}
 
 	public void richteOrbitalBenennungEin() {
-
 		Schild.erzeuge(Chemisch, "2p", 40, 30, 360, 300);
 		Chemisch.setFont(Chemisch.getFont().deriveFont(48f));				//.setFont(new Font( "Times New Roman", Font.BOLD, 48));
 		Schild.erzeuge(Magnetisch,"",110, 50, 360, 300);
@@ -445,7 +451,15 @@ public class Flaeche extends JPanel {
 	}
 
 	public void erzeugeTipp() {
-		Schild.erzeuge(Tipp,"Erhöhe Messrate und Nachleuchtzeit, bis das Muster erkennbar ist.", 10, h - 104, 700, 20);
+		Knopf.erzeuge(Tipp,"Erhöhe Messrate und Nachleuchtzeit, bis das Muster erkennbar ist.        X", 250, h - 90, 560, 20);
+		Tipp.setBackground(Color.red);
+		Tipp.addActionListener(e -> Tipp.setVisible(false));
 		add(Tipp);
+	}
+
+	public void erzeugeBeendSchild() {
+		Knopf.erzeuge(Beend, "beenden", b-120, 26, 97, 26);
+		Beend.addActionListener(e -> System.exit(0));
+		add(Beend);
 	}
 }

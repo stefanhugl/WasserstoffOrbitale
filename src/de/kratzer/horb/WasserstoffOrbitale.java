@@ -1,5 +1,7 @@
 package de.kratzer.horb;
 
+import java.awt.*;
+
 // Variablen
 // n, l, m		Quantenzahlen
 // x, y, z, t	Koordinaten
@@ -15,7 +17,8 @@ public class WasserstoffOrbitale {
 	public static void main(String[] args) {
 
 		Rahmen OrbitalRahmen = new Rahmen();
-		BildschirmBreite = OrbitalRahmen.getWidth();
+
+        BildschirmBreite = OrbitalRahmen.getWidth();
 		BildschirmHoehe = OrbitalRahmen.getHeight();
 		System.out.println("1: Width " + BildschirmBreite + " und Height " + BildschirmHoehe);
 

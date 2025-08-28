@@ -57,8 +57,6 @@ public class Flaeche extends JPanel {
 
     public Flaeche() {
 
-        setLayout(null);
-
         //JButton closeButton = new JButton("Schließen");
         //closeButton.setBounds(500, 200, 150, 30);
         //closeButton.addActionListener(e -> System.exit(0));
@@ -165,15 +163,15 @@ public class Flaeche extends JPanel {
 
         public void richteSchnittWahlEin () {
 
-            Schild.erzeuge(xAchBeschr, "x", b - Rand.rechts - 113, h - Rand.unten - 218, 12, 12);
+            Schild.erzeuge(xAchBeschr, "x", b-Rand.rechts - 113, h-Rand.unten-178, 12, 12);
             add(xAchBeschr);
-            Schild.erzeuge(yAchBeschr, "y", b - Rand.rechts - 3, h - Rand.unten - 260, 12, 16);
+            Schild.erzeuge(yAchBeschr, "y", b-Rand.rechts - 3, h - Rand.unten-200, 12, 16);
             add(yAchBeschr);
-            Schild.erzeuge(zAchBeschr, "z", b - Rand.rechts - 74, h - Rand.unten - 329, 12, 12);
+            Schild.erzeuge(zAchBeschr, "z", b-Rand.rechts - 74, h - Rand.unten-289, 12, 12);
             add(zAchBeschr);
-            Schild.erzeuge(Raeuml, "räumlich", b - Rand.rechts - 60, h - Rand.unten - 200, 60, 30);
+            Schild.erzeuge(Raeuml, "räumlich", b-Rand.rechts - 60, h - Rand.unten-160, 60, 30);
             add(Raeuml);
-            Schild.erzeuge(odr, "oder", b - Rand.rechts - 60, h - Rand.unten - 140, 60, 12);
+            Schild.erzeuge(odr, "oder", b-Rand.rechts - 60, h - Rand.unten-100, 60, 12);
             add(odr);
 
             JRadioButton Raeumlich = new JRadioButton("3D", false);
@@ -181,10 +179,10 @@ public class Flaeche extends JPanel {
             JRadioButton XSchnitt = new JRadioButton("y-z", true);
             JRadioButton YSchnitt = new JRadioButton("x-z", false);
 
-            Raeumlich.setBounds(b - Rand.rechts - 60, h - Rand.unten - 178, 60, 25);
-            ZSchnitt.setBounds(b - Rand.rechts - 60, h - Rand.unten - 126, 60, 25);
-            XSchnitt.setBounds(b - Rand.rechts - 60, h - Rand.unten - 98, 60, 25);
-            YSchnitt.setBounds(b - Rand.rechts - 60, h - Rand.unten - 70, 60, 25);
+            Raeumlich.setBounds(b-Rand.rechts-60, h-Rand.unten-138, 60, 25);
+            ZSchnitt.setBounds(b-Rand.rechts-60, h-Rand.unten-86, 60, 25);
+            XSchnitt.setBounds(b-Rand.rechts-60, h-Rand.unten-58, 60, 25);
+            YSchnitt.setBounds(b-Rand.rechts-60, h-Rand.unten-30, 60, 25);
 
             ButtonGroup SchnittGruppe = new ButtonGroup();
             SchnittGruppe.add(Raeumlich);
@@ -234,7 +232,7 @@ public class Flaeche extends JPanel {
             XSchnitt.addActionListener(SchnittKnopfWarter);
             YSchnitt.addActionListener(SchnittKnopfWarter);
 
-            Schild.erzeuge(Schn, "-Schnitt", b - Rand.rechts - 60, h - Rand.unten - 40, 60, 12);
+            Schild.erzeuge(Schn, "-Schnitt", b-Rand.rechts - 60, h-Rand.unten, 60, 12);
             add(Schn);
         }
 

@@ -6,6 +6,6 @@ public class Rand {
 
     public Rand() {
 
-        oben = 15; unten = 120; links = 10; rechts = 30;
+        oben = 15; unten = 40; links = 10; rechts = 30;
     }
 }

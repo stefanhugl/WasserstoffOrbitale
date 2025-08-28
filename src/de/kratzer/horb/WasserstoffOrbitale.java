@@ -20,7 +20,7 @@ public class WasserstoffOrbitale {
 
         BildschirmBreite = OrbitalRahmen.getWidth();
 		BildschirmHoehe = OrbitalRahmen.getHeight();
-		System.out.println("1: Width " + BildschirmBreite + " und Height " + BildschirmHoehe);
+		//System.out.println("1: Width " + BildschirmBreite + " und Height " + BildschirmHoehe);
 
 		Flaeche OrbitalFlaeche = new Flaeche();
 		OrbitalRahmen.add(OrbitalFlaeche);

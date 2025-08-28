@@ -18,7 +18,7 @@ public class Bleibendes {
         ebeneZeichnung.drawLine(    mstX,       mstY+6,       mstX,   mstY-6);  //linker Rand
         ebeneZeichnung.drawLine(mstX+msl,    mstY+6,  mstX+msl,mstY-6);  //rechter Rand
 
-        int NullX = b-Rand.rechts-70, NullY = h-Rand.unten-250;                             //KoSy zeichnen
+        int NullX = b-Rand.rechts-70, NullY = h-Rand.unten-210;                             //KoSy zeichnen
 
         ebeneZeichnung.drawLine(    NullX,       NullY,     NullX-30, NullY+30);    //x-Achse
         ebeneZeichnung.drawLine(NullX-30, NullY+30, NullX-30, NullY+26);       //Pfeil

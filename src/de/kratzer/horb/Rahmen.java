@@ -24,6 +24,6 @@ public class Rahmen extends JFrame{
             WasserstoffOrbitale.BildschirmBreite = screenSize.width - insets.left - insets.right;
             WasserstoffOrbitale.BildschirmHoehe = screenSize.height - insets.top - insets.bottom;
             setSize(WasserstoffOrbitale.BildschirmBreite, WasserstoffOrbitale.BildschirmHoehe);
-        }
+                    }
     }
 }

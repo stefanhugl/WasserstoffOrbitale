@@ -1,11 +1,15 @@
 package de.kratzer.horb;
 
 import java.awt.*;
+//import java.awt.Color;
+
 public class Bleibendes {
 
     public static void zeichne(Graphics2D ebeneZeichnung){
 
         int h = WasserstoffOrbitale.BildschirmHoehe;	int b = WasserstoffOrbitale.BildschirmBreite;
+        //int h = Rahmen.BildschirmHoehe;	int b = Rahmen.BildschirmBreite;
+
         int mstX = Rand.links, mstY = h-Rand.unten-4,
             msl = (int)Flaeche.MassstabLaenge;	 //Massstab aktualisieren
         Color Farbe1 = new Color(1, 1, 1, 1.0f);
@@ -47,5 +51,14 @@ public class Bleibendes {
             int[] XZalleY = {NullY-2, NullY-52, NullY-32, NullY+18};
             ebeneZeichnung.fillPolygon(XZalleX, XZalleY, 4);
         }
+
+        ebeneZeichnung.setColor(Color.red);
+        ebeneZeichnung.fillRect(b-Rand.rechts-10, Rand.oben+10, 20, 20);	//Kreuz
+        ebeneZeichnung.setColor(Color.black);
+        ebeneZeichnung.setStroke( new BasicStroke( 3, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER ) );   //Linie dicker
+        ebeneZeichnung.drawLine(b-Rand.rechts-6, Rand.oben+14, b-Rand.rechts+6, Rand.oben+26);	//Kreuz
+        ebeneZeichnung.drawLine(b-Rand.rechts+6, Rand.oben+14, b-Rand.rechts-6, Rand.oben+26);	//zeichnen
+        ebeneZeichnung.setStroke( new BasicStroke( 1, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER ) );   //wieder normaldick
+
     }
 }

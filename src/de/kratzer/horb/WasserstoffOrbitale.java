@@ -1,6 +1,7 @@
 package de.kratzer.horb;
 
 import java.awt.*;
+import javax.swing.*;
 
 // Variablen
 // n, l, m		Quantenzahlen
@@ -26,5 +27,5 @@ public class WasserstoffOrbitale {
 		OrbitalRahmen.add(OrbitalFlaeche);
 		OrbitalRahmen.setVisible(true);
 		OrbitalFlaeche.setVisible(true);
-	}
+    }
 }

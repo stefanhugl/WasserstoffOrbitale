@@ -12,6 +12,8 @@ public class Flaeche extends JPanel {
 
     final static double pi = 3.14159265;
     public static int h = WasserstoffOrbitale.BildschirmHoehe, b = WasserstoffOrbitale.BildschirmBreite;
+    //public static int h = Rahmen.BildschirmHoehe, b = Rahmen.BildschirmBreite;
+
     //public static int MassstabPosY = Rand.unten + 10; //Abstand vom unteren Rand
     public static double MassstabLaenge = 0.05 * h;    //Anfangslänge des Maßstabs (entspricht 1 Angström)
     public static double Kante = h / MassstabLaenge;     //Das Atom wird beobachtet in einem
@@ -380,7 +382,8 @@ public class Flaeche extends JPanel {
         }
 
         public void erzeugeBeendSchild () {
-            Knopf.erzeuge(Beend, "beenden", b - Rand.rechts - 90, Rand.oben + 11, 97, 26);
+            Knopf.erzeuge(Beend, "", b - Rand.rechts-10, Rand.oben+10, 20, 20);
+            Beend.setOpaque(false);
             Beend.addActionListener(e -> System.exit(0));
             add(Beend);
         }

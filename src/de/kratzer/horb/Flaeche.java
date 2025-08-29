@@ -1,6 +1,7 @@
 package de.kratzer.horb;
 
 import javax.swing.*;
+import javax.swing.JComponent;
 import javax.swing.text.NumberFormatter;
 import java.awt.*;
 import java.awt.event.ActionListener;
@@ -42,14 +43,15 @@ public class Flaeche extends JPanel {
     EingabeFeld MessrateEing = new EingabeFeld();
     EingabeFeld NachleuchtZeitEing = new EingabeFeld();
     Schild Chemisch = new Schild(), Magnetisch = new Schild(), //Labels
-            Massstab = new Schild(), Angstroem = new Schild(), zieh = new Schild(),    //die an den Rändern
-            Raeuml = new Schild(), odr = new Schild(), Schn = new Schild(),               //agezeigt werden
-            xAch = new Schild(), yAch = new Schild(), zAch = new Schild(),
-            Quantenzahlen = new Schild(), nSchild = new Schild(), lSchild = new Schild(), mSchild = new Schild(),
-            Dreh = new Schild(), Geschw = new Schild(), Umdr = new Schild(),
-            MaxAnz = new Schild(), Messrate = new Schild(), proS = new Schild(),
-            NachleuchtZeit = new Schild(), inMs = new Schild(),
-            xAchBeschr = new Schild(), yAchBeschr = new Schild(), zAchBeschr = new Schild();
+           Massstab = new Schild(), Angstroem = new Schild(), zieh = new Schild(),    //die an den Rändern
+           Raeuml = new Schild(), odr = new Schild(), Schn = new Schild(),               //agezeigt werden
+           xAch = new Schild(), yAch = new Schild(), zAch = new Schild(),
+           Quantenzahlen = new Schild(), nSchild = new Schild(), lSchild = new Schild(), mSchild = new Schild(),
+           Dreh = new Schild(), Geschw = new Schild(), Umdr = new Schild(),
+           MaxAnz = new Schild(), Messrate = new Schild(), proS = new Schild(),
+           NachleuchtZeit = new Schild(), inMs = new Schild(),
+           xAchBeschr = new Schild(), yAchBeschr = new Schild(), zAchBeschr = new Schild(),
+            Ueber = new Schild();
 
 
     Knopf nPlus = new Knopf(), nMinus = new Knopf(),  //Buttons für Einstellungen
@@ -128,11 +130,13 @@ public class Flaeche extends JPanel {
         erzeugeDrehWahl();
         erzeugeMassstabsAenderung();
         erzeugeElektronenWahl();
-        erzeugeTipp(); erzeugeBeendSchild();
+        erzeugeTipp(); erzeugeBeendSchild(); erzeugeUeberschrift();
     }
 
     public void richteQuantenzahlWahlEin() {
 
+        Schild.erzeuge(Quantenzahlen, "Quantenzahlen", Rand.links, Rand.oben, 141, 20);
+        add(Quantenzahlen);
         erzeugeSchilderUndKnoepfe(nSchild, "n = 2", nPlus, nMinus, Rand.links + 5, Rand.oben + 45);
         erzeugeSchilderUndKnoepfe(lSchild, "l = 1", lPlus, lMinus, Rand.links + 75, Rand.oben + 45);
         erzeugeSchilderUndKnoepfe(mSchild, "m = 0", mPlus, mMinus, Rand.links + 143, Rand.oben + 45);
@@ -381,22 +385,26 @@ public class Flaeche extends JPanel {
             add(Tipp);
         }
 
-        public void erzeugeBeendSchild () {
-            Knopf.erzeuge(Beend, "", b - Rand.rechts-10, Rand.oben+10, 20, 20);
+        public void erzeugeBeendSchild() {
+            Knopf.erzeuge(Beend, "", b - Rand.rechts-5, Rand.oben+10, 20, 20);
             Beend.setOpaque(false);
             Beend.addActionListener(e -> System.exit(0));
             add(Beend);
         }
+
+    public void erzeugeUeberschrift() {
+        Schild.erzeuge(Ueber, " Wasserstoff-Orbitale ", Rand.links+600, Rand.oben, 160, 20);
+        Ueber.setBorder(BorderFactory.createLineBorder(Color.white, 1));
+        add(Ueber);
+    }
 
         public void erzeugeSchilderUndKnoepfe(Schild QZahlSchild, String Text, Knopf PlusKnopf, Knopf MinusKnopf,
         int xOrt, int yOrt){
 
             Schild.erzeuge(QZahlSchild, Text, xOrt, yOrt, 50, 20);
             add(QZahlSchild);
-
             Knopf.erzeuge(PlusKnopf, "+", xOrt - 5, yOrt - 25, 45, 21);
             add(PlusKnopf);
-
             Knopf.erzeuge(MinusKnopf, "-", xOrt - 5, yOrt + 26, 45, 21);
             add(MinusKnopf);
         }

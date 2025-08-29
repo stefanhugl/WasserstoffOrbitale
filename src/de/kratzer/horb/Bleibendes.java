@@ -52,12 +52,13 @@ public class Bleibendes {
             ebeneZeichnung.fillPolygon(XZalleX, XZalleY, 4);
         }
 
+        int KreuzX = b-Rand.rechts-5, KreuzY = Rand.oben;
         ebeneZeichnung.setColor(Color.red);
-        ebeneZeichnung.fillRect(b-Rand.rechts-10, Rand.oben+10, 20, 20);	//Kreuz
+        ebeneZeichnung.fillRect(KreuzX, KreuzY+10, 20, 20);	//Kreuz
         ebeneZeichnung.setColor(Color.black);
         ebeneZeichnung.setStroke( new BasicStroke( 3, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER ) );   //Linie dicker
-        ebeneZeichnung.drawLine(b-Rand.rechts-6, Rand.oben+14, b-Rand.rechts+6, Rand.oben+26);	//Kreuz
-        ebeneZeichnung.drawLine(b-Rand.rechts+6, Rand.oben+14, b-Rand.rechts-6, Rand.oben+26);	//zeichnen
+        ebeneZeichnung.drawLine(KreuzX+4, KreuzY+14, KreuzX+16, KreuzY+26);	//Kreuz
+        ebeneZeichnung.drawLine(KreuzX+16, KreuzY+14, KreuzX+4, KreuzY+26);	//zeichnen
         ebeneZeichnung.setStroke( new BasicStroke( 1, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER ) );   //wieder normaldick
 
     }

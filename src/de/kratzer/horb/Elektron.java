@@ -8,13 +8,10 @@ public class Elektron {
 	public static double AnfangsPunktGroesse = 10;
 	public static double Alter, NachleuchtExponent, KreuzGroesse, PunktGroesse;
 	public static int KrGr, PuGr, NachleuchtZ;
-	public static float Gr, Saettigung;
 
 	public static void zeichne(int i, double a11, double a12, double a13, double a21, double a22, double a23, double a31, double a32, double a33, Graphics2D ebeneZeichnung) {
 
 		double h = WasserstoffOrbitale.BildschirmHoehe;	double b = WasserstoffOrbitale.BildschirmBreite;
-        //double h = Rahmen.BildschirmHoehe;	double b = Rahmen.BildschirmBreite;
-
         double t, x, y, z, xx, yy, zz, xs;
 				
 		 t = Orbital.Fund[i][0];	//Zeit und
@@ -43,15 +40,10 @@ public class Elektron {
 
 		if (Alter < 0) Alter = Flaeche.TimerTakt;	//(für den Fall, dass Flaeche.TaktNummer die doubleGröße überstiegen hat)
 		NachleuchtZ = Flaeche.NachleuchtZeitVorgabe;
-
-		//KreuzGroesse = Math.pow(AnfangsKreuzGroesse, 1-Alter/NachleuchtZ);
-		//TODO: do besser wie unten oder oben?
 		KreuzGroesse = AnfangsKreuzGroesse * (Math.exp(-NachleuchtExponent));
 		//KreuzGroesse = AnfangsKreuzGroesse * (Math.exp(Alter * Flaeche.nachlFaktorImExp));	//..verkleinern
 		if (KreuzGroesse < 0) KreuzGroesse = 0;
 		KrGr = (int)KreuzGroesse;
-
-		//PunktGroesse = Math.pow(AnfangsPunktGroesse, 1-Alter/NachleuchtZ);
 		PunktGroesse = AnfangsPunktGroesse * (Math.exp(-NachleuchtExponent/2));
 		if (PunktGroesse < 0) PunktGroesse = 0;
 		PuGr = (int)PunktGroesse;

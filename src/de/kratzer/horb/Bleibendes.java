@@ -1,16 +1,13 @@
 package de.kratzer.horb;
 
 import java.awt.*;
-//import java.awt.Color;
 
 public class Bleibendes {
 
     public static void zeichne(Graphics2D ebeneZeichnung){
 
         int h = WasserstoffOrbitale.BildschirmHoehe;	int b = WasserstoffOrbitale.BildschirmBreite;
-        //int h = Rahmen.BildschirmHoehe;	int b = Rahmen.BildschirmBreite;
-
-        int mstX = Rand.links, mstY = h-Rand.unten-4,
+        int mstX = Flaeche.links, mstY = h-Flaeche.unten-4,
             msl = (int)Flaeche.MassstabLaenge;	 //Massstab aktualisieren
         Color Farbe1 = new Color(1, 1, 1, 1.0f);
         ebeneZeichnung.setColor(Farbe1);                                     //Massstab zeichnen
@@ -22,7 +19,7 @@ public class Bleibendes {
         ebeneZeichnung.drawLine(    mstX,       mstY+6,       mstX,   mstY-6);  //linker Rand
         ebeneZeichnung.drawLine(mstX+msl,    mstY+6,  mstX+msl,mstY-6);  //rechter Rand
 
-        int NullX = b-Rand.rechts-70, NullY = h-Rand.unten-210;                             //KoSy zeichnen
+        int NullX = b-Flaeche.rechts-70, NullY = h-Flaeche.unten-210;                             //KoSy zeichnen
 
         ebeneZeichnung.drawLine(    NullX,       NullY,     NullX-30, NullY+30);    //x-Achse
         ebeneZeichnung.drawLine(NullX-30, NullY+30, NullX-30, NullY+26);       //Pfeil
@@ -52,7 +49,7 @@ public class Bleibendes {
             ebeneZeichnung.fillPolygon(XZalleX, XZalleY, 4);
         }
 
-        int KreuzX = b-Rand.rechts-5, KreuzY = Rand.oben;
+        int KreuzX = b-Flaeche.rechts-5, KreuzY = Flaeche.oben;
         ebeneZeichnung.setColor(Color.red);
         ebeneZeichnung.fillRect(KreuzX, KreuzY+10, 20, 20);	//Kreuz
         ebeneZeichnung.setColor(Color.black);

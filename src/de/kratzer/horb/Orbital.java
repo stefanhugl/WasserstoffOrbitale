@@ -8,8 +8,6 @@ public abstract class Orbital {
     public double Psi;                      //Wert der Wellenfunktion am Zufallsort
     private final java.util.Random Zufallsgenerator = new java.util.Random();
     double h = WasserstoffOrbitale.BildschirmHoehe;
-    //double h = Rahmen.BildschirmHoehe;
-
     public static double[][] Fund = new double[1000*Flaeche.NachleuchtZeitVorgabe/Flaeche.TimerTakt][4];
             //erste Stelle: Nummer des Elektrons; zweite Stelle: Nummer der Koordinate (0: Zeit; 1: x; 2:y ..)
     public boolean beobachte(int Nummer) {

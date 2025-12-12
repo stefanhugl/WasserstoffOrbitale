@@ -1,7 +1,6 @@
 package de.kratzer.horb;
 
 import javax.swing.*;
-import javax.swing.JComponent;
 import javax.swing.text.NumberFormatter;
 import java.awt.*;
 import java.awt.event.ActionListener;
@@ -13,26 +12,22 @@ public class Flaeche extends JPanel {
 
     final static double pi = 3.14159265;
     public static int h = WasserstoffOrbitale.BildschirmHoehe, b = WasserstoffOrbitale.BildschirmBreite;
-    //public static int h = Rahmen.BildschirmHoehe, b = Rahmen.BildschirmBreite;
-
-    //public static int MassstabPosY = Rand.unten + 10; //Abstand vom unteren Rand
     public static double MassstabLaenge = 0.05 * h;    //Anfangslänge des Maßstabs (entspricht 1 Angström)
     public static double Kante = h / MassstabLaenge;     //Das Atom wird beobachtet in einem
     //Würfel der Kantenlänge "Kante"
     //in Einheiten des Bohrschen Radius 5.291772e-11 m
+    public static int oben = 15, unten = 40, links = 10, rechts = 30;
     public static int TimerTakt = 5, TaktNummer = 0;  //Takt des Timers in ms (mind. 1)
-    public static int MessrateWert = 1, DeltaT = 1000 / (MessrateWert * TimerTakt);
+    public static int MessrateWert = 4, DeltaT = 1000 / (MessrateWert * TimerTakt);
     //MessrateWert * TimerTakt darf nicht größer als 1000 sein.
     //MessrateWert gibt an, wie oft pro s das Elektron gesucht wird.
     //DeltaT gibt an, nach wie vielen Timertakten jeweils das Elektron gesucht wird.
-    public static int NachleuchtZeitVorgabe = 2000;  //in ms
+    public static int NachleuchtZeitVorgabe = 1000;  //in ms
     public static int Schnitt = 2;    //Schnittebene für 2D-Darstellung zu Beginn (0: räuml.;  1: x-y-Ebene; ...)
     public static int n = 2, l = 1, m = 0;     //Quantenzahlen
-
     public static void setSchnitt(int schnitt) {
         Schnitt = schnitt;
     }  // Schnittebene für 2D-Darstellung
-
     public static int MaxAnzEl;
     //maximale Zahl gleichzeitig sichtbarer Elektronenfundorte
     public static double[] Achse = new double[4];        //Drehachse
@@ -53,18 +48,12 @@ public class Flaeche extends JPanel {
            xAchBeschr = new Schild(), yAchBeschr = new Schild(), zAchBeschr = new Schild(),
             Ueber = new Schild();
 
-
     Knopf nPlus = new Knopf(), nMinus = new Knopf(),  //Buttons für Einstellungen
             lPlus = new Knopf(), lMinus = new Knopf(),
             mPlus = new Knopf(), mMinus = new Knopf(),
             Tipp = new Knopf(), Beend = new Knopf();
 
     public Flaeche() {
-
-        //JButton closeButton = new JButton("Schließen");
-        //closeButton.setBounds(500, 200, 150, 30);
-        //closeButton.addActionListener(e -> System.exit(0));
-        //add(closeButton);
 
         erzeugeEinstellungenUndBedienelemente();
 
@@ -92,7 +81,7 @@ public class Flaeche extends JPanel {
 
         super.paintComponent(Zeichnung);
         Graphics2D ebeneZeichnung = (Graphics2D) Zeichnung;
-        Bleibendes.zeichne(ebeneZeichnung);                    //zeichneet, was dauerhaft gleich bleibt
+        Bleibendes.zeichne(ebeneZeichnung);                    //zeichnet, was dauerhaft gleich bleibt
         int nEl = Atom.AnzEl;
         berechneDrehmatrix(alpha, Achse[1], Achse[2], Achse[3]);
         for (int i = 0; i < nEl; i++) {
@@ -135,11 +124,11 @@ public class Flaeche extends JPanel {
 
     public void richteQuantenzahlWahlEin() {
 
-        Schild.erzeuge(Quantenzahlen, "Quantenzahlen", Rand.links, Rand.oben, 141, 20);
+        Schild.erzeuge(Quantenzahlen, "Quantenzahlen", links, oben, 141, 20);
         add(Quantenzahlen);
-        erzeugeSchilderUndKnoepfe(nSchild, "n = 2", nPlus, nMinus, Rand.links + 5, Rand.oben + 45);
-        erzeugeSchilderUndKnoepfe(lSchild, "l = 1", lPlus, lMinus, Rand.links + 75, Rand.oben + 45);
-        erzeugeSchilderUndKnoepfe(mSchild, "m = 0", mPlus, mMinus, Rand.links + 143, Rand.oben + 45);
+        erzeugeSchilderUndKnoepfe(nSchild, "n = 2", nPlus, nMinus, links + 5, oben + 45);
+        erzeugeSchilderUndKnoepfe(lSchild, "l = 1", lPlus, lMinus, links + 75, oben + 45);
+        erzeugeSchilderUndKnoepfe(mSchild, "m = 0", mPlus, mMinus, links + 143, oben + 45);
         richteActionListenerEin();
     }
 
@@ -151,17 +140,17 @@ public class Flaeche extends JPanel {
                 @Override
                 public void mouseDragged(MouseEvent Pos) {
 
-                    int mstY = h - Rand.unten,
+                    int mstY = h - unten,
                             mouX = Pos.getX(), mouY = Pos.getY(),
-                            mstX = (int) (Rand.links + MassstabLaenge);
+                            mstX = (int) (links + MassstabLaenge);
 
-                    if (mouY > mstY - 8 && mouY < mstY + 8 && mouX > mstX - 48 && mouX < mstX + 48 && mouX > 10) {
+                    if (mouY > mstY - 20 && mouY < mstY + 20 && mouX > mstX - 200 && mouX < mstX + 200 && mouX > 10) {
 
                         Atom.setzeZurueck();
-                        MassstabLaenge = mouX - Rand.links;
+                        MassstabLaenge = mouX - links;
                         Kante = 1.8897 * h / MassstabLaenge;
-                        Angstroem.setBounds(Rand.links + (int) MassstabLaenge / 2 - 5, h - Rand.unten + 6, 40, 20);
-                        zieh.setBounds(Rand.links + (int) MassstabLaenge - 3, h - Rand.unten - 34, 140, 30);
+                        Angstroem.setBounds(links + (int) MassstabLaenge / 2 - 5, h - unten + 6, 40, 20);
+                        zieh.setBounds( links + (int) MassstabLaenge - 3, h -  unten - 34, 140, 30);
                     }
                 }
             });
@@ -169,15 +158,15 @@ public class Flaeche extends JPanel {
 
         public void richteSchnittWahlEin () {
 
-            Schild.erzeuge(xAchBeschr, "x", b-Rand.rechts - 113, h-Rand.unten-178, 12, 12);
+            Schild.erzeuge(xAchBeschr, "x", b- rechts - 113, h- unten-178, 12, 12);
             add(xAchBeschr);
-            Schild.erzeuge(yAchBeschr, "y", b-Rand.rechts - 3, h - Rand.unten-200, 12, 16);
+            Schild.erzeuge(yAchBeschr, "y", b- rechts - 3, h -  unten-200, 12, 16);
             add(yAchBeschr);
-            Schild.erzeuge(zAchBeschr, "z", b-Rand.rechts - 74, h - Rand.unten-289, 12, 12);
+            Schild.erzeuge(zAchBeschr, "z", b- rechts - 74, h -  unten-289, 12, 12);
             add(zAchBeschr);
-            Schild.erzeuge(Raeuml, "räumlich", b-Rand.rechts - 60, h - Rand.unten-160, 60, 30);
+            Schild.erzeuge(Raeuml, "räumlich", b- rechts - 60, h -  unten-160, 60, 30);
             add(Raeuml);
-            Schild.erzeuge(odr, "oder", b-Rand.rechts - 60, h - Rand.unten-100, 60, 12);
+            Schild.erzeuge(odr, "oder", b- rechts - 60, h -  unten-100, 60, 12);
             add(odr);
 
             JRadioButton Raeumlich = new JRadioButton("3D", false);
@@ -185,10 +174,10 @@ public class Flaeche extends JPanel {
             JRadioButton XSchnitt = new JRadioButton("y-z", true);
             JRadioButton YSchnitt = new JRadioButton("x-z", false);
 
-            Raeumlich.setBounds(b-Rand.rechts-60, h-Rand.unten-138, 60, 25);
-            ZSchnitt.setBounds(b-Rand.rechts-60, h-Rand.unten-86, 60, 25);
-            XSchnitt.setBounds(b-Rand.rechts-60, h-Rand.unten-58, 60, 25);
-            YSchnitt.setBounds(b-Rand.rechts-60, h-Rand.unten-30, 60, 25);
+            Raeumlich.setBounds(b- rechts-60, h- unten-138, 60, 25);
+            ZSchnitt.setBounds(b- rechts-60, h- unten-86, 60, 25);
+            XSchnitt.setBounds(b- rechts-60, h- unten-58, 60, 25);
+            YSchnitt.setBounds(b- rechts-60, h- unten-30, 60, 25);
 
             ButtonGroup SchnittGruppe = new ButtonGroup();
             SchnittGruppe.add(Raeumlich);
@@ -238,20 +227,20 @@ public class Flaeche extends JPanel {
             XSchnitt.addActionListener(SchnittKnopfWarter);
             YSchnitt.addActionListener(SchnittKnopfWarter);
 
-            Schild.erzeuge(Schn, "-Schnitt", b-Rand.rechts - 60, h-Rand.unten, 60, 12);
+            Schild.erzeuge(Schn, "-Schnitt", b- rechts - 60, h- unten, 60, 12);
             add(Schn);
         }
 
         public void erzeugeDrehWahl () {
 
-            Schild.erzeuge(Dreh, "<html><u>Drehung</u></<html>", Rand.links, h - Rand.unten - 270, 200, 20);
-            Schild.erzeuge(Geschw, "Geschwindigkeit", Rand.links, h - Rand.unten - 240, 200, 20);
-            Schild.erzeuge(Umdr, "Umdr. pro min", Rand.links + 172, h - Rand.unten - 240, 190, 20);
+            Schild.erzeuge(Dreh, "<html><u>Drehung</u></<html>",  links, h -  unten - 270, 200, 20);
+            Schild.erzeuge(Geschw, "Geschwindigkeit",  links, h -  unten - 240, 200, 20);
+            Schild.erzeuge(Umdr, "Umdr. pro min",  links + 172, h -  unten - 240, 190, 20);
             add(Umdr);
             add(Dreh);
             add(Geschw);
 
-            EingabeFeld.richteEin(WinkelEing, "0", Rand.links + 125, h - Rand.unten - 240);
+            EingabeFeld.richteEin(WinkelEing, "0",  links + 125, h -  unten - 240);
             add(WinkelEing);
             Winkel = Integer.parseInt(WinkelEing.getText()) * pi * DeltaT / 30000;
             ActionListener DrehgeschwWarter = Eing -> {
@@ -269,38 +258,38 @@ public class Flaeche extends JPanel {
             String VorgabeText;
             int xOrt, yOrt;
 
-            Schild.erzeuge(xAch, "             Achse: x", Rand.links + 3, h - Rand.unten - 200, 160, 20);
+            Schild.erzeuge(xAch, "             Achse: x",  links + 3, h -  unten - 200, 160, 20);
             add(xAch);
             VorgabeText = "0";
-            xOrt = Rand.links + 3;
-            yOrt = h - Rand.unten - 200;
+            xOrt =  links + 3;
+            yOrt = h -  unten - 200;
             erzeugeAchsEingabe(VorgabeText, xOrt, yOrt, 1, 2, 3);
 
-            Schild.erzeuge(yAch, "                          y", Rand.links + 3, h - Rand.unten - 170, 160, 20);
+            Schild.erzeuge(yAch, "                          y",  links + 3, h -  unten - 170, 160, 20);
             add(yAch);
             VorgabeText = "0";
-            yOrt = h - Rand.unten - 170;
+            yOrt = h -  unten - 170;
             erzeugeAchsEingabe(VorgabeText, xOrt, yOrt, 2, 3, 1);
 
-            Schild.erzeuge(zAch, "                          z", Rand.links + 3, h - Rand.unten - 140, 160, 20);
+            Schild.erzeuge(zAch, "                          z",  links + 3, h -  unten - 140, 160, 20);
             add(zAch);
             VorgabeText = "1";
-            yOrt = h - Rand.unten - 140;
+            yOrt = h -  unten - 140;
             erzeugeAchsEingabe(VorgabeText, xOrt, yOrt, 3, 1, 2);
         }
 
         public void erzeugeElektronenWahl () {
 
-            Schild.erzeuge(Messrate, "Messrate", Rand.links + 48, Rand.oben + 265, 100, 20);
-            Schild.erzeuge(proS, "pro s", Rand.links + 170, Rand.oben + 265, 200, 20);
-            Schild.erzeuge(NachleuchtZeit, "Nachleuchtzeit", Rand.links + 8, Rand.oben + 295, 190, 20);
-            Schild.erzeuge(inMs, "ms", Rand.links + 170, Rand.oben + 295, 200, 20);
+            Schild.erzeuge(Messrate, "Messrate",  links + 48,  oben + 265, 100, 20);
+            Schild.erzeuge(proS, "pro s",  links + 170,  oben + 265, 200, 20);
+            Schild.erzeuge(NachleuchtZeit, "Nachleuchtzeit",  links + 8,  oben + 295, 190, 20);
+            Schild.erzeuge(inMs, "ms",  links + 170,  oben + 295, 200, 20);
             add(MaxAnz);
             add(proS);
             add(Messrate);
             add(NachleuchtZeit);
             add(inMs);
-            EingabeFeld.richteEin(MessrateEing, String.valueOf(MessrateWert), Rand.links + 122, Rand.oben + 265);
+            EingabeFeld.richteEin(MessrateEing, String.valueOf(MessrateWert),  links + 122,  oben + 265);
             add(MessrateEing);
             DeltaT = 1000 / (Integer.parseInt(MessrateEing.getText()) * TimerTakt);
             ActionListener MessrateWarter = Eing -> {
@@ -314,7 +303,7 @@ public class Flaeche extends JPanel {
             MessrateEing.addActionListener(MessrateWarter);
 
             String ErsteNachleuchtZeit = Integer.toString(NachleuchtZeitVorgabe);
-            EingabeFeld.richteEin(NachleuchtZeitEing, ErsteNachleuchtZeit, Rand.links + 122, Rand.oben + 295);
+            EingabeFeld.richteEin(NachleuchtZeitEing, ErsteNachleuchtZeit,  links + 122,  oben + 295);
             add(NachleuchtZeitEing);
             NachleuchtZeitVorgabe = Integer.parseInt(NachleuchtZeitEing.getText());
             ActionListener NachleuchtZeitWarter = Eing -> {
@@ -340,7 +329,7 @@ public class Flaeche extends JPanel {
                     Achse[i] = nn / n0;
                     Achse[j] = Achse[j] / n0;
                     Achse[k] = Achse[k] / n0;
-                }
+                } else { Achse[i] = 1; AchsEing.setText("1"); }
             };
 
             AchsEing.addActionListener(AchsWarter);
@@ -360,40 +349,40 @@ public class Flaeche extends JPanel {
         }
 
         public void richteOrbitalBenennungEin () {
-            Schild.erzeuge(Chemisch, "2p", Rand.links + 30, Rand.oben + 15, 360, 300);
+            Schild.erzeuge(Chemisch, "2p",  links + 30,  oben + 15, 360, 300);
             Chemisch.setFont(Chemisch.getFont().deriveFont(48f));                //.setFont(new Font( "Times New Roman", Font.BOLD, 48));
-            Schild.erzeuge(Magnetisch, "", Rand.links + 100, Rand.oben + 45, 360, 300);
+            Schild.erzeuge(Magnetisch, "",  links + 100,  oben + 45, 360, 300);
             Magnetisch.setFont(Magnetisch.getFont().deriveFont(24f));
             add(Chemisch);
             add(Magnetisch);
         }
 
         public void richteMasstabWahlEin () {
-            Schild.erzeuge(Massstab, "<html><u>Massstab</u></<html>", Rand.links, h - Rand.unten - 51, 200, 20);
+            Schild.erzeuge(Massstab, "<html><u>Massstab</u></<html>",  links, h -  unten - 51, 200, 20);
             add(Massstab);
-            Schild.erzeuge(Angstroem, "1Å", Rand.links + (int) MassstabLaenge / 2 - 5, h - Rand.unten + 6, 40, 30);
+            Schild.erzeuge(Angstroem, "1Å",  links + (int) MassstabLaenge / 2 - 5, h -  unten + 6, 40, 30);
             Angstroem.setFont(Angstroem.getFont().deriveFont(16f));
             add(Angstroem);
-            Schild.erzeuge(zieh, "↓ hier ziehen", Rand.links + (int) MassstabLaenge - 3, h - Rand.unten - 34, 140, 30);
+            Schild.erzeuge(zieh, "↓ hier ziehen",  links + (int) MassstabLaenge - 3, h -  unten - 34, 140, 30);
             add(zieh);
         }
 
         public void erzeugeTipp () {
-            Knopf.erzeuge(Tipp, "Erhöhe Messrate und Nachleuchtzeit, bis das Muster erkennbar ist.        X", Rand.links + 240, h - Rand.unten, 560, 20);
+            Knopf.erzeuge(Tipp, "Erhöhe Messrate und Nachleuchtzeit, bis das Muster erkennbar ist. (↵ drücken)        X",  links + 240, h -  unten, 641, 20);
             Tipp.setBackground(Color.red);
             Tipp.addActionListener(e -> Tipp.setVisible(false));
             add(Tipp);
         }
 
         public void erzeugeBeendSchild() {
-            Knopf.erzeuge(Beend, "", b - Rand.rechts-5, Rand.oben+10, 20, 20);
+            Knopf.erzeuge(Beend, "", b -  rechts-5,  oben+10, 20, 20);
             Beend.setOpaque(false);
             Beend.addActionListener(e -> System.exit(0));
             add(Beend);
         }
 
     public void erzeugeUeberschrift() {
-        Schild.erzeuge(Ueber, " Wasserstoff-Orbitale ", Rand.links+600, Rand.oben, 160, 20);
+        Schild.erzeuge(Ueber, " Wasserstoff-Orbitale ",  links+600,  oben, 160, 20);
         Ueber.setBorder(BorderFactory.createLineBorder(Color.white, 1));
         add(Ueber);
     }
